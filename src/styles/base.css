@@ -1,0 +1,161 @@
+/* ============================================================
+   Reset + primitive tipografiche
+   ============================================================ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body { height: 100%; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: var(--t-body);
+  line-height: 1.45;
+  letter-spacing: -0.011em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overscroll-behavior-y: none;
+}
+
+/* Niente evidenziazione blu al tap, niente selezione accidentale
+   trascinando le liste: è la differenza fra "sito" e "app". */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+button, a, [role="button"], .tap {
+  -webkit-user-select: none;
+  user-select: none;
+  touch-action: manipulation;
+}
+
+h1, h2, h3, h4, p, figure { margin: 0; }
+ul, ol { margin: 0; padding: 0; list-style: none; }
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+input, select, textarea {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  margin: 0;
+}
+input:focus, select:focus, textarea:focus, button:focus { outline: none; }
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+svg { display: block; flex: none; }
+
+/* Numeri sempre a larghezza fissa: le colonne di voti e CFU
+   non devono ballare mentre scorri. */
+.num { font-variant-numeric: tabular-nums; font-feature-settings: "tnum" 1; }
+
+/* ---------- Scale tipografiche ---------- */
+
+.display-xl, .display-l, .display-m {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.display-xl { font-size: var(--t-display-xl); }
+.display-l  { font-size: var(--t-display-l); }
+.display-m  { font-size: var(--t-display-m); letter-spacing: -0.015em; }
+
+.title    { font-size: var(--t-title); font-weight: 700; letter-spacing: -0.021em; line-height: 1.2; }
+.headline { font-size: var(--t-headline); font-weight: 600; letter-spacing: -0.015em; line-height: 1.3; }
+.body     { font-size: var(--t-body); }
+.callout  { font-size: var(--t-callout); }
+.sub      { font-size: var(--t-sub); line-height: 1.4; }
+.foot     { font-size: var(--t-foot); line-height: 1.35; }
+.caption  { font-size: var(--t-caption); line-height: 1.3; }
+
+/* Occhiello di sezione: maiuscoletto spaziato, come
+   l'intestazione di un registro cartaceo. */
+.eyebrow {
+  font-size: var(--t-micro);
+  font-weight: 600;
+  letter-spacing: 0.085em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.dim   { color: var(--ink-2); }
+.dimmer{ color: var(--ink-3); }
+.strong{ font-weight: 600; }
+
+.truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.clamp-2 {
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ---------- Guscio app ---------- */
+
+#root { min-height: 100%; }
+
+/* Altezza fissa, non min-height: solo così il figlio .scroll
+   diventa il vero contenitore di scorrimento. Con min-height
+   cresceva l'intera app e a scorrere era il body, il che
+   spegneva il collasso del titolo in cima. */
+.app {
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  /* L'app vive in una colonna da telefono anche su desktop:
+     è nata per un iPhone, non la stiro su 1400px. */
+  max-width: 520px;
+  margin: 0 auto;
+  position: relative;
+  background: var(--paper);
+  overflow: hidden;
+}
+@media (min-width: 560px) {
+  body { background: var(--surface-sunk); }
+  .app { box-shadow: 0 0 0 1px var(--rule); }
+}
+
+.scroll {
+  flex: 1;
+  min-height: 0;          /* senza questo il figlio non scende sotto il contenuto */
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: calc(var(--tabbar-h) + var(--safe-b) + var(--s-8));
+}
+
+.gut { padding-inline: var(--gutter); }
+
+.stack  { display: flex; flex-direction: column; }
+.row    { display: flex; align-items: center; }
+.between{ display: flex; align-items: center; justify-content: space-between; }
+.grow   { flex: 1; min-width: 0; }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,184 @@
+/* ============================================================
+   LIBRETTO — Design tokens
+   Palette: carta calda + bordeaux Sapienza.
+   Nessun gradiente decorativo: la gerarchia la fanno
+   tipografia, spazio e filetti da 1px.
+   ============================================================ */
+
+:root {
+  color-scheme: light dark;
+
+  /* ---------- Superfici ---------- */
+  --paper:        #faf8f4;   /* fondo app, carta calda */
+  --surface:      #ffffff;   /* card, righe di lista */
+  --surface-2:    #f3f0ea;   /* campi, chip spenti */
+  --surface-sunk: #efece5;   /* fondo di sezioni incassate */
+  --scrim:        rgba(20, 17, 14, 0.32);
+
+  /* ---------- Inchiostro ---------- */
+  --ink:          #17151a;
+  --ink-2:        #5b555f;
+  --ink-3:        #8d8791;
+  --ink-4:        #b5b0b8;
+
+  /* ---------- Filetti ---------- */
+  --rule:         rgba(23, 21, 26, 0.10);
+  --rule-strong:  rgba(23, 21, 26, 0.18);
+
+  /* ---------- Bordeaux Sapienza ---------- */
+  --accent:       #7e1d2c;
+  --accent-press: #661624;
+  --accent-ink:   #ffffff;
+  --accent-wash:  #f6e9eb;
+  --accent-rule:  rgba(126, 29, 44, 0.22);
+
+  /* ---------- Semantici ---------- */
+  --pass:         #1f6b4e;   /* superato */
+  --pass-wash:    #e5efe9;
+  --plan:         #8f5a0d;   /* prenotato / in programma */
+  --plan-wash:    #f9efdd;
+  --todo:         #6a6470;   /* da sostenere */
+  --todo-wash:    #eeebe6;
+  --fail:         #a32637;   /* non superato / ritirato */
+  --fail-wash:    #f8e8ea;
+  --gold:         #a67c1f;   /* lode */
+
+  /* ---------- Tipografia ---------- */
+  --font-ui: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI",
+             system-ui, "Helvetica Neue", sans-serif;
+  --font-display: ui-serif, "New York", "Iowan Old Style", "Palatino",
+             Georgia, serif;
+
+  --t-display-xl: 52px;
+  --t-display-l:  38px;
+  --t-display-m:  28px;
+  --t-title:      22px;
+  --t-headline:   17px;
+  --t-body:       16px;
+  --t-callout:    15px;
+  --t-sub:        14px;
+  --t-foot:       13px;
+  --t-caption:    12px;
+  --t-micro:      11px;
+
+  /* ---------- Spazio (scala 4) ---------- */
+  --s-1: 4px;  --s-2: 8px;  --s-3: 12px; --s-4: 16px;
+  --s-5: 20px; --s-6: 24px; --s-7: 32px; --s-8: 40px;
+  --s-9: 56px; --s-10: 72px;
+
+  /* ---------- Raggi ---------- */
+  --r-sm: 8px; --r-md: 12px; --r-lg: 16px; --r-xl: 22px; --r-full: 999px;
+
+  /* ---------- Elevazione (discreta) ---------- */
+  --lift-1: 0 1px 2px rgba(23, 21, 26, 0.05);
+  --lift-2: 0 4px 16px -6px rgba(23, 21, 26, 0.14);
+  --lift-3: 0 24px 60px -24px rgba(23, 21, 26, 0.34);
+
+  /* ---------- Movimento ---------- */
+  --ease: cubic-bezier(0.32, 0.72, 0, 1);   /* la curva iOS */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-1: 140ms; --dur-2: 240ms; --dur-3: 420ms;
+
+  /* ---------- Cornici ---------- */
+  --tabbar-h: 56px;
+  --gutter: 20px;
+  --safe-t: env(safe-area-inset-top, 0px);
+  --safe-b: env(safe-area-inset-bottom, 0px);
+}
+
+/* ============================================================
+   Tema scuro — non è il chiaro invertito: la carta diventa
+   inchiostro, il bordeaux si schiarisce per restare leggibile.
+   ============================================================ */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper:        #111013;
+    --surface:      #1a181d;
+    --surface-2:    #232027;
+    --surface-sunk: #0c0b0e;
+    --scrim:        rgba(0, 0, 0, 0.58);
+
+    --ink:          #f2efea;
+    --ink-2:        #a9a3ae;
+    --ink-3:        #78737f;
+    --ink-4:        #56515c;
+
+    --rule:         rgba(242, 239, 234, 0.11);
+    --rule-strong:  rgba(242, 239, 234, 0.20);
+
+    --accent:       #e0687c;
+    --accent-press: #f0899a;
+    --accent-ink:   #24070d;
+    --accent-wash:  #2c1319;
+    --accent-rule:  rgba(224, 104, 124, 0.28);
+
+    --pass:         #5fc49b;
+    --pass-wash:    #13291f;
+    --plan:         #e0ac5c;
+    --plan-wash:    #2b2113;
+    --todo:         #9b95a2;
+    --todo-wash:    #232027;
+    --fail:         #f0808f;
+    --fail-wash:    #2e151a;
+    --gold:         #d9b256;
+
+    --lift-1: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --lift-2: 0 4px 16px -6px rgba(0, 0, 0, 0.6);
+    --lift-3: 0 24px 60px -20px rgba(0, 0, 0, 0.75);
+  }
+}
+
+:root[data-theme="dark"] {
+  --paper:        #111013;
+  --surface:      #1a181d;
+  --surface-2:    #232027;
+  --surface-sunk: #0c0b0e;
+  --scrim:        rgba(0, 0, 0, 0.58);
+  --ink:          #f2efea;
+  --ink-2:        #a9a3ae;
+  --ink-3:        #78737f;
+  --ink-4:        #56515c;
+  --rule:         rgba(242, 239, 234, 0.11);
+  --rule-strong:  rgba(242, 239, 234, 0.20);
+  --accent:       #e0687c;
+  --accent-press: #f0899a;
+  --accent-ink:   #24070d;
+  --accent-wash:  #2c1319;
+  --accent-rule:  rgba(224, 104, 124, 0.28);
+  --pass:         #5fc49b;
+  --pass-wash:    #13291f;
+  --plan:         #e0ac5c;
+  --plan-wash:    #2b2113;
+  --todo:         #9b95a2;
+  --todo-wash:    #232027;
+  --fail:         #f0808f;
+  --fail-wash:    #2e151a;
+  --gold:         #d9b256;
+  --lift-1: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --lift-2: 0 4px 16px -6px rgba(0, 0, 0, 0.6);
+  --lift-3: 0 24px 60px -20px rgba(0, 0, 0, 0.75);
+}
+
+/* ============================================================
+   Tinte dei corsi.
+   L'insegnamento porta solo la sua tonalità (--h); saturazione e
+   luminosità le decide il tema. Così lo stesso corso resta
+   riconoscibile di giorno e di notte senza doppie definizioni.
+   ============================================================ */
+:root {
+  --c-s: 44%;  --c-l: 40%;         /* pieno */
+  --c-w-s: 64%; --c-w-l: 94%;      /* velatura di sfondo */
+  --c-t-s: 48%; --c-t-l: 34%;      /* testo su velatura */
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --c-s: 52%;  --c-l: 62%;
+    --c-w-s: 34%; --c-w-l: 15%;
+    --c-t-s: 55%; --c-t-l: 70%;
+  }
+}
+:root[data-theme="dark"] {
+  --c-s: 52%;  --c-l: 62%;
+  --c-w-s: 34%; --c-w-l: 15%;
+  --c-t-s: 55%; --c-t-l: 70%;
+}

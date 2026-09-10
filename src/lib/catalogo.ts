@@ -1,0 +1,231 @@
+/* ============================================================
+   Catalogo dei corsi di laurea.
+
+   REGOLA: qui dentro entrano solo piani trascritti dal catalogo
+   ufficiale Sapienza e verificati riga per riga (la somma dei CFU
+   deve tornare per anno e per semestre). Un piano "plausibile" ma
+   ricostruito a mano fa più danni che comodo: da qui si aggiungono
+   esami al libretto vero, e CFU sbagliati falsano media e
+   proiezione del voto di laurea.
+
+   Per i corsi non ancora trascritti si parte da zero e si
+   aggiungono gli insegnamenti a mano.
+   ============================================================ */
+
+import type { Giorno, Insegnamento, TipoCorsoLaurea, TipoInsegnamento } from './types'
+
+/** [nome, cfu, anno, semestre (0=annuale), tipo?, ssd?] */
+type Riga = [string, number, number, number, TipoInsegnamento?, string?]
+
+/** Una fascia oraria settimanale. */
+export interface SlotOrario {
+  giorno: Giorno
+  inizio: string
+  fine: string
+  aula?: string
+}
+
+/** Un modo di seguire un insegnamento: il canale (A-Li / Lo-Z) o,
+ *  al terzo anno, quale laboratorio hai scelto. Chi importa
+ *  l'orario sceglie la variante che lo riguarda. */
+export interface VarianteOrario {
+  /** Nome dell'insegnamento nel piano di studi */
+  ins: string
+  /** Come compare in orario, se diverso dal nome nel piano */
+  titolo?: string
+  /** "Canale 1", "Canale 2 · Lo-Z", oppure il laboratorio scelto */
+  etichetta?: string
+  docente?: string
+  anno: number
+  slot: SlotOrario[]
+}
+
+export interface OrarioUfficiale {
+  aa: string
+  semestre: 1 | 2
+  fonte: string
+  varianti: VarianteOrario[]
+}
+
+export interface CorsoLaurea {
+  id: string
+  nome: string
+  classe: string
+  facolta: string
+  tipo: TipoCorsoLaurea
+  anni: number
+  cfu: number
+  piano: Riga[]
+  /** Da dove viene il piano e a che anno accademico si riferisce. */
+  fonte: { url: string; aa: string }
+  /** Orario ufficiale pubblicato dalla facoltà, se disponibile */
+  orario?: OrarioUfficiale
+}
+
+const O: TipoInsegnamento = 'obbligatorio'
+const C: TipoInsegnamento = 'caratterizzante'
+const A: TipoInsegnamento = 'affine'
+const S: TipoInsegnamento = 'a_scelta'
+const T: TipoInsegnamento = 'tirocinio'
+const L: TipoInsegnamento = 'lingua'
+const P: TipoInsegnamento = 'prova_finale'
+
+export const CATALOGO: CorsoLaurea[] = [
+  {
+    id: 'design',
+    nome: 'Design',
+    classe: 'L-4',
+    facolta: 'Architettura',
+    tipo: 'triennale', anni: 3, cfu: 180,
+    fonte: { url: 'corsidilaurea.uniroma1.it/it/course/33426/study-plan', aa: '2026/27' },
+    piano: [
+      // 1° anno — I semestre
+      ['Istituzioni di matematica', 6, 1, 1, O, 'MATH-03/A'],
+      ['Fondamenti di disegno', 12, 1, 1, C, 'CEAR-10/A'],
+      ['Scienza dei materiali', 6, 1, 1, O, 'IMAT-01/A'],
+      ['Storia delle arti applicate', 6, 1, 1, C, 'ARTE-01/C'],
+      // 1° anno — II semestre
+      ['Laboratorio di basic design per la grafica', 6, 1, 2, C, 'CEAR-08/D'],
+      ['Laboratorio di basic design per il prodotto', 6, 1, 2, C, 'CEAR-08/D'],
+      ['Laboratorio di basic design per lo spazio interno', 6, 1, 2, C, 'CEAR-09/C'],
+      ['Teoria della forma', 6, 1, 2, C, 'CEAR-10/A'],
+      ['Ergonomia e psicologia cognitiva per il design', 6, 1, 2, C, 'CEAR-08/C'],
+      // 2° anno — I semestre
+      ['Material design e tecnologie per la sostenibilità', 6, 2, 1, C, 'CEAR-08/C'],
+      ['Disegno e modello', 9, 2, 1, C, 'CEAR-10/A'],
+      ['Teoria e storia del design', 6, 2, 1, C, 'CEAR-08/D'],
+      ['Progettazione strutturale e principi di meccanica per il design', 9, 2, 1, A, 'CEAR-06/A'],
+      // 2° anno — II semestre
+      ['Laboratorio di design per la grafica e la comunicazione visiva', 9, 2, 2, C, 'CEAR-08/D'],
+      ['Laboratorio di design per il prodotto', 9, 2, 2, C, 'CEAR-08/D'],
+      ['Laboratorio di design per lo spazio pubblico', 9, 2, 2, C, 'CEAR-08/D'],
+      ['Lingua inglese', 3, 2, 2, L],
+      // 3° anno — I semestre
+      ['Storia dell’industria e management dell’innovazione', 6, 3, 1, A, 'ECON-07/A'],
+      ['Laboratorio di sintesi finale (uno a scelta)', 12, 3, 1, C, 'CEAR-08/D'],
+      ['Design dell’interazione, dell’esperienza o del multimediale', 12, 3, 1, C, 'CEAR-08/D'],
+      // 3° anno — II semestre
+      ['Altre conoscenze utili per il mondo del lavoro', 8, 3, 2, T],
+      ['A scelta dello studente', 12, 3, 2, S],
+      ['Prova finale', 10, 3, 2, P],
+    ],
+    // Orario ufficiale 1° semestre 2026/27 — Facoltà di Architettura.
+    // Trascritto da app.arc.uniroma1.it/didattica/orario/de.
+    orario: {
+      aa: '2026/27',
+      semestre: 1,
+      fonte: 'app.arc.uniroma1.it/didattica/orario/de',
+      varianti: [
+        // ---------------- I anno ----------------
+        { ins: 'Istituzioni di matematica', anno: 1, etichetta: 'Canale 1', docente: 'Porzio M. M.', slot: [
+          { giorno: 2, inizio: '11:00', fine: '14:00', aula: 'Aula F1' },
+          { giorno: 4, inizio: '12:00', fine: '14:00', aula: 'Aula F1' },
+        ]},
+        { ins: 'Istituzioni di matematica', anno: 1, etichetta: 'Canale 2', docente: 'De Bonis I.', slot: [
+          { giorno: 2, inizio: '11:00', fine: '13:30', aula: 'Aula F5' },
+          { giorno: 5, inizio: '09:00', fine: '11:30', aula: 'Aula F1' },
+        ]},
+        { ins: 'Fondamenti di disegno', anno: 1, etichetta: 'Canale 1', docente: 'Meschini A.', slot: [
+          { giorno: 2, inizio: '14:30', fine: '19:30', aula: 'Aula F5' },
+          { giorno: 4, inizio: '14:30', fine: '19:30', aula: 'Aula F6' },
+        ]},
+        { ins: 'Fondamenti di disegno', anno: 1, etichetta: 'Canale 2', docente: 'Salvatore M. / Colonnese F.', slot: [
+          { giorno: 2, inizio: '14:30', fine: '19:30', aula: 'Aula F6' },
+          { giorno: 4, inizio: '14:30', fine: '19:30', aula: 'Aula F5' },
+        ]},
+        { ins: 'Scienza dei materiali', anno: 1, etichetta: 'Canale 1', docente: 'Marra F.', slot: [
+          { giorno: 3, inizio: '11:30', fine: '13:30', aula: 'Aula F2' },
+          { giorno: 5, inizio: '14:30', fine: '16:30', aula: 'Aula F2' },
+        ]},
+        { ins: 'Scienza dei materiali', anno: 1, etichetta: 'Canale 2', slot: [
+          { giorno: 3, inizio: '14:00', fine: '16:00', aula: 'Aula F6' },
+          { giorno: 5, inizio: '16:30', fine: '18:30', aula: 'Aula F2' },
+        ]},
+        { ins: 'Storia delle arti applicate', anno: 1, slot: [
+          { giorno: 2, inizio: '08:30', fine: '11:00', aula: 'Aula F1' },
+          { giorno: 5, inizio: '11:30', fine: '14:00', aula: 'Aula F1' },
+        ]},
+        // ---------------- II anno ----------------
+        { ins: 'Material design e tecnologie per la sostenibilità', anno: 2, etichetta: 'Canale 1 · A-Li', slot: [
+          { giorno: 4, inizio: '14:30', fine: '19:30', aula: 'Aula G31' },
+        ]},
+        { ins: 'Material design e tecnologie per la sostenibilità', anno: 2, etichetta: 'Canale 2 · Lo-Z', docente: 'Baiani S.', slot: [
+          { giorno: 4, inizio: '09:00', fine: '13:30', aula: 'Aula F5' },
+        ]},
+        { ins: 'Disegno e modello', anno: 2, etichetta: 'Canale 1 · A-Li', docente: 'Calvano M. / Casale A.', slot: [
+          { giorno: 2, inizio: '11:30', fine: '13:30', aula: 'Aula F3' },
+          { giorno: 4, inizio: '09:00', fine: '13:30', aula: 'Aula F3' },
+        ]},
+        { ins: 'Disegno e modello', anno: 2, etichetta: 'Canale 2 · Lo-Z', docente: 'Romor J. / Valenti G. M.', slot: [
+          { giorno: 2, inizio: '09:30', fine: '11:30', aula: 'Aula F3' },
+          { giorno: 4, inizio: '14:30', fine: '19:30', aula: 'Aula F3' },
+        ]},
+        { ins: 'Teoria e storia del design', anno: 2, slot: [
+          { giorno: 1, inizio: '09:30', fine: '13:30', aula: 'Aula F1' },
+        ]},
+        { ins: 'Progettazione strutturale e principi di meccanica per il design', anno: 2, etichetta: 'Canale 1 · A-Li', docente: 'Lofrano E.', slot: [
+          { giorno: 1, inizio: '14:30', fine: '19:00', aula: 'Aula F5' },
+          { giorno: 3, inizio: '09:00', fine: '11:30', aula: 'Aula F2' },
+        ]},
+        { ins: 'Progettazione strutturale e principi di meccanica per il design', anno: 2, etichetta: 'Canale 2 · Lo-Z', docente: 'Boscato G.', slot: [
+          { giorno: 1, inizio: '14:30', fine: '19:00', aula: 'Aula F6' },
+          { giorno: 3, inizio: '09:00', fine: '11:30', aula: 'Aula F6' },
+        ]},
+        // ---------------- III anno ----------------
+        { ins: 'Storia dell’industria e management dell’innovazione', anno: 3,
+          titolo: 'Management dell’innovazione', docente: 'Capalbo C.', slot: [
+          { giorno: 1, inizio: '09:00', fine: '13:30', aula: 'Aula F5' },
+        ]},
+        { ins: 'Laboratorio di sintesi finale (uno a scelta)', anno: 3,
+          etichetta: 'Exhibit e public design', docente: 'Clemente M. C. / Quici F.', slot: [
+          { giorno: 2, inizio: '09:00', fine: '19:00', aula: 'Aula G33' },
+        ]},
+        { ins: 'Laboratorio di sintesi finale (uno a scelta)', anno: 3,
+          etichetta: 'Comunicazione', docente: 'Minestroni L. / Martino C.', slot: [
+          { giorno: 3, inizio: '09:00', fine: '19:00', aula: 'Aula F5' },
+        ]},
+        { ins: 'Laboratorio di sintesi finale (uno a scelta)', anno: 3,
+          etichetta: 'Prodotto', docente: 'Imbesi L.', slot: [
+          { giorno: 4, inizio: '09:00', fine: '19:00', aula: 'Aula Y1' },
+        ]},
+        { ins: 'Design dell’interazione, dell’esperienza o del multimediale', anno: 3,
+          etichetta: 'Design dell’interazione', slot: [
+          { giorno: 5, inizio: '09:00', fine: '19:00', aula: 'Aula F6' },
+        ]},
+        { ins: 'Design dell’interazione, dell’esperienza o del multimediale', anno: 3,
+          etichetta: 'Design dell’esperienza', docente: 'Di Nocera F.', slot: [
+          { giorno: 5, inizio: '09:00', fine: '19:00', aula: 'Aula F5' },
+        ]},
+        { ins: 'Design dell’interazione, dell’esperienza o del multimediale', anno: 3,
+          etichetta: 'Disegno del multimediale', docente: 'Empler T. / Ruzza L.', slot: [
+          { giorno: 5, inizio: '09:00', fine: '19:00', aula: 'Aula Y3' },
+        ]},
+      ],
+    },
+  },
+]
+
+/** Espande un piano in insegnamenti pronti per il libretto. */
+export function espandi(c: CorsoLaurea, id: () => string): Insegnamento[] {
+  return c.piano.map((r, i) => {
+    const [nome, cfu, anno, semestre, tipo, ssd] = r
+    return {
+      id: id(),
+      nome,
+      cfu,
+      anno: anno as Insegnamento['anno'],
+      semestre: semestre as Insegnamento['semestre'],
+      tipo: tipo ?? 'obbligatorio',
+      ssd,
+      tinta: i % 10,
+    }
+  })
+}
+
+export function cfuDelPiano(c: CorsoLaurea): number {
+  return c.piano.reduce((n, r) => n + r[1], 0)
+}
+
+export function trovaCorso(id: string): CorsoLaurea | undefined {
+  return CATALOGO.find(c => c.id === id)
+}
