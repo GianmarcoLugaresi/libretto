@@ -5,11 +5,29 @@
    Dopo la prima visita online l'app parte anche senza rete.
    ============================================================ */
 
-const CACHE = 'libretto-v1'
+const CACHE = 'libretto-v2'
 
+// Al primo avvio il service worker non controlla ancora le richieste
+// già partite, quindi i bundle non finirebbero in cache: l'app
+// aggiunta alla Home e messa subito offline non partirebbe.
+// Rimedio: in fase di installazione leggo index.html e precarico
+// gli asset che referenzia (hanno l'hash nel nome, quindi la lista
+// è sempre quella giusta senza generarla a build time).
 self.addEventListener('install', e => {
   self.skipWaiting()
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(['./', './index.html']).catch(() => {})))
+  e.waitUntil((async () => {
+    const cache = await caches.open(CACHE)
+    try {
+      const res = await fetch('./index.html', { cache: 'reload' })
+      await cache.put('./index.html', res.clone())
+      const html = await res.text()
+      const asset = [...html.matchAll(/(?:src|href)="(\.\/[^"]+)"/g)].map(m => m[1])
+      await cache.addAll(['./', ...new Set(asset)])
+    } catch {
+      // Nessuna rete durante l'installazione: la cache si riempirà
+      // strada facendo, al primo caricamento utile.
+    }
+  })())
 })
 
 self.addEventListener('activate', e => {
