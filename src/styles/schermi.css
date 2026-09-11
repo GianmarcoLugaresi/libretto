@@ -167,6 +167,7 @@
   line-height: 1; color: var(--ink);
 }
 .conta[data-vicino="true"] { background: var(--sapienza); color: var(--sapienza-ink); box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), 0 0 18px -4px var(--accent-glow); }
+.conta .display-m { font-size: 24px; letter-spacing: -0.03em; }
 .conta .caption { font-size: 9px; margin-top: 2px; opacity: 0.75; }
 
 .percorso { display: flex; align-items: center; gap: var(--s-5); width: 100%; text-align: left; }
@@ -293,6 +294,8 @@
   color: hsl(var(--h) var(--c-t-s) var(--c-t-l));
   box-shadow: inset 0 0 0 2px hsl(var(--h) var(--c-s) var(--c-l)), 0 0 20px -4px hsl(var(--h) var(--c-s) var(--c-l) / var(--c-g-a));
 }
+/* Il sans pesante a 30px non ci sta in 50px: qui il numero è 24 */
+.data-blocco .display-m { font-size: 24px; letter-spacing: -0.03em; }
 .data-blocco .caption { font-size: 10px; text-transform: uppercase; letter-spacing: 0.04em; opacity: 0.75; margin-top: 2px; }
 
 /* ---------------- Orario ---------------- */

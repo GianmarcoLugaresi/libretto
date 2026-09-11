@@ -283,7 +283,8 @@ export function Oggi({ vai, apri }: {
               {r.mediaPonderata == null && <span className="caption dimmer">nessun voto ancora</span>}
             </div>
             <div className="spettro-wrap">
-              <div className="spettro" style={{ ['--pos' as string]: `${r.mediaPonderata == null ? 0 : posizioneVoto(r.mediaPonderata)}%` }}>
+              <div className="spettro" data-vuoto={r.mediaPonderata == null}
+                style={{ ['--pos' as string]: `${r.mediaPonderata == null ? 50 : posizioneVoto(r.mediaPonderata)}%` }}>
                 <span className="spettro-knob">{r.mediaPonderata == null ? '—' : fmtMedia(r.mediaPonderata, 1)}</span>
               </div>
             </div>

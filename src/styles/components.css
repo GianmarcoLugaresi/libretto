@@ -492,7 +492,10 @@ select.input { appearance: none; padding-right: var(--s-7); }
 }
 .spettro-knob {
   position: absolute;
-  top: 50%; left: var(--pos, 50%);
+  top: 50%;
+  /* Mai oltre i bordi della barra: a 18 e a 30 la manopola resta
+     dentro, invece di sporgere e farsi ritagliare dalla card. */
+  left: clamp(17px, var(--pos, 50%), calc(100% - 17px));
   transform: translate(-50%, -50%);
   z-index: 1;
   min-width: 34px; height: 34px;
@@ -509,6 +512,10 @@ select.input { appearance: none; padding-right: var(--s-7); }
   transition: left var(--dur-3) var(--ease);
 }
 .spettro-wrap { padding: 10px 0; }
+/* Senza voti: la scala è spenta e la manopola, al centro, è un segnaposto */
+.spettro[data-vuoto="true"] { opacity: 0.45; }
+.spettro[data-vuoto="true"]::after { background: rgba(0,0,0,0.5); }
+.spettro[data-vuoto="true"] .spettro-knob { background: var(--surface-3); color: var(--ink-3); box-shadow: 0 0 0 3px var(--paper); }
 
 /* ---------------- Vuoto ---------------- */
 
