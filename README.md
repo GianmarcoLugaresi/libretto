@@ -41,15 +41,18 @@ Nero cinematografico come base; il colore lo portano i corsi, ognuno con
 la sua tinta e un bordo luminoso. Le azioni sono pill bianche, la
 navigazione una capsula di vetro sul bordo destro, a portata di pollice.
 
+- La home apre su un **poster a mezzo schermo** del corso in arrivo:
+  luci nella sua tinta, l'anello dell'icona, la sigla in filigrana, grana
+  fotografica. È generato dal colore del corso, quindi ogni corso ha
+  sempre lo stesso poster.
 - **Anton** (condensato, maiuscolo) per il titolo da manifesto: una cosa
-  sola per schermo.
-- **Instrument Serif** per nomi e numeri grandi.
+  sola per schermo. Tutto il resto è il sans di sistema.
 - **Scala 18→30**: la barra arcobaleno con la manopola. Lo stesso colore
   torna nell'anello del voto nel libretto e nelle barre dell'istogramma.
 - Tema chiaro disponibile dalle impostazioni: stessa grammatica, invertita.
 
-I font sono self-hosted in `public/fonts/` (licenza OFL) così l'app
-funziona anche offline.
+Anton è self-hosted in `public/fonts/` (licenza OFL) così l'app funziona
+anche offline.
 
 ## Struttura
 

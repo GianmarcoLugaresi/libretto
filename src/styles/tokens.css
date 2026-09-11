@@ -11,20 +11,6 @@
   font-weight: 400;
   font-display: swap;
 }
-@font-face {
-  font-family: 'Instrument Serif';
-  src: url('/fonts/InstrumentSerif-Regular.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Instrument Serif';
-  src: url('/fonts/InstrumentSerif-Italic.ttf') format('truetype');
-  font-weight: 400;
-  font-style: italic;
-  font-display: swap;
-}
 
 :root {
   color-scheme: dark;
@@ -82,10 +68,10 @@
              system-ui, "Helvetica Neue", sans-serif;
   --font-hero: "Anton", "Arial Narrow", "Impact", "Helvetica Neue Condensed",
              sans-serif-condensed, sans-serif;
-  --font-display: "Instrument Serif", ui-serif, "New York", Georgia, serif;
+  --font-display: var(--font-ui);
 
-  --t-hero-xl:    64px;
-  --t-hero-l:     44px;
+  --t-hero-xl:    62px;
+  --t-hero-l:     46px;
   --t-display-xl: 56px;
   --t-display-l:  40px;
   --t-display-m:  30px;

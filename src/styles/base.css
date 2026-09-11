@@ -52,18 +52,17 @@ svg { display: block; flex: none; }
 .hero-xl { font-size: var(--t-hero-xl); }
 .hero-l  { font-size: var(--t-hero-l); }
 
-/* Numeri e nomi in serif: la voce "umana" accanto al manifesto. */
+/* Numeri grandi: lo stesso sans dell'interfaccia, pesante e serrato. */
 .display-xl, .display-l, .display-m {
   font-family: var(--font-display);
-  font-weight: 400;
-  letter-spacing: -0.01em;
+  font-weight: 700;
+  letter-spacing: -0.035em;
   line-height: 1;
   font-variant-numeric: tabular-nums;
 }
 .display-xl { font-size: var(--t-display-xl); }
 .display-l  { font-size: var(--t-display-l); }
 .display-m  { font-size: var(--t-display-m); }
-.corsivo    { font-style: italic; }
 
 .title    { font-size: var(--t-title); font-weight: 700; letter-spacing: -0.022em; line-height: 1.2; }
 .headline { font-size: var(--t-headline); font-weight: 600; letter-spacing: -0.015em; line-height: 1.3; }

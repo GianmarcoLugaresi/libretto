@@ -481,55 +481,14 @@ select.input { appearance: none; padding-right: var(--s-7); }
   background: var(--cta);
   color: var(--cta-ink);
   display: grid; place-items: center;
-  font-family: var(--font-display);
-  font-size: 19px;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: -0.02em;
   font-variant-numeric: tabular-nums;
   box-shadow: 0 0 0 3px var(--paper), 0 6px 18px -4px rgba(0,0,0,0.8);
   transition: left var(--dur-3) var(--ease);
 }
 .spettro-wrap { padding: 10px 0; }
-
-/* ---------------- Tile del corso ----------------
-   Quadrato arrotondato col bordo nel colore del corso e un
-   bagliore dietro: le "box" della reference. */
-.tile {
-  width: 64px; height: 64px;
-  border-radius: 20px;
-  background: hsl(var(--h) var(--c-w-s) var(--c-w-l));
-  box-shadow:
-    inset 0 0 0 2px hsl(var(--h) var(--c-s) var(--c-l)),
-    0 0 26px -4px hsl(var(--h) var(--c-s) var(--c-l) / var(--c-g-a));
-  display: grid; place-items: center;
-  color: hsl(var(--h) var(--c-t-s) var(--c-t-l));
-  flex: none;
-  position: relative;
-  transition: transform var(--dur-1) var(--ease);
-}
-.tile:active { transform: scale(0.94); }
-.tile-sm { width: 44px; height: 44px; border-radius: 14px; }
-.tile-sm .tile-sigla { font-size: 15px; }
-.tile-sigla {
-  font-family: var(--font-hero);
-  font-size: 22px;
-  letter-spacing: 0.02em;
-  line-height: 1;
-}
-/* Pallino di stato in basso, come l'avatarino sulla box */
-.tile-badge {
-  position: absolute;
-  bottom: -6px; left: 50%;
-  transform: translateX(-50%);
-  height: 18px; min-width: 18px;
-  padding-inline: 5px;
-  border-radius: var(--r-full);
-  background: var(--cta);
-  color: var(--cta-ink);
-  font-size: 10px; font-weight: 700;
-  display: grid; place-items: center;
-  box-shadow: 0 0 0 2.5px var(--paper);
-}
-.tile-badge[data-k="pass"] { background: var(--pass); color: #04150c; }
-.tile-badge[data-k="plan"] { background: var(--plan); color: #1d1000; }
 
 /* ---------------- Vuoto ---------------- */
 
