@@ -5,7 +5,7 @@
    Dopo la prima visita online l'app parte anche senza rete.
    ============================================================ */
 
-const CACHE = 'libretto-v8'
+const CACHE = 'libretto-v9'
 
 // Al primo avvio il service worker non controlla ancora le richieste
 // già partite, quindi i bundle non finirebbero in cache: l'app

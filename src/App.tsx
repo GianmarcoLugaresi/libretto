@@ -67,7 +67,7 @@ export function App() {
   // un tocco: giù e su sulla stessa scheda la seleziona.
   const capsula = useRef<HTMLElement>(null)
   const [trascina, setTrascina] = useState<number | null>(null)   // indice frazionario
-  const PASSO = 42, PAD = 6, N = TAB.length
+  const PASSO = 50, PAD = 8, N = TAB.length
   const indiceDa = (clientY: number) => {
     const r = capsula.current!.getBoundingClientRect()
     const y = clientY - r.top - PAD - 20
@@ -140,14 +140,12 @@ export function App() {
           as="nav" className="capsule" role="tablist" aria-label="Sezioni"
           raggio={26} sfoco={18} forza={44}
           ref={capsula}
+          style={{ ['--i' as string]: trascina ?? TAB.findIndex(t => t.v === vista) }}
           data-trascina={trascina !== null ? '' : undefined}
           onPointerDown={giu} onPointerMove={muovi} onPointerUp={su} onPointerCancel={() => setTrascina(null)}
         >
-          <span
-            className={`capsule-thumb${liquido ? ' is-liquido' : ''}`}
-            style={{ ['--i' as string]: trascina ?? TAB.findIndex(t => t.v === vista) }}
-            aria-hidden="true"
-          />
+          <span className="capsule-riflesso" aria-hidden="true" />
+          <span className={`capsule-thumb${liquido ? ' is-liquido' : ''}`} aria-hidden="true" />
           {TAB.map(t => (
             <button
               key={t.v} role="tab" className="tab"
