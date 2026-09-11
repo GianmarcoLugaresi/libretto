@@ -737,14 +737,3 @@ select.input { appearance: none; padding-right: var(--s-7); }
 .card.vetro { --tint: var(--glass-tint-card); }
 .card.vetro::after { z-index: 2; }
 
-/* ---------------- Fondo ambientale ---------------- */
-.ambiente {
-  position: absolute; inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0.42;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-}
-:root[data-theme="light"] .ambiente { opacity: 0.35; }
-.app > .scroll, .app > .nav, .app > .onb { position: relative; z-index: 1; }

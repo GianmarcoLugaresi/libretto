@@ -11,7 +11,6 @@ import { Impostazioni } from './screens/Impostazioni'
 import { Esplora } from './screens/Esplora'
 import { Onboarding } from './screens/Onboarding'
 import { giorniTra, oggi as dataOggi } from './lib/date'
-import { pienoDi } from './lib/tinte'
 
 export type Vista = 'oggi' | 'libretto' | 'esami' | 'orario' | 'statistiche'
 export type Pila = 'impostazioni' | 'esplora' | null
@@ -120,26 +119,8 @@ export function App() {
     return g >= 0 && g <= s.impostazioni.preavvisoGiorni
   })
 
-  // Fondo ambientale: tre luci morbide nelle tinte dei corsi che stai
-  // seguendo. Sono quel che il vetro delle card sfoca e piega; sul
-  // nero puro non ci sarebbe niente da vedere attraverso.
-  const scuro = s.impostazioni.tema !== 'chiaro'
-  const tinteAttive = Array.from(new Set(
-    (s.lezioni.length ? s.lezioni.map(l => s.insegnamenti.find(i => i.id === l.insegnamentoId)?.tinta)
-                      : s.insegnamenti.map(i => i.tinta))
-      .filter((x): x is number => typeof x === 'number'),
-  )).slice(0, 3)
-  const ambiente = tinteAttive.length
-    ? [
-        `radial-gradient(60% 40% at 15% 58%, ${pienoDi(tinteAttive[0], scuro)} 0%, transparent 70%)`,
-        `radial-gradient(55% 38% at 88% 78%, ${pienoDi(tinteAttive[1] ?? tinteAttive[0], scuro)} 0%, transparent 70%)`,
-        `radial-gradient(70% 36% at 50% 104%, ${pienoDi(tinteAttive[2] ?? tinteAttive[0], scuro)} 0%, transparent 70%)`,
-      ].join(', ')
-    : 'none'
-
   return (
     <div className="app">
-      <div className="ambiente" aria-hidden="true" style={{ backgroundImage: ambiente }} />
       {pila === null && (
         <>
           {vista === 'oggi' && <Oggi vai={cambiaVista} apri={apri} />}
