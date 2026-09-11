@@ -121,8 +121,9 @@
 .card, .list {
   --tint: var(--glass-tint-card);
   background: var(--tint);
-  -webkit-backdrop-filter: blur(16px) saturate(170%);
-  backdrop-filter: blur(16px) saturate(170%);
+  /* Niente backdrop-filter: dietro c'è nero pieno, non c'è niente da
+     sfocare, e su WebKit il vetro ri-rasterizzato a ogni frame faceva
+     tremolare il filetto in cima quando qualcosa animava sullo schermo. */
   border-radius: var(--r-xl);
   box-shadow:
     inset 0 1px 0 var(--glass-sheen-card),
@@ -144,7 +145,7 @@
   z-index: 2;
 }
 /* Vetro sopra vetro non serve: dentro un foglio la card torna piana */
-.sheet .card, .sheet .list { -webkit-backdrop-filter: none; backdrop-filter: none; background: var(--surface-2); }
+.sheet .card, .sheet .list { background: var(--surface-2); }
 .card-pad { padding: var(--s-4); }
 
 .card-accent {
@@ -734,6 +735,6 @@ select.input { appearance: none; padding-right: var(--s-7); }
 
 /* Una card che è anche Vetro (si preme): il componente porta il suo
    filtro, il resto lo eredita dalla card. */
-.card.vetro { --tint: var(--glass-tint-card); }
+.card.vetro { --tint: var(--glass-tint-card); --bf: none; }
 .card.vetro::after { z-index: 2; }
 

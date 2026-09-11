@@ -43,8 +43,8 @@
   --glass-shadow: 0 14px 40px -12px rgba(0, 0, 0, 0.75);
   --glass-press:  rgba(255, 255, 255, 0.30);   /* alone sotto il dito */
   --glass-tint-card:   rgba(255, 255, 255, 0.065);
-  --glass-sheen-card:  rgba(255, 255, 255, 0.16);
-  --glass-rim-hi-card: rgba(255, 255, 255, 0.34);
+  --glass-sheen-card:  rgba(255, 255, 255, 0.09);
+  --glass-rim-hi-card: rgba(255, 255, 255, 0.22);
 
   /* ---------- Azione primaria: pill bianca ---------- */
   --cta:          #ffffff;
