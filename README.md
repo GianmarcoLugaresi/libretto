@@ -42,9 +42,16 @@ la sua tinta e un bordo luminoso. Le azioni sono pill bianche, la
 navigazione una capsula di vetro sul bordo destro, a portata di pollice.
 
 - La home apre su un **poster a mezzo schermo** del corso in arrivo:
-  luci nella sua tinta, l'anello dell'icona, la sigla in filigrana, grana
-  fotografica. È generato dal colore del corso, quindi ogni corso ha
-  sempre lo stesso poster.
+  un'opera a tema (Bauhaus, Piranesi, Leonardo, Muybridge, l'ENIAC…)
+  gradata nella tinta del corso, con l'anello dell'icona e una grana
+  fotografica. Le immagini sono tutte di pubblico dominio o CC0
+  (`public/poster/CREDITI.md`), due-tre per tema a rotazione giornaliera;
+  da "Modifica corso" puoi mettere un URL tuo, anche di un'immagine
+  generata con l'AI. Se la foto non c'è, resta il poster generato dal
+  colore.
+- **Liquid glass**: capsula e dischi in barra hanno spigolo a gradiente e
+  riflesso; il disco bianco scivola tra le icone allungandosi come una
+  goccia.
 - **Anton** (condensato, maiuscolo) per il titolo da manifesto: una cosa
   sola per schermo. Tutto il resto è il sans di sistema.
 - **Scala 18→30**: la barra arcobaleno con la manopola. Lo stesso colore

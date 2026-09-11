@@ -28,6 +28,7 @@ export function SchedaInsegnamento({ ins, aperto, chiudi }: {
   const [ssd, setSsd] = useState('')
   const [docente, setDocente] = useState('')
   const [tintaIdx, setTintaIdx] = useState(0)
+  const [immagine, setImmagine] = useState('')
   const [conferma, setConferma] = useState(false)
 
   useEffect(() => {
@@ -36,9 +37,10 @@ export function SchedaInsegnamento({ ins, aperto, chiudi }: {
     if (ins) {
       setNome(ins.nome); setCfu(ins.cfu); setAnno(ins.anno); setSemestre(ins.semestre)
       setTipo(ins.tipo); setSsd(ins.ssd ?? ''); setDocente(ins.docente ?? ''); setTintaIdx(ins.tinta)
+      setImmagine(ins.immagine ?? '')
     } else {
       setNome(''); setCfu(9); setAnno(s.profilo.annoCorrente); setSemestre(1)
-      setTipo('obbligatorio'); setSsd(''); setDocente('')
+      setTipo('obbligatorio'); setSsd(''); setDocente(''); setImmagine('')
       // Tinta successiva nel giro, così due corsi nuovi non escono uguali.
       setTintaIdx(s.insegnamenti.length % TINTE.length)
     }
@@ -53,6 +55,7 @@ export function SchedaInsegnamento({ ins, aperto, chiudi }: {
       ssd: ssd.trim() || undefined,
       docente: docente.trim() || undefined,
       tinta: tintaIdx,
+      immagine: immagine.trim() || undefined,
     }
     if (ins) {
       d({ t: 'ins.set', id: ins.id, v: dati })
@@ -156,6 +159,11 @@ export function SchedaInsegnamento({ ins, aperto, chiudi }: {
             ))}
           </div>
         </div>
+
+        <Campo label="Immagine di copertina" hint="Un URL: compare come poster in home al posto di quella a tema. Vale anche un'immagine generata con l'AI e caricata da qualche parte.">
+          <input className="input" value={immagine} onChange={e => setImmagine(e.target.value)}
+            placeholder="https://…/foto.jpg" inputMode="url" autoCapitalize="off" autoCorrect="off" />
+        </Campo>
 
         {ins && (
           conferma ? (

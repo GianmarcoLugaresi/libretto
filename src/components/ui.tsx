@@ -65,7 +65,7 @@ export function AzioneNav({ icona, onClick, etichetta }: {
   icona: NomeIcona; onClick: () => void; etichetta: string
 }) {
   return (
-    <button className="nav-act" onClick={onClick} aria-label={etichetta}>
+    <button className="nav-act vetro" onClick={onClick} aria-label={etichetta}>
       <Icona nome={icona} size={21} />
     </button>
   )
@@ -129,6 +129,15 @@ export function Segmentato<T extends string>({
 }) {
   const box = useRef<HTMLDivElement>(null)
   const [thumb, setThumb] = useState<CSSProperties>({ opacity: 0 })
+  const [liquido, setLiquido] = useState(false)
+  const primo = useRef(true)
+
+  useEffect(() => {
+    if (primo.current) { primo.current = false; return }
+    setLiquido(true)
+    const id = window.setTimeout(() => setLiquido(false), 500)
+    return () => window.clearTimeout(id)
+  }, [valore])
 
   // Il cursore insegue il segmento attivo misurandolo dal DOM:
   // così regge etichette di lunghezza diversa.
@@ -149,7 +158,7 @@ export function Segmentato<T extends string>({
 
   return (
     <div className="seg" ref={box} role="tablist">
-      <div className="seg-thumb" style={thumb} />
+      <div className={`seg-thumb${liquido ? ' is-liquido' : ''}`} style={thumb} />
       {opzioni.map(o => (
         <button
           key={o.v} role="tab" className="seg-item"

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useApp } from './lib/store'
 import { Icona, type NomeIcona } from './components/Icona'
 import { Oggi } from './screens/Oggi'
@@ -45,6 +45,21 @@ export function App() {
     else setPila(null)
   }, [])
 
+  // Il disco della capsula si allunga mentre cambia posto: parte
+  // l'animazione a ogni cambio di scheda e si spegne a fine corsa.
+  const [liquido, setLiquido] = useState(false)
+  const timer = useRef<number | undefined>(undefined)
+  const cambiaVista = useCallback((v: Vista) => {
+    setVista(prec => {
+      if (prec !== v) {
+        setLiquido(true)
+        window.clearTimeout(timer.current)
+        timer.current = window.setTimeout(() => setLiquido(false), 540)
+      }
+      return v
+    })
+  }, [])
+
   if (s.onboarding) return <Onboarding />
 
   // Pallino sulla tab Esami quando c'è una prenotazione entro
@@ -60,7 +75,7 @@ export function App() {
     <div className="app">
       {pila === null && (
         <>
-          {vista === 'oggi' && <Oggi vai={setVista} apri={apri} />}
+          {vista === 'oggi' && <Oggi vai={cambiaVista} apri={apri} />}
           {vista === 'libretto' && <Libretto />}
           {vista === 'esami' && <Esami />}
           {vista === 'orario' && <Orario />}
@@ -73,13 +88,18 @@ export function App() {
       {/* Capsula di navigazione: verticale, sul bordo destro, dove
           arriva il pollice. L'etichetta resta per gli screen reader. */}
       {pila === null && (
-        <nav className="capsule" role="tablist" aria-label="Sezioni">
+        <nav className="capsule vetro" role="tablist" aria-label="Sezioni">
+          <span
+            className={`capsule-thumb${liquido ? ' is-liquido' : ''}`}
+            style={{ ['--i' as string]: TAB.findIndex(t => t.v === vista) }}
+            aria-hidden="true"
+          />
           {TAB.map(t => (
             <button
               key={t.v} role="tab" className="tab"
               aria-selected={vista === t.v}
               aria-label={t.l}
-              onClick={() => setVista(t.v)}
+              onClick={() => cambiaVista(t.v)}
             >
               <span className="tab-ico">
                 <Icona nome={t.i} size={21} peso={vista === t.v ? 2.3 : 1.9} />

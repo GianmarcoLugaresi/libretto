@@ -533,3 +533,108 @@ select.input { appearance: none; padding-right: var(--s-7); }
 @keyframes toast-in { from { transform: translateY(16px) scale(0.96); opacity: 0; } }
 
 .dot { width: 8px; height: 8px; border-radius: var(--r-full); flex: none; }
+
+/* ============================================================
+   Liquid glass
+   Il vetro vero (rifrazione del fondo) non si può fare in CSS:
+   si imita con tre strati — sfocatura del fondo, un bordo a
+   gradiente che simula lo spigolo che prende la luce, e un
+   riflesso speculare in alto. Sul disco bianco, un'ombra interna
+   lo fa sembrare una perla, non un cerchio piatto.
+   ============================================================ */
+
+.vetro {
+  background:
+    linear-gradient(160deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.03) 38%, rgba(0,0,0,0.06) 100%),
+    var(--glass-strong);
+  backdrop-filter: saturate(170%) blur(26px);
+  -webkit-backdrop-filter: saturate(170%) blur(26px);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.22),
+    inset 0 -1px 0 rgba(0,0,0,0.35),
+    0 12px 40px -10px rgba(0,0,0,0.8);
+}
+/* Spigolo: una cornice da 1px con gradiente, ritagliata col mask
+   così resta solo il bordo. */
+.vetro::after {
+  content: "";
+  position: absolute; inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(160deg,
+    rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.08) 40%,
+    rgba(255,255,255,0.04) 60%, rgba(255,255,255,0.28) 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+/* Riflesso: un'ellisse chiara in alto che si spegne verso il basso */
+.vetro::before {
+  content: "";
+  position: absolute; inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(120% 60% at 50% -10%, rgba(255,255,255,0.20) 0%, rgba(255,255,255,0) 60%);
+  pointer-events: none;
+}
+:root[data-theme="light"] .vetro {
+  background:
+    linear-gradient(160deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.3) 40%, rgba(0,0,0,0.02) 100%),
+    var(--glass-strong);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), inset 0 -1px 0 rgba(0,0,0,0.08), 0 12px 40px -12px rgba(0,0,0,0.25);
+}
+:root[data-theme="light"] .vetro::after {
+  background: linear-gradient(160deg, rgba(255,255,255,1) 0%, rgba(0,0,0,0.06) 45%, rgba(0,0,0,0.1) 100%);
+}
+
+/* La capsula e i dischetti in barra sono vetro */
+.capsule { overflow: visible; }
+.capsule.vetro { background-color: var(--glass-strong); }
+.nav-act { position: relative; }
+.nav-act.vetro { box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), inset 0 -1px 0 rgba(0,0,0,0.3), 0 6px 20px -8px rgba(0,0,0,0.7); }
+.nav-act.vetro::before { display: none; }
+
+/* Il disco che scivola tra le icone: uno solo, e si allunga
+   mentre viaggia, come una goccia. */
+.capsule-thumb {
+  position: absolute;
+  left: 6px; right: 6px;
+  height: 40px;
+  top: calc(6px + var(--i, 0) * 42px);
+  border-radius: var(--r-full);
+  background: var(--cta);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.95),
+    inset 0 -3px 6px rgba(0,0,0,0.14),
+    0 6px 16px -4px rgba(0,0,0,0.6);
+  transition: top 520ms cubic-bezier(0.34, 1.4, 0.64, 1);
+  z-index: 0;
+  transform-origin: center;
+}
+.capsule-thumb.is-liquido { animation: liquido 520ms cubic-bezier(0.34, 1.4, 0.64, 1); }
+@keyframes liquido {
+  0%   { transform: scale(1, 1); }
+  35%  { transform: scale(0.86, 1.34); }
+  70%  { transform: scale(1.06, 0.94); }
+  100% { transform: scale(1, 1); }
+}
+.capsule .tab { z-index: 1; }
+.capsule .tab[aria-selected="true"] { background: transparent; }
+.capsule .tab:active .tab-ico { transform: scale(0.82); }
+.capsule .tab .tab-ico { transition: transform 260ms cubic-bezier(0.34, 1.56, 0.64, 1); }
+:root[data-theme="light"] .capsule-thumb { box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), inset 0 -3px 6px rgba(0,0,0,0.3), 0 6px 16px -4px rgba(0,0,0,0.4); }
+
+/* Stessa goccia nel controllo segmentato */
+.seg-thumb {
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), inset 0 -2px 5px rgba(0,0,0,0.12), 0 3px 10px -3px rgba(0,0,0,0.5);
+  transition: left 480ms cubic-bezier(0.34, 1.3, 0.64, 1), width 480ms cubic-bezier(0.34, 1.3, 0.64, 1);
+}
+.seg-thumb.is-liquido { animation: liquido-x 480ms cubic-bezier(0.34, 1.3, 0.64, 1); }
+@keyframes liquido-x {
+  0%   { transform: scale(1, 1); }
+  35%  { transform: scale(1.18, 0.86); }
+  70%  { transform: scale(0.96, 1.05); }
+  100% { transform: scale(1, 1); }
+}
+:root[data-theme="light"] .seg-thumb { box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), inset 0 -2px 5px rgba(0,0,0,0.3), 0 3px 10px -3px rgba(0,0,0,0.3); }

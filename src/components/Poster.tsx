@@ -8,10 +8,20 @@
    tinta: lo stesso corso ha sempre lo stesso poster.
    ============================================================ */
 
+import { useEffect, useState } from 'react'
 import { TINTE } from '../lib/types'
 
-export function Poster({ tinta, sigla }: { tinta: number | null; sigla?: string }) {
+export function Poster({ tinta, sigla, immagine }: {
+  tinta: number | null
+  sigla?: string
+  /** Fotografia sotto le luci: viene gradata nel colore del corso */
+  immagine?: string
+}) {
   const i = tinta ?? 4
+  // Se la foto non arriva (offline, URL rotto) resta il poster
+  // generato: l'eroe non deve mai essere un buco nero.
+  const [fotoOk, setFotoOk] = useState(false)
+  useEffect(() => { setFotoOk(false) }, [immagine])
   const h = tinta == null ? 0 : TINTE[i % TINTE.length].h
   const sat = tinta == null ? '0%' : '88%'
 
@@ -25,6 +35,20 @@ export function Poster({ tinta, sigla }: { tinta: number | null; sigla?: string 
 
   return (
     <div className="poster" aria-hidden="true">
+      {immagine && (
+        <>
+          <img
+            className="poster-foto" src={immagine} alt="" decoding="async"
+            data-ok={fotoOk}
+            onLoad={() => setFotoOk(true)} onError={() => setFotoOk(false)}
+          />
+          {/* Gradazione: il colore del corso "tinge" la foto conservando
+              le luci, come una color correction cinematografica */}
+          <div className="poster-grado" data-ok={fotoOk} style={{ background: luce(0, '52%', 1) }} />
+          <div className="poster-scuro" data-ok={fotoOk} />
+        </>
+      )}
+
       <div className="poster-luci" style={{
         background: [
           `radial-gradient(60% 55% at ${ax}% ${ay}%, ${luce(0, '60%', 1)} 0%, ${luce(0, '50%', 0)} 100%)`,
@@ -37,14 +61,15 @@ export function Poster({ tinta, sigla }: { tinta: number | null; sigla?: string 
 
       {/* Sigla in filigrana: un elemento tipografico da manifesto,
           in fuga oltre il bordo */}
-      {sigla && (
+      {sigla && !(immagine && fotoOk) && (
         <span className="poster-sigla" style={{
           color: luce(0, '78%', 0.2),
           transform: `rotate(${inclina}deg)`,
         }}>{sigla}</span>
       )}
 
-      <svg className="poster-anello" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">
+      <svg className="poster-anello" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"
+        style={{ opacity: immagine && fotoOk ? 0.45 : 1 }}>
         <circle cx={rx} cy={ry} r="34" fill="none" stroke={luce(0, '80%', 0.5)} strokeWidth="0.9" />
         <circle cx={rx} cy={ry} r="34" fill="none" stroke={luce(0, '90%', 0.9)} strokeWidth="1.6"
           strokeDasharray="153 214" strokeLinecap="round" transform={`rotate(-90 ${rx} ${ry})`} />

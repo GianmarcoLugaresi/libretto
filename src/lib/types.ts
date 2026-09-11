@@ -31,6 +31,9 @@ export interface Insegnamento {
   /** Indice 0–9 nella tavolozza: dà al corso un colore stabile
    *  in orario, calendario e statistiche. */
   tinta: number
+  /** URL di un'immagine scelta da te per il poster in home; se
+   *  manca, l'app ne sceglie una a tema. */
+  immagine?: string
 }
 
 export type StatoEsame =

@@ -3,6 +3,7 @@ import { useApp } from '../lib/store'
 import { Icona } from '../components/Icona'
 import { Anello, AzioneNav, Sezione, Vuoto } from '../components/ui'
 import { Poster } from '../components/Poster'
+import { immaginePer } from '../lib/poster'
 import { tinta, PIENO, posizioneVoto } from '../lib/tinte'
 import {
   lezioniDel, lezioneInCorso, prossimaLezione, prenotazioni, daRegistrare, type LezioneRisolta,
@@ -122,7 +123,8 @@ export function Oggi({ vai, apri }: {
       {/* ---------- Eroe: il poster del corso in arrivo ---------- */}
       {scena ? (
         <button className="eroe" onClick={() => vai('orario')}>
-          <Poster tinta={scena.r.ins.tinta} sigla={sigla(scena.r.ins.nome)} />
+          <Poster tinta={scena.r.ins.tinta} sigla={sigla(scena.r.ins.nome)}
+            immagine={scena.r.ins.immagine || immaginePer(scena.r.ins.nome)} />
           <div className="eroe-sopra">
             <span className="chip">
               {scena.tipo === 'ora'
