@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useApp } from './lib/store'
 import { Icona, type NomeIcona } from './components/Icona'
+import { Lente } from './components/Lente'
 import { Oggi } from './screens/Oggi'
 import { Libretto } from './screens/Libretto'
 import { Esami } from './screens/Esami'
@@ -30,7 +31,8 @@ export function App() {
   // Il tasto "indietro" di iOS/Android chiude la schermata in pila
   // invece di uscire dall'app.
   useEffect(() => {
-    const onPop = () => setPila(null)
+    // Da Esplora (aperto dal profilo) si torna al profilo, non alla home.
+    const onPop = (e: PopStateEvent) => setPila((e.state?.pila as Pila) ?? null)
     window.addEventListener('popstate', onPop)
     return () => window.removeEventListener('popstate', onPop)
   }, [])
@@ -82,13 +84,18 @@ export function App() {
           {vista === 'statistiche' && <Statistiche />}
         </>
       )}
-      {pila === 'impostazioni' && <Impostazioni chiudi={chiudiPila} />}
+      {pila === 'impostazioni' && <Impostazioni chiudi={chiudiPila} apriEsplora={() => apri('esplora')} />}
       {pila === 'esplora' && <Esplora chiudi={chiudiPila} />}
 
       {/* Capsula di navigazione: verticale, sul bordo destro, dove
           arriva il pollice. L'etichetta resta per gli screen reader. */}
       {pila === null && (
-        <nav className="capsule vetro" role="tablist" aria-label="Sezioni">
+        <Lente
+          as="nav" className="capsule" role="tablist" aria-label="Sezioni"
+          fonte=".app > .scroll" raggio={26} chiave={vista}
+          ottica={{ forza: 32, labbro: 18, curva: 1.5, gelo: 3, dispersione: 0.1, saturazione: 1.6 }}
+          flessione={liquido ? 1 : 0}
+        >
           <span
             className={`capsule-thumb${liquido ? ' is-liquido' : ''}`}
             style={{ ['--i' as string]: TAB.findIndex(t => t.v === vista) }}
@@ -108,7 +115,7 @@ export function App() {
               <span className="tab-label">{t.l}</span>
             </button>
           ))}
-        </nav>
+        </Lente>
       )}
 
       {avvisoCorrente && (

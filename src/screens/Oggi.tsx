@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useApp } from '../lib/store'
 import { Icona } from '../components/Icona'
-import { Anello, AzioneNav, Sezione, Vuoto } from '../components/ui'
+import { Anello, Sezione, Vuoto } from '../components/ui'
 import { Poster } from '../components/Poster'
-import { immaginePer } from '../lib/poster'
+import { Lente } from '../components/Lente'
+import { immaginePer, immagineLibera } from '../lib/poster'
 import { tinta, PIENO, posizioneVoto } from '../lib/tinte'
 import {
   lezioniDel, lezioneInCorso, prossimaLezione, prenotazioni, daRegistrare, type LezioneRisolta,
@@ -15,14 +16,6 @@ import {
 import { GIORNI } from '../lib/types'
 import type { ISO } from '../lib/date'
 import type { Vista, Pila } from '../App'
-
-function saluto(): string {
-  const h = new Date().getHours()
-  if (h < 5) return 'Buonanotte'
-  if (h < 13) return 'Buongiorno'
-  if (h < 18) return 'Buon pomeriggio'
-  return 'Buonasera'
-}
 
 const VUOTE = new Set(['di', 'del', 'della', 'delle', 'dei', 'degli', 'per', 'la', 'le', 'il',
   'lo', 'i', 'gli', 'e', 'ed', 'a', 'al', 'alla', 'in', 'con', 'su', 'un', 'una', 'o', 'dell’', "dell'"])
@@ -38,10 +31,10 @@ export function sigla(nome: string): string {
  *  resta dentro l'eroe. */
 function corpoTitolo(nome: string): number {
   const n = nome.length
-  if (n <= 24) return 62
-  if (n <= 40) return 50
-  if (n <= 58) return 40
-  return 33
+  if (n <= 22) return 38
+  if (n <= 36) return 32
+  if (n <= 56) return 27
+  return 23
 }
 
 function etichettaGiorno(data: ISO, oggi: ISO): string {
@@ -110,14 +103,12 @@ export function Oggi({ vai, apri }: {
 
   return (
     <div className="scroll" ref={scroll}>
-      {/* ---------- Barra galleggiante ---------- */}
+      {/* ---------- Barra: il nome al centro, come un titolo ---------- */}
       <div className="oggi-bar" data-collapsed={collassata}>
-        <div className="grow stack" style={{ gap: 1 }}>
-          <span className="headline oggi-saluto truncate">{nome ? `${saluto()}, ${nome}` : saluto()}</span>
-          <span className="caption oggi-saluto" style={{ color: 'var(--ink-2)' }}>{fmtData(o, 'giorno')}</span>
-        </div>
-        <AzioneNav icona="bussola" etichetta="Esplora i corsi" onClick={() => apri('esplora')} />
-        <AzioneNav icona="ingranaggio" etichetta="Impostazioni" onClick={() => apri('impostazioni')} />
+        <button className="oggi-nome" onClick={() => apri('impostazioni')} aria-label="Apri il profilo">
+          <span className="headline oggi-saluto">{nome || 'Il mio libretto'}</span>
+          <Icona nome="chevron-giu" size={15} peso={2.4} className="oggi-nome-freccia" />
+        </button>
       </div>
 
       {/* ---------- Eroe: il poster del corso in arrivo ---------- */}
@@ -125,26 +116,34 @@ export function Oggi({ vai, apri }: {
         <button className="eroe" onClick={() => vai('orario')}>
           <Poster tinta={scena.r.ins.tinta} sigla={sigla(scena.r.ins.nome)}
             immagine={scena.r.ins.immagine || immaginePer(scena.r.ins.nome)} />
-          <div className="eroe-sopra">
-            <span className="chip">
-              {scena.tipo === 'ora'
-                ? <><span className="polso" style={{ ...tinta(scena.r.ins.tinta), background: PIENO }} />Ora in aula</>
-                : scena.data === o ? 'Prossima lezione' : quando(scena.data).replace(/^./, c => c.toUpperCase())}
-            </span>
-            <span className="chip num">{scena.r.lezione.inizio}–{scena.r.lezione.fine}</span>
-          </div>
+          <span className="eroe-occhiello">
+            {scena.tipo === 'ora'
+              ? <><span className="polso" style={{ ...tinta(scena.r.ins.tinta), background: PIENO }} />Ora in aula</>
+              : scena.data === o ? 'Prossima lezione · oggi' : `Prossima lezione · ${quando(scena.data)}`}
+          </span>
           <h1 className="eroe-titolo" style={{ fontSize: corpoTitolo(scena.r.ins.nome) }}>{scena.r.ins.nome}</h1>
-          <div className="eroe-chips">
-            {(scena.r.lezione.aula || scena.r.lezione.edificio) && (
-              <span className="chip"><Icona nome="luogo" size={12} peso={2.2} />
-                {[scena.r.lezione.aula, scena.r.lezione.edificio].filter(Boolean).join(', ')}</span>
-            )}
-            <span className="chip num">{durata(scena.r.lezione.inizio, scena.r.lezione.fine)}</span>
-            <span className="chip num">{scena.r.ins.cfu} CFU</span>
-            {scena.r.ins.docente && <span className="chip">{scena.r.ins.docente}</span>}
-          </div>
+
+          {/* Le quattro cose che contano adesso: quando, dove, quanto */}
+          <Lente as="div" className="eroe-fatti" fonte=".poster" raggio={22}
+            ottica={{ forza: 14, labbro: 12, curva: 1.4, gelo: 3, dispersione: 0.1, saturazione: 1.4 }}>
+            <span className="fatto">
+              <span className="fatto-valore num">{scena.r.lezione.inizio}<span className="fatto-sep">–</span>{scena.r.lezione.fine}</span>
+              <span className="fatto-etichetta">orario</span>
+            </span>
+            <span className="fatto-div" />
+            <span className="fatto">
+              <span className="fatto-valore">{scena.r.lezione.aula || '—'}</span>
+              <span className="fatto-etichetta">{scena.r.lezione.edificio || 'aula'}</span>
+            </span>
+            <span className="fatto-div" />
+            <span className="fatto">
+              <span className="fatto-valore num">{durata(scena.r.lezione.inizio, scena.r.lezione.fine)}</span>
+              <span className="fatto-etichetta">durata</span>
+            </span>
+          </Lente>
+
           {scena.tipo === 'ora' && (
-            <div className="stack" style={{ gap: 5, marginTop: 14 }}>
+            <div className="eroe-progresso">
               <div className="bar" style={{ background: 'rgba(0,0,0,0.45)', boxShadow: 'none' }}>
                 <div className="bar-fill" style={{
                   width: `${Math.round(((ora - minuti(scena.r.lezione.inizio)) /
@@ -159,17 +158,11 @@ export function Oggi({ vai, apri }: {
         </button>
       ) : (
         <div className="eroe">
-          <Poster tinta={null} />
-          <div className="eroe-sopra">
-            <span className="chip">{s.lezioni.length === 0 ? 'Orario vuoto' : 'Nessuna lezione in vista'}</span>
-            <span className="chip">{fmtData(o, 'breve')}</span>
-          </div>
-          <h1 className="eroe-titolo" style={{ fontSize: 62 }}>{s.lezioni.length === 0 ? 'Oggi' : 'Giornata libera'}</h1>
-          <p className="sub" style={{ marginTop: 8, maxWidth: 300, color: 'var(--ink-2)' }}>
-            {s.lezioni.length === 0
-              ? 'Compila l’orario una volta sola: ogni mattina qui trovi cosa ti aspetta.'
-              : 'Niente in aula nei prossimi giorni. Buon momento per un ripasso.'}
-          </p>
+          <Poster tinta={null} immagine={immagineLibera()} />
+          <span className="eroe-occhiello">{fmtData(o, 'giorno')}</span>
+          <h1 className="eroe-titolo" style={{ fontSize: 38 }}>
+            {s.lezioni.length === 0 ? 'Orario vuoto' : 'Giornata libera'}
+          </h1>
           {s.lezioni.length === 0 && (
             <div className="eroe-azioni">
               <button className="btn btn-primary btn-sm" onClick={() => vai('orario')}>
@@ -201,13 +194,10 @@ export function Oggi({ vai, apri }: {
       )}
 
       {/* ---------- Lezioni in arrivo ---------- */}
-      <Sezione titolo="In arrivo" stretto destra={
-        <button className="foot" style={{ color: 'var(--ink-2)' }} onClick={() => vai('orario')}>Orario</button>
-      }>
+      <Sezione titolo="In arrivo" stretto>
         {inArrivo.length === 0 ? (
           <div className="card">
-            <Vuoto icona="sole" titolo="Nient’altro in programma"
-              testo={s.lezioni.length === 0 ? 'L’orario è ancora vuoto.' : 'Nessuna lezione nei prossimi giorni.'} />
+            <Vuoto icona="sole" titolo="Nessuna lezione in vista" />
           </div>
         ) : (
           <div className="stack" style={{ gap: 14 }}>

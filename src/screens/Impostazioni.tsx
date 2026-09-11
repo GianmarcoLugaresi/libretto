@@ -6,7 +6,7 @@ import { riepilogo } from '../lib/stats'
 import { annoAccademico } from '../lib/date'
 import type { AnnoCorso, TipoCorsoLaurea } from '../lib/types'
 
-export function Impostazioni({ chiudi }: { chiudi: () => void }) {
+export function Impostazioni({ chiudi, apriEsplora }: { chiudi: () => void; apriEsplora: () => void }) {
   const { s, d, avviso } = useApp()
   const r = riepilogo(s)
   const file = useRef<HTMLInputElement>(null)
@@ -34,9 +34,20 @@ export function Impostazioni({ chiudi }: { chiudi: () => void }) {
   }
 
   return (
-    <Schermo titolo="Impostazioni" indietro={chiudi}>
+    <Schermo titolo="Profilo" indietro={chiudi}>
+      <Sezione stretto>
+        <div className="list">
+          <Riga
+            titolo="Esplora i corsi"
+            sotto="Piani di studio ufficiali, anno per anno"
+            icona={<Icona nome="bussola" size={20} className="dim" />}
+            onClick={apriEsplora} chevron
+          />
+        </div>
+      </Sezione>
+
       {/* ---------------- Profilo ---------------- */}
-      <Sezione titolo="Profilo" stretto>
+      <Sezione titolo="Chi sei">
         <div className="stack" style={{ gap: 16 }}>
           <Campo label="Nome">
             <input className="input" value={s.profilo.nome}

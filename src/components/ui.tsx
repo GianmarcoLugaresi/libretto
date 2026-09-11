@@ -5,6 +5,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import type { ReactNode, CSSProperties } from 'react'
 import { Icona, type NomeIcona } from './Icona'
+import { Lente } from './Lente'
 
 /* ---------------- Guscio schermo ----------------
    Titolo grande che collassa allo scroll. La soglia è bassa
@@ -61,9 +62,20 @@ export function Schermo({
   )
 }
 
-export function AzioneNav({ icona, onClick, etichetta }: {
+export function AzioneNav({ icona, onClick, etichetta, fonte }: {
   icona: NomeIcona; onClick: () => void; etichetta: string
+  /** Se indicata, il disco diventa una lente che rifrange quell'elemento */
+  fonte?: string
 }) {
+  if (fonte) {
+    return (
+      <Lente as="button" className="nav-act" fonte={fonte} raggio={19}
+        ottica={{ forza: 12, labbro: 9, curva: 1.4, gelo: 2.5, dispersione: 0.1, saturazione: 1.5 }}
+        onClick={onClick} aria-label={etichetta}>
+        <Icona nome={icona} size={21} />
+      </Lente>
+    )
+  }
   return (
     <button className="nav-act vetro" onClick={onClick} aria-label={etichetta}>
       <Icona nome={icona} size={21} />

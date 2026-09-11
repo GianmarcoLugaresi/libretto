@@ -590,7 +590,18 @@ select.input { appearance: none; padding-right: var(--s-7); }
 
 /* La capsula e i dischetti in barra sono vetro */
 .capsule { overflow: visible; }
-.capsule.vetro { background-color: var(--glass-strong); }
+/* Da lente, la capsula non porta più sfocatura né sfondo propri:
+   il vetro è la copia rifratta di quel che ha dietro. */
+.capsule.lente {
+  position: fixed;
+  background: rgba(20,20,22,0.35);
+  backdrop-filter: none; -webkit-backdrop-filter: none;
+  box-shadow: 0 14px 44px -12px rgba(0,0,0,0.8);
+}
+:root[data-theme="light"] .capsule.lente { background: rgba(255,255,255,0.35); }
+.nav-act.lente { background: rgba(20,20,22,0.3); box-shadow: 0 6px 20px -8px rgba(0,0,0,0.7); display: grid; place-items: center; }
+:root[data-theme="light"] .nav-act.lente { background: rgba(255,255,255,0.35); }
+.nav-act.lente > .lente-dentro { display: grid; place-items: center; flex: none; }
 .nav-act { position: relative; }
 .nav-act.vetro { box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), inset 0 -1px 0 rgba(0,0,0,0.3), 0 6px 20px -8px rgba(0,0,0,0.7); }
 .nav-act.vetro::before { display: none; }
@@ -619,6 +630,8 @@ select.input { appearance: none; padding-right: var(--s-7); }
   70%  { transform: scale(1.06, 0.94); }
   100% { transform: scale(1, 1); }
 }
+.capsule .lente-dentro { display: flex; flex-direction: column; gap: 2px; }
+.capsule.lente .capsule-thumb { left: 0; right: 0; top: calc(var(--i, 0) * 42px); }
 .capsule .tab { z-index: 1; }
 .capsule .tab[aria-selected="true"] { background: transparent; }
 .capsule .tab:active .tab-ico { transform: scale(0.82); }
@@ -638,3 +651,68 @@ select.input { appearance: none; padding-right: var(--s-7); }
   100% { transform: scale(1, 1); }
 }
 :root[data-theme="light"] .seg-thumb { box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), inset 0 -2px 5px rgba(0,0,0,0.3), 0 3px 10px -3px rgba(0,0,0,0.3); }
+
+/* ============================================================
+   Lente (liquid glass vero)
+   ============================================================ */
+
+.lente {
+  position: relative;
+  isolation: isolate;
+  /* Se la copia non copre (fuori dalla fonte), sotto resta il gelo */
+  background: var(--glass-strong);
+  box-shadow: 0 14px 44px -12px rgba(0,0,0,0.75);
+}
+.lente-svg { position: absolute; width: 0; height: 0; overflow: hidden; pointer-events: none; }
+.lente-clip {
+  position: absolute; inset: 0;
+  border-radius: inherit;
+  overflow: hidden;
+  /* Safari: senza questo il clip arrotondato non taglia i figli filtrati */
+  -webkit-mask-image: -webkit-radial-gradient(#000, #000);
+  transform: translateZ(0);
+  pointer-events: none;
+}
+.lente-filtro { position: absolute; display: block; }
+.lente-specchio { position: absolute; inset: 0; }
+.lente-clone .capsule, .lente-clone .sheet, .lente-clone .backdrop { display: none !important; }
+
+/* Velo: il vetro ha un corpo, leggermente lattiginoso */
+.lente-velo {
+  position: absolute; inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(160deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.03) 45%, rgba(0,0,0,0.05) 100%);
+  pointer-events: none;
+}
+/* Spigolo: cornice da 1px a gradiente, la luce che prende il bordo */
+.lente-bordo {
+  position: absolute; inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(160deg,
+    rgba(255,255,255,0.60) 0%, rgba(255,255,255,0.10) 38%,
+    rgba(255,255,255,0.04) 62%, rgba(255,255,255,0.32) 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+/* Riflesso mobile: segue lo scroll, come una luce che scorre sul vetro */
+.lente-luce {
+  position: absolute; inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(90% 45% at 50% var(--luce-y, -8%), rgba(255,255,255,0.22) 0%, rgba(255,255,255,0) 70%);
+  pointer-events: none;
+  transition: --luce-y 200ms linear;
+}
+.lente-dentro {
+  position: relative; z-index: 1;
+  display: flex;
+  flex-direction: inherit; align-items: inherit; justify-content: inherit;
+  gap: inherit; flex: 1; min-width: 0;
+}
+
+:root[data-theme="light"] .lente { background: var(--glass-strong); }
+:root[data-theme="light"] .lente-velo { background: linear-gradient(160deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.25) 45%, rgba(0,0,0,0.02) 100%); }
+:root[data-theme="light"] .lente-bordo { background: linear-gradient(160deg, rgba(255,255,255,1) 0%, rgba(0,0,0,0.05) 45%, rgba(0,0,0,0.10) 100%); }

@@ -22,6 +22,8 @@ const TEMI: Record<string, string[]> = {
   interazione: ['eniac-1946', 'apollo-11-controllo', 'houston-eidophor'],
   strutture:   ['durandelle-tour-eiffel', 'tour-eiffel-1888', 'leonardo-codice-atlantico'],
   studio:      ['bauhaus-maestri-1926', 'bauhaus-dessau', 'leonardo-codice-atlantico'],
+  /** Giornata senza lezioni: immagini quiete, a rotazione */
+  libero:      ['piranesi-piazza-del-popolo', 'blossfeldt-acanthus', 'haeckel-discomedusae', 'piranesi-colosseo'],
 }
 
 /** Dal nome dell'insegnamento al tema. Il primo che combacia vince,
@@ -51,6 +53,12 @@ export function temaDi(nome: string): string {
  *  quelle del suo tema, così la home non è sempre uguale. */
 export function immaginePer(nome: string, giornoDellAnno = giornoAnno()): string {
   const lista = TEMI[temaDi(nome)] ?? TEMI.studio
+  return P(lista[giornoDellAnno % lista.length])
+}
+
+/** L'immagine di oggi per una giornata libera. */
+export function immagineLibera(giornoDellAnno = giornoAnno()): string {
+  const lista = TEMI.libero
   return P(lista[giornoDellAnno % lista.length])
 }
 
