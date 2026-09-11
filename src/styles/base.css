@@ -102,22 +102,27 @@ svg { display: block; flex: none; }
 
 #root { min-height: 100%; }
 
-/* Ancorata allo schermo, non a un'altezza calcolata: su iOS, al
-   ritorno in primo piano, 100dvh per un attimo riporta l'altezza
-   sbagliata e in basso resta una fascia scoperta. Con inset: 0 la
-   finestra visibile è sempre riempita, qualunque cosa dica iOS. */
+/* Altezza: unità del viewport, non misure JavaScript. Da Home, con
+   il contenuto sotto la barra di stato, iOS riporta a JS (e a
+   bottom: 0 di un fixed) un'altezza senza la barra: sotto restava
+   una fascia alta quanto la barra. 100vh/100lvh coprono lo schermo
+   intero; lvh è il viewport "grande" e non si restringe al ritorno
+   in primo piano come faceva dvh. Nel browser, con la barra di
+   Safari che va e viene, resta dvh. */
 .app {
   position: fixed;
   top: 0; left: 0; right: 0;
-  /* L'altezza la misura main.tsx dalla finestra visibile reale
-     (--altezza); 100dvh è solo il valore di partenza. */
-  height: var(--altezza, 100dvh);
+  height: 100vh;
+  height: 100dvh;
   margin: 0 auto;
   max-width: 520px;
   display: flex;
   flex-direction: column;
   background: var(--paper);
   overflow: hidden;
+}
+@media (display-mode: standalone) {
+  .app { height: 100vh; height: 100lvh; }
 }
 @media (min-width: 560px) {
   html, body { background: #000; }
