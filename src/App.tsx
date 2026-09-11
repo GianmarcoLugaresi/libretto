@@ -91,6 +91,23 @@ export function App() {
     cambiaVista(TAB[i].v)
   }
 
+  // Barra di stato: se l'app gira da Home ma il contenuto NON passa
+  // sotto la barra (installata quando lo stile era ancora "default"),
+  // la barra è opaca e nera: allora il poster sfuma a nero pieno in
+  // cima, così non c'è una giuntura secca. Si misura env() con una
+  // sonda, perché da JS non si legge altrimenti.
+  useEffect(() => {
+    const standalone = (navigator as unknown as { standalone?: boolean }).standalone === true
+      || window.matchMedia('(display-mode: standalone)').matches
+    if (!standalone) return
+    const sonda = document.createElement('div')
+    sonda.style.cssText = 'position:fixed;top:0;left:0;width:0;height:0;padding-top:env(safe-area-inset-top,0px);visibility:hidden;pointer-events:none'
+    document.body.appendChild(sonda)
+    const alto = parseFloat(getComputedStyle(sonda).paddingTop) || 0
+    sonda.remove()
+    if (alto === 0) document.documentElement.dataset.barra = 'opaca'
+  }, [])
+
   if (s.onboarding) return <Onboarding />
 
   // Pallino sulla tab Esami quando c'è una prenotazione entro
@@ -147,6 +164,14 @@ export function App() {
           ))}
         </Vetro>
       )}
+
+      {/* iOS non lascia bloccare l'orientamento a una web app: in
+          paesaggio si copre tutto e si chiede di girare il telefono. */}
+      <div className="gira" role="status" aria-live="polite">
+        <span className="gira-icona"><Icona nome="tocco" size={26} peso={2} /></span>
+        <span className="headline">Gira il telefono</span>
+        <span className="sub dim">Libretto è pensata in verticale.</span>
+      </div>
 
       {avvisoCorrente && (
         <div className="toast-wrap">

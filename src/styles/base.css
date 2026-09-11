@@ -7,6 +7,12 @@
 html, body { height: 100%; }
 html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 
+html, body {
+  /* Niente rimbalzo laterale della pagina: il gesto orizzontale non
+     deve muovere tutto lo schermo. */
+  overscroll-behavior: none;
+}
+
 body {
   margin: 0;
   background: var(--paper);
@@ -113,6 +119,8 @@ svg { display: block; flex: none; }
   flex: 1;
   min-height: 0;
   overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
   /* Spazio in fondo per non finire sotto la capsula di navigazione */
   padding-bottom: calc(var(--safe-b) + 120px);
@@ -135,4 +143,28 @@ svg { display: block; flex: none; }
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* ---------- Paesaggio: copre l'app e chiede di girare ----------
+   Solo sui telefoni: un iPad in orizzontale ha spazio a sufficienza. */
+.gira {
+  display: none;
+  position: fixed; inset: 0; z-index: 1000;
+  background: var(--paper);
+  flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+  text-align: center; padding: var(--s-6);
+}
+.gira-icona {
+  width: 64px; height: 64px;
+  display: grid; place-items: center;
+  border-radius: 20px;
+  background: var(--surface-2);
+  box-shadow: inset 0 0 0 1px var(--rule);
+  margin-bottom: 8px;
+  transform: rotate(90deg);
+  animation: gira 1.6s var(--ease) infinite alternate;
+}
+@keyframes gira { from { transform: rotate(90deg); } to { transform: rotate(0deg); } }
+@media (orientation: landscape) and (max-height: 520px) {
+  .gira { display: flex; }
 }

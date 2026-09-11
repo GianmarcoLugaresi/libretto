@@ -487,7 +487,14 @@
 .poster-velo {
   position: absolute; inset: 0;
   background:
-    linear-gradient(to bottom, rgba(6,6,7,0.62) 0%, transparent 26%),
+    linear-gradient(to bottom, rgba(6,6,7,0.72) 0%, rgba(6,6,7,0.25) 14%, transparent 30%),
+    linear-gradient(to top, var(--paper) 0%, rgba(6,6,7,0.88) 18%, rgba(6,6,7,0.35) 48%, transparent 72%);
+}
+/* Con la barra di stato opaca il poster non può passarci sotto: in
+   cima sfuma a nero pieno, e la giuntura con la barra sparisce. */
+:root[data-barra="opaca"] .poster-velo {
+  background:
+    linear-gradient(to bottom, var(--paper) 0%, rgba(6,6,7,0.6) 12%, transparent 34%),
     linear-gradient(to top, var(--paper) 0%, rgba(6,6,7,0.88) 18%, rgba(6,6,7,0.35) 48%, transparent 72%);
 }
 :root[data-theme="light"] .poster { background: #f3f3f4; }
