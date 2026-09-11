@@ -42,6 +42,9 @@
   --glass-rim-hi: rgba(255, 255, 255, 0.70);   /* anello dove prende la luce */
   --glass-shadow: 0 14px 40px -12px rgba(0, 0, 0, 0.75);
   --glass-press:  rgba(255, 255, 255, 0.30);   /* alone sotto il dito */
+  --glass-tint-card:   rgba(255, 255, 255, 0.065);
+  --glass-sheen-card:  rgba(255, 255, 255, 0.16);
+  --glass-rim-hi-card: rgba(255, 255, 255, 0.34);
 
   /* ---------- Azione primaria: pill bianca ---------- */
   --cta:          #ffffff;
@@ -153,6 +156,9 @@
   --glass-rim-hi: rgba(255, 255, 255, 1);
   --glass-shadow: 0 14px 40px -16px rgba(0, 0, 0, 0.28);
   --glass-press:  rgba(255, 255, 255, 0.7);
+  --glass-tint-card:   rgba(255, 255, 255, 0.55);
+  --glass-sheen-card:  rgba(255, 255, 255, 0.95);
+  --glass-rim-hi-card: rgba(255, 255, 255, 1);
 
   --cta:          #0b0b0c;
   --cta-ink:      #ffffff;

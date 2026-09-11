@@ -259,7 +259,8 @@ export function Oggi({ vai, apri }: {
       <Sezione titolo="Il tuo percorso" destra={
         <button className="foot" style={{ color: 'var(--ink-2)' }} onClick={() => vai('statistiche')}>Dettagli</button>
       }>
-        <button className="card card-pad stack" style={{ width: '100%', textAlign: 'left', gap: 16 }} onClick={() => vai('statistiche')}>
+        <Vetro as="button" className="card card-pad stack" raggio={28} sfoco={16} forza={30} interattivo
+          style={{ width: '100%', textAlign: 'left', gap: 16 }} onClick={() => vai('statistiche')}>
           <div className="percorso">
             <Anello valore={r.percentuale} size={96} spessore={9}>
               <span className="display-m num">{r.cfuAcquisiti}</span>
@@ -288,7 +289,7 @@ export function Oggi({ vai, apri }: {
             </div>
             <div className="between caption dimmer num"><span>18</span><span>24</span><span>30</span></div>
           </div>
-        </button>
+        </Vetro>
       </Sezione>
     </div>
   )

@@ -115,35 +115,56 @@
 
 /* ---------------- Card ---------------- */
 
-.card {
-  background: var(--surface);
+/* Card e liste sono vetro: tinta translucida, sfocatura del fondo
+   ambientale, riflesso interno in alto e anello a gradiente. Lo
+   stesso materiale della capsula, con lo sheen più discreto. */
+.card, .list {
+  --tint: var(--glass-tint-card);
+  background: var(--tint);
+  -webkit-backdrop-filter: blur(16px) saturate(170%);
+  backdrop-filter: blur(16px) saturate(170%);
   border-radius: var(--r-xl);
-  box-shadow: inset 0 0 0 1px var(--rule);
+  box-shadow:
+    inset 0 1px 0 var(--glass-sheen-card),
+    inset 0 -1px 0 var(--glass-rim),
+    var(--lift-2);
   position: relative;
 }
+.card::after, .list::after {
+  content: "";
+  position: absolute; inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(145deg, var(--glass-rim-hi-card), var(--glass-rim) 34%, transparent 62%, var(--glass-rim));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 2;
+}
+/* Vetro sopra vetro non serve: dentro un foglio la card torna piana */
+.sheet .card, .sheet .list { -webkit-backdrop-filter: none; backdrop-filter: none; background: var(--surface-2); }
 .card-pad { padding: var(--s-4); }
 
 .card-accent {
-  background: var(--accent-wash);
-  box-shadow: inset 0 0 0 1px var(--accent-rule);
+  --tint: var(--accent-wash);
+  box-shadow: inset 0 0 0 1px var(--accent-rule), var(--lift-2);
 }
+.card-accent::after { display: none; }
 
 /* Card tinta dal corso: velatura del suo colore che sfuma nel
    nero, come le card colorate dai poster. */
 .card-tinta {
   background:
-    linear-gradient(135deg, hsl(var(--h) var(--c-w-s) calc(var(--c-w-l) + 8%)) 0%, var(--surface) 70%);
-  box-shadow: inset 0 0 0 1px hsl(var(--h) var(--c-s) var(--c-l) / 0.28);
+    linear-gradient(135deg, hsl(var(--h) var(--c-s) var(--c-l) / 0.28) 0%, var(--glass-tint-card) 70%);
+  box-shadow: inset 0 0 0 1px hsl(var(--h) var(--c-s) var(--c-l) / 0.35), var(--lift-2);
 }
+.card-tinta::after { display: none; }
 
 /* ---------------- Lista raggruppata ---------------- */
 
-.list {
-  background: var(--surface);
-  border-radius: var(--r-xl);
-  overflow: hidden;
-  box-shadow: inset 0 0 0 1px var(--rule);
-}
+.list { overflow: hidden; }
 
 .list-row {
   display: flex;
@@ -162,7 +183,8 @@
   height: 1px;
   background: var(--rule);
 }
-.list-row.is-tappable:active { background: var(--surface-2); }
+.list-row.is-tappable:active { background: rgba(255,255,255,0.06); }
+:root[data-theme="light"] .list-row.is-tappable:active { background: rgba(0,0,0,0.05); }
 
 .list-hdr {
   display: flex;
@@ -709,3 +731,20 @@ select.input { appearance: none; padding-right: var(--s-7); }
   100% { transform: scale(1, 1); }
 }
 :root[data-theme="light"] .seg-thumb { box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), inset 0 -2px 5px rgba(0,0,0,0.3), 0 3px 10px -3px rgba(0,0,0,0.3); }
+
+/* Una card che è anche Vetro (si preme): il componente porta il suo
+   filtro, il resto lo eredita dalla card. */
+.card.vetro { --tint: var(--glass-tint-card); }
+.card.vetro::after { z-index: 2; }
+
+/* ---------------- Fondo ambientale ---------------- */
+.ambiente {
+  position: absolute; inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.42;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+:root[data-theme="light"] .ambiente { opacity: 0.35; }
+.app > .scroll, .app > .nav, .app > .onb { position: relative; z-index: 1; }
