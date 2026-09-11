@@ -118,7 +118,7 @@ export function Oggi({ vai, apri }: {
             immagine={scena.r.ins.immagine || immaginePer(scena.r.ins.nome)} />
           <span className="eroe-occhiello">
             {scena.tipo === 'ora'
-              ? <><span className="polso" style={{ ...tinta(scena.r.ins.tinta), background: PIENO }} />Ora in aula</>
+              ? <><span className="polso" style={{ background: 'var(--sapienza)', boxShadow: '0 0 10px var(--accent-glow)' }} />Ora in aula</>
               : scena.data === o ? 'Prossima lezione · oggi' : `Prossima lezione · ${quando(scena.data)}`}
           </span>
           <h1 className="eroe-titolo" style={{ fontSize: corpoTitolo(scena.r.ins.nome) }}>{scena.r.ins.nome}</h1>

@@ -12,7 +12,7 @@ import { fileURLToPath } from 'node:url'
 const QUI = path.dirname(fileURLToPath(import.meta.url))
 const OUT = path.join(QUI, '..', 'public')
 
-const BORDEAUX = [0x7e, 0x1d, 0x2c]
+const BORDEAUX = [0x83, 0x08, 0x2a]   // PANTONE 202, rosso Sapienza
 const CARTA     = [0xfa, 0xf8, 0xf4]
 const ORO       = [0xd8, 0xb0, 0x6a]
 

@@ -51,13 +51,20 @@
   --cta-ink:      #0a0a0a;
   --cta-press:    #e6e6e6;
 
-  /* ---------- Accento (rosso Sapienza spinto al neon) ---------- */
-  --accent:       #ff3d5f;
-  --accent-press: #ff6480;
-  --accent-ink:   #1a0308;
-  --accent-wash:  rgba(255, 61, 95, 0.14);
-  --accent-rule:  rgba(255, 61, 95, 0.36);
-  --accent-glow:  rgba(255, 61, 95, 0.45);
+  /* ---------- Rosso Sapienza ----------
+     PANTONE 202, come da manuale di identità visiva (campionatura RGB
+     131 8 42 nel file "Elementi base"). Esatto per i pieni: pulsanti,
+     avvisi, marchio. Per il testo sul nero, a quella luminosità il
+     contrasto non basta: stessa tonalità, più chiara. */
+  --sapienza:     #83082a;
+  --sapienza-ink: #ffffff;
+  --sapienza-press: #6b0722;
+  --accent:       #e02b55;                     /* testo e tratti sul nero */
+  --accent-press: #f04c72;
+  --accent-ink:   #ffffff;
+  --accent-wash:  rgba(131, 8, 42, 0.32);
+  --accent-rule:  rgba(131, 8, 42, 0.75);
+  --accent-glow:  rgba(131, 8, 42, 0.6);
 
   /* ---------- Semantici ---------- */
   --pass:         #5fe3a3;
@@ -164,12 +171,15 @@
   --cta-ink:      #ffffff;
   --cta-press:    #2a2a2e;
 
-  --accent:       #d9163f;
-  --accent-press: #b8102f;
+  --sapienza:     #83082a;
+  --sapienza-ink: #ffffff;
+  --sapienza-press: #6b0722;
+  --accent:       #9e0d33;
+  --accent-press: #83082a;
   --accent-ink:   #ffffff;
-  --accent-wash:  rgba(217, 22, 63, 0.10);
-  --accent-rule:  rgba(217, 22, 63, 0.30);
-  --accent-glow:  rgba(217, 22, 63, 0.25);
+  --accent-wash:  rgba(131, 8, 42, 0.10);
+  --accent-rule:  rgba(131, 8, 42, 0.32);
+  --accent-glow:  rgba(131, 8, 42, 0.28);
 
   --pass:         #178a55;
   --pass-wash:    rgba(23, 138, 85, 0.12);

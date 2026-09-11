@@ -38,8 +38,12 @@ worker non si registra, quindi niente modalità offline.
 ## Linguaggio visivo
 
 Nero cinematografico come base; il colore lo portano i corsi, ognuno con
-la sua tinta e un bordo luminoso. Le azioni sono pill bianche, la
-navigazione una capsula di vetro sul bordo destro, a portata di pollice.
+la sua tinta. Il **rosso Sapienza** — PANTONE 202, `#83082A` come da
+campionatura RGB nel manuale di identità visiva — è il colore dell'azione
+e del marchio: pulsanti primari, avvisi, pallino delle notifiche, icona.
+Il bianco resta alla selezione: la bolla della capsula e dei segmentati.
+La navigazione è una capsula di vetro sul bordo destro, a portata di
+pollice.
 
 - La home apre su un **poster a mezzo schermo** del corso in arrivo:
   un'opera a tema (Bauhaus, Piranesi, Leonardo, Muybridge, l'ENIAC…)

@@ -109,7 +109,7 @@
   top: 7px; right: 7px;
   width: 7px; height: 7px;
   border-radius: var(--r-full);
-  background: var(--accent);
+  background: var(--sapienza);
   box-shadow: 0 0 0 2px var(--glass-strong), 0 0 10px var(--accent-glow);
 }
 
@@ -149,10 +149,14 @@
 .card-pad { padding: var(--s-4); }
 
 .card-accent {
-  --tint: var(--accent-wash);
-  box-shadow: inset 0 0 0 1px var(--accent-rule), var(--lift-2);
+  --tint: var(--sapienza);
+  background: var(--sapienza);
+  color: var(--sapienza-ink);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.16), 0 12px 30px -12px var(--accent-glow);
 }
 .card-accent::after { display: none; }
+.card-accent .callout, .card-accent .foot, .card-accent svg { color: var(--sapienza-ink) !important; }
+.card-accent .foot { opacity: 0.85; }
 
 /* Card tinta dal corso: velatura del suo colore che sfuma nel
    nero, come le card colorate dai poster. */
@@ -222,12 +226,14 @@
 
 /* L'azione principale è bianca su nero: la cosa più luminosa
    dello schermo dopo i bordi dei corsi. */
+/* L'azione principale è rosso Sapienza: la cosa più calda dello
+   schermo. Il bianco resta alla selezione (bolla, tab). */
 .btn-primary {
-  background: var(--cta);
-  color: var(--cta-ink);
-  box-shadow: 0 8px 24px -10px rgba(255, 255, 255, 0.35);
+  background: var(--sapienza);
+  color: var(--sapienza-ink);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), 0 10px 26px -10px var(--accent-glow);
 }
-.btn-primary:active { background: var(--cta-press); }
+.btn-primary:active { background: var(--sapienza-press); }
 
 .btn-secondary {
   background: var(--surface-2);
@@ -260,7 +266,7 @@
 .chip-plan   { background: var(--plan-wash); color: var(--plan); box-shadow: none; }
 .chip-todo   { background: var(--todo-wash); color: var(--todo); box-shadow: none; }
 .chip-fail   { background: var(--fail-wash); color: var(--fail); box-shadow: none; }
-.chip-accent { background: var(--accent-wash); color: var(--accent); box-shadow: none; }
+.chip-accent { background: var(--sapienza); color: var(--sapienza-ink); box-shadow: none; }
 .chip-outline{ background: transparent; }
 .chip-cta    { background: var(--cta); color: var(--cta-ink); box-shadow: none; }
 
