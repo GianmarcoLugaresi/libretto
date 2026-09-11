@@ -108,7 +108,10 @@ svg { display: block; flex: none; }
    finestra visibile è sempre riempita, qualunque cosa dica iOS. */
 .app {
   position: fixed;
-  inset: 0;
+  top: 0; left: 0; right: 0;
+  /* L'altezza la misura main.tsx dalla finestra visibile reale
+     (--altezza); 100dvh è solo il valore di partenza. */
+  height: var(--altezza, 100dvh);
   margin: 0 auto;
   max-width: 520px;
   display: flex;
