@@ -4,6 +4,8 @@ import { Icona } from '../components/Icona'
 import { Campo, Riga, Schermo, Segmentato, Selezione, Sezione } from '../components/ui'
 import { riepilogo } from '../lib/stats'
 import { annoAccademico } from '../lib/date'
+import { NATIVO, NOTIFICHE_DEFAULT, elencoNotifiche } from '../lib/notifiche'
+import { Interruttore } from '../components/ui'
 import type { AnnoCorso, TipoCorsoLaurea } from '../lib/types'
 
 export function Impostazioni({ chiudi, apriEsplora }: { chiudi: () => void; apriEsplora: () => void }) {
@@ -158,6 +160,47 @@ export function Impostazioni({ chiudi, apriEsplora }: { chiudi: () => void; apri
           </Campo>
         </div>
       </Sezione>
+
+      {/* ---------------- Notifiche (solo app) ---------------- */}
+      {NATIVO && (() => {
+        const n = { ...NOTIFICHE_DEFAULT, ...s.impostazioni.notifiche }
+        const quante = elencoNotifiche(s, n).length
+        const imposta = (v: Partial<typeof n>) => d({ t: 'impostazioni', v: { notifiche: { ...n, ...v } } })
+        return (
+          <Sezione titolo="Notifiche">
+            <div className="list">
+              <div className="list-row">
+                <div className="grow stack" style={{ gap: 2 }}>
+                  <span className="callout strong">Lezioni</span>
+                  <span className="foot dimmer">Un avviso prima di ogni lezione</span>
+                </div>
+                <Interruttore acceso={n.lezioni} cambia={v => imposta({ lezioni: v })} etichetta="Notifiche lezioni" />
+              </div>
+              <div className="list-row">
+                <div className="grow stack" style={{ gap: 2 }}>
+                  <span className="callout strong">Esami</span>
+                  <span className="foot dimmer">La sera prima, la mattina, e un promemoria per l'esito</span>
+                </div>
+                <Interruttore acceso={n.esami} cambia={v => imposta({ esami: v })} etichetta="Notifiche esami" />
+              </div>
+            </div>
+            {n.lezioni && (
+              <div className="field" style={{ marginTop: 14 }}>
+                <span className="field-label">Preavviso lezioni</span>
+                <Segmentato
+                  valore={String(n.minutiPrima)}
+                  cambia={v => imposta({ minutiPrima: Number(v) })}
+                  opzioni={[5, 10, 15, 30].map(m => ({ v: String(m), l: `${m} min` }))}
+                />
+              </div>
+            )}
+            <p className="caption dimmer" style={{ marginTop: 10, lineHeight: 1.5 }}>
+              {quante === 0 ? 'Nessuna notifica in programma.' : `${quante} notifiche in programma nei prossimi sette giorni.`}
+              {' '}Si aggiornano da sole quando cambi orario o appelli.
+            </p>
+          </Sezione>
+        )
+      })()}
 
       {/* ---------------- Aspetto ---------------- */}
       <Sezione titolo="Aspetto">

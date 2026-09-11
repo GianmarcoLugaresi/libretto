@@ -137,6 +137,11 @@ for (const size of [180, 192, 512]) {
   scriviPng(path.join(OUT, `icona-${size}.png`), size, size, disegna(size))
   console.log(`icona-${size}.png`)
 }
+// Icona dell'app iOS: 1024 a tutto campo (gli angoli li arrotonda iOS).
+{
+  const ios = path.join(QUI, '..', 'ios', 'App', 'App', 'Assets.xcassets', 'AppIcon.appiconset', 'AppIcon-512@2x.png')
+  if (fs.existsSync(path.dirname(ios))) { scriviPng(ios, 1024, 1024, disegna(1024)); console.log('AppIcon 1024 (iOS)') }
+}
 // La mascherabile perde gli angoli: il segno sta nel 66% centrale.
 scriviPng(path.join(OUT, 'icona-maskable-512.png'), 512, 512, disegna(512, { padding: 0.34 }))
 console.log('icona-maskable-512.png')

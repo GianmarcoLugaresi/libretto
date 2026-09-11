@@ -11,6 +11,7 @@ import { Impostazioni } from './screens/Impostazioni'
 import { Esplora } from './screens/Esplora'
 import { Onboarding } from './screens/Onboarding'
 import { giorniTra, oggi as dataOggi } from './lib/date'
+import { NATIVO, NOTIFICHE_DEFAULT, pianificaNotifiche } from './lib/notifiche'
 
 export type Vista = 'oggi' | 'libretto' | 'esami' | 'orario'
 export type Pila = 'impostazioni' | 'esplora' | 'statistiche' | null
@@ -106,6 +107,29 @@ export function App() {
     sonda.remove()
     if (alto === 0) document.documentElement.dataset.barra = 'opaca'
   }, [])
+
+  // Notifiche (solo app nativa): si riprogrammano quando cambiano
+  // lezioni, appelli o esiti, e quando l'app torna in primo piano.
+  useEffect(() => {
+    if (!NATIVO || s.onboarding) return
+    const o = { ...NOTIFICHE_DEFAULT, ...s.impostazioni.notifiche }
+    const id = window.setTimeout(() => { pianificaNotifiche(s, o).catch(() => {}) }, 800)
+    return () => window.clearTimeout(id)
+  }, [s.lezioni, s.appelli, s.esami, s.impostazioni.notifiche, s.onboarding])   // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (!NATIVO) return
+    let togli: (() => void) | undefined
+    import('@capacitor/app').then(({ App: CapApp }) => {
+      CapApp.addListener('appStateChange', ({ isActive }) => {
+        if (isActive && !s.onboarding) {
+          const o = { ...NOTIFICHE_DEFAULT, ...s.impostazioni.notifiche }
+          pianificaNotifiche(s, o).catch(() => {})
+        }
+      }).then(h => { togli = () => h.remove() })
+    })
+    return () => togli?.()
+  }, [s])
 
   if (s.onboarding) return <Onboarding />
 

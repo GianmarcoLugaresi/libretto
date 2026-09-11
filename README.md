@@ -70,11 +70,37 @@ home.
 Anton è self-hosted in `public/fonts/` (licenza OFL) così l'app funziona
 anche offline.
 
+## App iOS (Xcode)
+
+Lo stesso codice, impacchettato con [Capacitor](https://capacitorjs.com)
+in una vera app iOS: orientamento bloccato in verticale dal sistema,
+notifiche locali programmate sul telefono (15 minuti prima di ogni lezione;
+la sera prima, la mattina e il giorno dopo per gli esami prenotati), icona e
+splash nativi. Il sito resta com'è: `NATIVO` in `src/lib/notifiche.ts` dice
+al codice dove sta girando.
+
+```bash
+npm run build && npx cap sync ios && npx cap open ios
+```
+
+In Xcode: seleziona lo schema **App** e il tuo iPhone come destinazione,
+poi in *Signing & Capabilities* scegli il tuo Team (basta un Apple ID
+gratuito: Xcode crea il profilo da solo) e premi Run. La prima volta, sul
+telefono: *Impostazioni → Generali → VPN e gestione dispositivo* →
+autorizza il tuo profilo sviluppatore. Con un account gratuito l'app va
+rifirmata ogni 7 giorni (basta un nuovo Run); con un account sviluppatore
+a pagamento dura un anno.
+
+I dati dell'app nativa sono separati da quelli del sito (origini
+diverse): per portarli usa *Profilo → Scarica un backup* sul sito e
+*Ripristina da backup* nell'app.
+
 ## Struttura
 
 ```
 src/
 ├── lib/
+│   ├── notifiche.ts  notifiche locali (solo app nativa)
 │   ├── types.ts      modello dati (esami, appelli, lezioni, profilo)
 │   ├── store.tsx     stato + persistenza su localStorage
 │   ├── stats.ts      medie, CFU, proiezione voto di laurea, simulatore

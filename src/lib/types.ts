@@ -130,6 +130,8 @@ export interface Impostazioni {
   tema: 'auto' | 'chiaro' | 'scuro'
   /** Giorni di preavviso per l'avviso "esame vicino" */
   preavvisoGiorni: number
+  /** Notifiche locali (solo app nativa) */
+  notifiche?: { lezioni: boolean; esami: boolean; minutiPrima: number }
 }
 
 /** Radice dello stato persistito. */
