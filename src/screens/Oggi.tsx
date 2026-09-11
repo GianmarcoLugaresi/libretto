@@ -106,7 +106,7 @@ export function Oggi({ vai, apri }: {
       {/* ---------- Barra: il nome al centro, come un titolo ---------- */}
       <div className="oggi-bar" data-collapsed={collassata}>
         <button className="oggi-nome" onClick={() => apri('impostazioni')} aria-label="Apri il profilo">
-          <span className="headline oggi-saluto">{nome || 'Il mio libretto'}</span>
+          <span className="headline oggi-saluto">{nome || 'MySapienza'}</span>
           <Icona nome="chevron-giu" size={15} peso={2.4} className="oggi-nome-freccia" />
         </button>
       </div>

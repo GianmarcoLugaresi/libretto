@@ -167,7 +167,7 @@ export function App() {
       <div className="gira" role="status" aria-live="polite">
         <span className="gira-icona"><Icona nome="tocco" size={26} peso={2} /></span>
         <span className="headline">Gira il telefono</span>
-        <span className="sub dim">Libretto è pensata in verticale.</span>
+        <span className="sub dim">MySapienza è pensata in verticale.</span>
       </div>
 
       {avvisoCorrente && (

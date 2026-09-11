@@ -209,7 +209,7 @@ export function esporta(s: Stato): string {
 export function importa(testo: string): Stato {
   const dati = JSON.parse(testo)
   if (!dati || !Array.isArray(dati.insegnamenti) || !dati.profilo) {
-    throw new Error('Il file non sembra un backup di Libretto.')
+    throw new Error('Il file non sembra un backup di MySapienza.')
   }
   return migra(dati as Stato)
 }

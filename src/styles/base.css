@@ -11,6 +11,8 @@ html, body {
   /* Niente rimbalzo laterale della pagina: il gesto orizzontale non
      deve muovere tutto lo schermo. */
   overscroll-behavior: none;
+  /* Se per un attimo una fascia resta scoperta, ha il colore dell'app */
+  background: var(--paper);
 }
 
 body {
@@ -100,18 +102,22 @@ svg { display: block; flex: none; }
 
 #root { min-height: 100%; }
 
+/* Ancorata allo schermo, non a un'altezza calcolata: su iOS, al
+   ritorno in primo piano, 100dvh per un attimo riporta l'altezza
+   sbagliata e in basso resta una fascia scoperta. Con inset: 0 la
+   finestra visibile è sempre riempita, qualunque cosa dica iOS. */
 .app {
-  height: 100dvh;
+  position: fixed;
+  inset: 0;
+  margin: 0 auto;
+  max-width: 520px;
   display: flex;
   flex-direction: column;
-  max-width: 520px;
-  margin: 0 auto;
-  position: relative;
   background: var(--paper);
   overflow: hidden;
 }
 @media (min-width: 560px) {
-  body { background: #000; }
+  html, body { background: #000; }
   .app { box-shadow: 0 0 0 1px var(--rule); }
 }
 

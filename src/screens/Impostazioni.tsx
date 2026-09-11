@@ -17,7 +17,7 @@ export function Impostazioni({ chiudi, apriEsplora }: { chiudi: () => void; apri
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = `libretto-${new Date().toISOString().slice(0, 10)}.json`
+    a.download = `mysapienza-${new Date().toISOString().slice(0, 10)}.json`
     a.click()
     URL.revokeObjectURL(url)
     avviso('Backup scaricato')
@@ -234,7 +234,7 @@ export function Impostazioni({ chiudi, apriEsplora }: { chiudi: () => void; apri
       </Sezione>
 
       {/* ---------------- Info ---------------- */}
-      <Sezione titolo="Libretto">
+      <Sezione titolo="MySapienza">
         <div className="card card-pad stack" style={{ gap: 6 }}>
           <span className="foot dim">Anno accademico in corso: {annoAccademico()}</span>
           <span className="foot dim">

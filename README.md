@@ -1,4 +1,4 @@
-# Libretto
+# MySapienza
 
 App personale per il percorso alla Sapienza: libretto degli esami, appelli,
 orario delle lezioni e statistiche di carriera. È una **PWA**: si installa
