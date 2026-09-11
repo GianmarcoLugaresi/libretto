@@ -257,10 +257,10 @@ export function Oggi({ vai, apri }: {
 
       {/* ---------- Il percorso ---------- */}
       <Sezione titolo="Il tuo percorso" destra={
-        <button className="foot" style={{ color: 'var(--ink-2)' }} onClick={() => vai('statistiche')}>Dettagli</button>
+        <button className="foot" style={{ color: 'var(--ink-2)' }} onClick={() => apri('statistiche')}>Dettagli</button>
       }>
         <Vetro as="button" className="card card-pad stack" raggio={28} sfoco={16} forza={30} interattivo
-          style={{ width: '100%', textAlign: 'left', gap: 16 }} onClick={() => vai('statistiche')}>
+          style={{ width: '100%', textAlign: 'left', gap: 16 }} onClick={() => apri('statistiche')}>
           <div className="percorso">
             <Anello valore={r.percentuale} size={96} spessore={9}>
               <span className="display-m num">{r.cfuAcquisiti}</span>

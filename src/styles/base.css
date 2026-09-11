@@ -122,8 +122,8 @@ svg { display: block; flex: none; }
   overflow-x: hidden;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
-  /* Spazio in fondo per non finire sotto la capsula di navigazione */
-  padding-bottom: calc(var(--safe-b) + 120px);
+  /* Spazio in fondo per non finire sotto la barra di navigazione */
+  padding-bottom: calc(var(--safe-b) + 104px);
 }
 
 .gut { padding-inline: var(--gutter); }

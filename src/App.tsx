@@ -12,15 +12,14 @@ import { Esplora } from './screens/Esplora'
 import { Onboarding } from './screens/Onboarding'
 import { giorniTra, oggi as dataOggi } from './lib/date'
 
-export type Vista = 'oggi' | 'libretto' | 'esami' | 'orario' | 'statistiche'
-export type Pila = 'impostazioni' | 'esplora' | null
+export type Vista = 'oggi' | 'libretto' | 'esami' | 'orario'
+export type Pila = 'impostazioni' | 'esplora' | 'statistiche' | null
 
 const TAB: { v: Vista; l: string; i: NomeIcona }[] = [
   { v: 'oggi', l: 'Oggi', i: 'casa' },
   { v: 'libretto', l: 'Libretto', i: 'libro' },
   { v: 'esami', l: 'Esami', i: 'calendario' },
   { v: 'orario', l: 'Orario', i: 'orologio' },
-  { v: 'statistiche', l: 'Statistiche', i: 'grafico' },
 ]
 
 export function App() {
@@ -67,26 +66,26 @@ export function App() {
   // un tocco: giù e su sulla stessa scheda la seleziona.
   const capsula = useRef<HTMLElement>(null)
   const [trascina, setTrascina] = useState<number | null>(null)   // indice frazionario
-  const PASSO = 50, PAD = 8, N = TAB.length
-  const indiceDa = (clientY: number) => {
+  const PASSO = 60, PAD = 6, SLOT = 48, N = TAB.length
+  const indiceDa = (clientX: number) => {
     const r = capsula.current!.getBoundingClientRect()
-    const y = clientY - r.top - PAD - 20
-    return Math.max(0, Math.min(N - 1, y / PASSO))
+    const x = clientX - r.left - PAD - SLOT / 2
+    return Math.max(0, Math.min(N - 1, x / PASSO))
   }
   const giu = (e: React.PointerEvent<HTMLElement>) => {
     if (e.pointerType === 'mouse' && e.button !== 0) return
     // La cattura tiene il gesto sulla capsula anche se il dito esce;
     // può fallire se il puntatore non è più attivo: non è un errore.
     try { capsula.current?.setPointerCapture(e.pointerId) } catch { /* ignora */ }
-    setTrascina(indiceDa(e.clientY))
+    setTrascina(indiceDa(e.clientX))
   }
   const muovi = (e: React.PointerEvent<HTMLElement>) => {
     if (trascina === null) return
-    setTrascina(indiceDa(e.clientY))
+    setTrascina(indiceDa(e.clientX))
   }
   const su = (e: React.PointerEvent<HTMLElement>) => {
     if (trascina === null) return
-    const i = Math.round(indiceDa(e.clientY))
+    const i = Math.round(indiceDa(e.clientX))
     setTrascina(null)
     cambiaVista(TAB[i].v)
   }
@@ -127,11 +126,11 @@ export function App() {
           {vista === 'libretto' && <Libretto />}
           {vista === 'esami' && <Esami />}
           {vista === 'orario' && <Orario />}
-          {vista === 'statistiche' && <Statistiche />}
         </>
       )}
       {pila === 'impostazioni' && <Impostazioni chiudi={chiudiPila} apriEsplora={() => apri('esplora')} />}
       {pila === 'esplora' && <Esplora chiudi={chiudiPila} />}
+      {pila === 'statistiche' && <Statistiche chiudi={chiudiPila} />}
 
       {/* Capsula di navigazione: verticale, sul bordo destro, dove
           arriva il pollice. L'etichetta resta per gli screen reader. */}

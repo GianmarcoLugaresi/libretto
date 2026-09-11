@@ -42,8 +42,9 @@ la sua tinta. Il **rosso Sapienza** — PANTONE 202, `#83082A` come da
 campionatura RGB nel manuale di identità visiva — è il colore dell'azione
 e del marchio: pulsanti primari, avvisi, pallino delle notifiche, icona.
 Il bianco resta alla selezione: la bolla della capsula e dei segmentati.
-La navigazione è una capsula di vetro sul bordo destro, a portata di
-pollice.
+La navigazione è una pillola di vetro in basso, centrata, con quattro
+voci (Oggi, Libretto, Esami, Orario); le Statistiche si aprono dalla
+home.
 
 - La home apre su un **poster a mezzo schermo** del corso in arrivo:
   un'opera a tema (Bauhaus, Piranesi, Leonardo, Muybridge, l'ENIAC…)
@@ -59,9 +60,9 @@ pollice.
   si ingrandisce di un soffio e trascinato si lascia tirare, tornando a
   posto al rilascio. La rifrazione sul bordo (`backdrop-filter: url()` +
   `feDisplacementMap`) la disegna Chromium; WebKit la ignora (bug 245510),
-  quindi su iPhone resta la versione sfocata. Nella capsula il disco
-  bianco segue il dito e scatta sulla scheda più vicina, come la barra di
-  iOS 26.
+  quindi su iPhone resta la versione sfocata. Nella pillola in basso la
+  bolla bianca segue il dito e scatta sulla scheda più vicina, come la
+  barra di iOS 26.
 - **Scala 18→30**: la barra arcobaleno con la manopola. Lo stesso colore
   torna nell'anello del voto nel libretto e nelle barre dell'istogramma.
 - Tema chiaro disponibile dalle impostazioni: stessa grammatica, invertita.

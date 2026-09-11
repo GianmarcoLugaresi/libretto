@@ -10,7 +10,7 @@ import { esameDi } from '../lib/query'
 import { fmtData } from '../lib/date'
 import { coloreVoto, posizioneVoto } from '../lib/tinte'
 
-export function Statistiche() {
+export function Statistiche({ chiudi }: { chiudi: () => void }) {
   const { s, d } = useApp()
   const r = riepilogo(s)
   const serie = useMemo(() => andamento(s), [s])
@@ -29,7 +29,7 @@ export function Statistiche() {
 
   if (r.esamiSuperati === 0) {
     return (
-      <Schermo titolo="Statistiche" sottotitolo="Media, CFU e proiezioni">
+      <Schermo titolo="Statistiche" sottotitolo="Media, CFU e proiezioni" indietro={chiudi}>
         <Vuoto
           icona="grafico"
           titolo="Ancora nessun dato"
@@ -43,6 +43,7 @@ export function Statistiche() {
     <Schermo
       titolo="Statistiche"
       sottotitolo={<>{r.esamiSuperati} esami · <span className="num">{r.cfuAcquisiti}</span> CFU</>}
+      indietro={chiudi}
     >
       {/* ---------------- Sintesi ---------------- */}
       <Sezione stretto>
