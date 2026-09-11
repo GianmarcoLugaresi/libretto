@@ -102,27 +102,20 @@ svg { display: block; flex: none; }
 
 #root { min-height: 100%; }
 
-/* Altezza: unità del viewport, non misure JavaScript. Da Home, con
-   il contenuto sotto la barra di stato, iOS riporta a JS (e a
-   bottom: 0 di un fixed) un'altezza senza la barra: sotto restava
-   una fascia alta quanto la barra. 100vh/100lvh coprono lo schermo
-   intero; lvh è il viewport "grande" e non si restringe al ritorno
-   in primo piano come faceva dvh. Nel browser, con la barra di
-   Safari che va e viene, resta dvh. */
+/* Altezza fissa, non min-height: solo così il figlio .scroll
+   diventa il vero contenitore di scorrimento. In flusso, con 100dvh:
+   gli ancoraggi fixed e le misure JavaScript, da Home con il
+   contenuto sotto la barra di stato, vedono un viewport più corto
+   della barra e lasciano una fascia scoperta in basso. */
 .app {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  height: 100vh;
   height: 100dvh;
-  margin: 0 auto;
-  max-width: 520px;
   display: flex;
   flex-direction: column;
+  max-width: 520px;
+  margin: 0 auto;
+  position: relative;
   background: var(--paper);
   overflow: hidden;
-}
-@media (display-mode: standalone) {
-  .app { height: 100vh; height: 100lvh; }
 }
 @media (min-width: 560px) {
   html, body { background: #000; }
