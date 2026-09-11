@@ -120,17 +120,23 @@ export function Foglio({
   )
 }
 
-/* ---------------- Controllo segmentato ---------------- */
+/* ---------------- Controllo segmentato ----------------
+   La bolla bianca segue il dito lungo il controllo e al rilascio
+   scatta sull'opzione più vicina; un tocco secco resta un tocco.
+   Le opzioni possono avere larghezze diverse: la posizione è un
+   indice frazionario e la bolla interpola fra le due vicine. */
 
 export function Segmentato<T extends string>({
-  opzioni, valore, cambia,
+  opzioni, valore, cambia, className = '',
 }: {
-  opzioni: { v: T; l: string }[]
+  opzioni: { v: T; l: ReactNode; extra?: Record<string, string | undefined> }[]
   valore: T
   cambia: (v: T) => void
+  className?: string
 }) {
   const box = useRef<HTMLDivElement>(null)
-  const [thumb, setThumb] = useState<CSSProperties>({ opacity: 0 })
+  const [misure, setMisure] = useState<{ left: number; width: number }[]>([])
+  const [frazione, setFrazione] = useState<number | null>(null)
   const [liquido, setLiquido] = useState(false)
   const primo = useRef(true)
 
@@ -141,31 +147,80 @@ export function Segmentato<T extends string>({
     return () => window.clearTimeout(id)
   }, [valore])
 
-  // Il cursore insegue il segmento attivo misurandolo dal DOM:
-  // così regge etichette di lunghezza diversa.
+  // Misura tutte le opzioni: la bolla si posiziona su una di loro o
+  // in mezzo a due, mentre il dito trascina.
   useLayoutEffect(() => {
     const el = box.current
     if (!el) return
     const misura = () => {
-      const i = opzioni.findIndex(o => o.v === valore)
-      const b = el.children[i + 1] as HTMLElement | undefined  // +1: il thumb è il primo figlio
-      if (!b) return
-      setThumb({ left: b.offsetLeft, width: b.offsetWidth, opacity: 1 })
+      const voci = Array.from(el.querySelectorAll<HTMLElement>('.seg-item'))
+      setMisure(voci.map(b => ({ left: b.offsetLeft, width: b.offsetWidth })))
     }
     misura()
     const ro = new ResizeObserver(misura)
     ro.observe(el)
     return () => ro.disconnect()
-  }, [valore, opzioni])
+  }, [opzioni])
+
+  const n = opzioni.length
+  const idxValore = Math.max(0, opzioni.findIndex(o => o.v === valore))
+  const idx = frazione ?? idxValore
+
+  let thumb: CSSProperties = { opacity: 0 }
+  if (misure.length === n && n > 0) {
+    const i0 = Math.max(0, Math.min(n - 1, Math.floor(idx)))
+    const i1 = Math.min(n - 1, i0 + 1)
+    const f = Math.max(0, Math.min(1, idx - i0))
+    const a = misure[i0], b = misure[i1]
+    thumb = { left: a.left + (b.left - a.left) * f, width: a.width + (b.width - a.width) * f, opacity: 1 }
+  }
+
+  // Dal punto del dito all'indice frazionario, opzione per opzione.
+  const frazioneDa = (clientX: number): number => {
+    const el = box.current
+    if (!el || misure.length !== n) return idxValore
+    const x = clientX - el.getBoundingClientRect().left
+    if (x <= misure[0].left + misure[0].width / 2) return 0
+    const u = misure[n - 1]
+    if (x >= u.left + u.width / 2) return n - 1
+    for (let i = 0; i < n - 1; i++) {
+      const c0 = misure[i].left + misure[i].width / 2
+      const c1 = misure[i + 1].left + misure[i + 1].width / 2
+      if (x >= c0 && x <= c1) return i + (x - c0) / (c1 - c0)
+    }
+    return idxValore
+  }
+
+  const giu = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (e.pointerType === 'mouse' && e.button !== 0) return
+    try { box.current?.setPointerCapture(e.pointerId) } catch { /* ignora */ }
+    setFrazione(frazioneDa(e.clientX))
+  }
+  const muovi = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (frazione === null) return
+    setFrazione(frazioneDa(e.clientX))
+  }
+  const su = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (frazione === null) return
+    const i = Math.round(frazioneDa(e.clientX))
+    setFrazione(null)
+    cambia(opzioni[i].v)
+  }
 
   return (
-    <div className="seg" ref={box} role="tablist">
+    <div
+      className={`seg ${className}`} ref={box} role="tablist"
+      data-trascina={frazione !== null ? '' : undefined}
+      onPointerDown={giu} onPointerMove={muovi} onPointerUp={su}
+      onPointerCancel={() => setFrazione(null)}
+    >
       <div className={`seg-thumb${liquido ? ' is-liquido' : ''}`} style={thumb} />
       {opzioni.map(o => (
         <button
           key={o.v} role="tab" className="seg-item"
           aria-selected={o.v === valore}
           onClick={() => cambia(o.v)}
+          {...o.extra}
         >{o.l}</button>
       ))}
     </div>

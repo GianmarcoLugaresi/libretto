@@ -295,16 +295,20 @@
 
 /* ---------------- Orario ---------------- */
 
-.strip { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 5px; }
-.strip-g {
+/* Striscia dei giorni: un segmentato con voci a due righe */
+.seg.strip {
+  background: transparent; box-shadow: none; padding: 0; gap: 5px;
+}
+.seg.strip .seg-item {
+  height: auto;
   display: flex; flex-direction: column; align-items: center; gap: 3px;
   padding: 8px 0 7px;
   border-radius: 16px;
   color: var(--ink-2);
-  transition: background var(--dur-1) var(--ease), color var(--dur-1) var(--ease);
 }
-.strip-g[data-oggi="true"] { color: var(--accent); }
-.strip-g[aria-pressed="true"] { background: var(--cta); color: var(--cta-ink); }
+.seg.strip .seg-item[data-oggi="true"] { color: var(--accent); }
+.seg.strip .seg-item[aria-selected="true"] { color: var(--cta-ink); }
+.seg.strip .seg-thumb { top: 0; bottom: 0; border-radius: 16px; }
 .strip-pallini { display: flex; gap: 2px; height: 4px; }
 .strip-pallini i { width: 4px; height: 4px; border-radius: 99px; background: currentColor; opacity: 0.5; }
 

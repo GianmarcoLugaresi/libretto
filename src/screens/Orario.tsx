@@ -112,25 +112,27 @@ export function Orario() {
               opzioni={[{ v: 'giorno', l: 'Giorno' }, { v: 'settimana', l: 'Settimana' }]}
             />
             {modo === 'giorno' && (
-              <div className="strip">
-                {giorniVisibili.map(g => {
+              <Segmentato
+                className="strip"
+                valore={giorniVisibili.includes(ancora) ? ancora : giorniVisibili[0]}
+                cambia={setAncora}
+                opzioni={giorniVisibili.map(g => {
                   const n = lezioniDel(s, g).length
-                  return (
-                    <button
-                      key={g} className="strip-g"
-                      aria-pressed={g === ancora}
-                      data-oggi={g === oggiISO}
-                      onClick={() => setAncora(g)}
-                    >
-                      <span className="caption">{GIORNI_BREVI[giornoSettimana(g)]}</span>
-                      <span className="headline num">{g.slice(8, 10)}</span>
-                      <span className="strip-pallini">
-                        {Array.from({ length: Math.min(n, 4) }, (_, i) => <i key={i} />)}
-                      </span>
-                    </button>
-                  )
+                  return {
+                    v: g,
+                    extra: { 'data-oggi': String(g === oggiISO) },
+                    l: (
+                      <>
+                        <span className="caption">{GIORNI_BREVI[giornoSettimana(g)]}</span>
+                        <span className="headline num">{g.slice(8, 10)}</span>
+                        <span className="strip-pallini">
+                          {Array.from({ length: Math.min(n, 4) }, (_, i) => <i key={i} />)}
+                        </span>
+                      </>
+                    ),
+                  }
                 })}
-              </div>
+              />
             )}
           </div>
         }
