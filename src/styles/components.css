@@ -534,185 +534,86 @@ select.input { appearance: none; padding-right: var(--s-7); }
 
 .dot { width: 8px; height: 8px; border-radius: var(--r-full); flex: none; }
 
+
 /* ============================================================
-   Liquid glass
-   Il vetro vero (rifrazione del fondo) non si può fare in CSS:
-   si imita con tre strati — sfocatura del fondo, un bordo a
-   gradiente che simula lo spigolo che prende la luce, e un
-   riflesso speculare in alto. Sul disco bianco, un'ombra interna
-   lo fa sembrare una perla, non un cerchio piatto.
+   Vetro (LiquidGlass)
+   Riempimento translucido + sfocatura del fondo + bordo speculare.
    ============================================================ */
 
 .vetro {
-  background:
-    linear-gradient(160deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.03) 38%, rgba(0,0,0,0.06) 100%),
-    var(--glass-strong);
-  backdrop-filter: saturate(170%) blur(26px);
-  -webkit-backdrop-filter: saturate(170%) blur(26px);
+  position: relative;
+  border-radius: var(--r);
+  background: var(--tint);
+  /* il prefisso serve a iOS 15-17, la versione nuda a tutto il resto */
+  -webkit-backdrop-filter: var(--bf);
+  backdrop-filter: var(--bf);
+  /* il riflesso interno è più tenue dell'anello: se usano lo stesso
+     valore la luce si somma e il bordo diventa un filo acceso */
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.22),
-    inset 0 -1px 0 rgba(0,0,0,0.35),
-    0 12px 40px -10px rgba(0,0,0,0.8);
+    inset 0 1px 0 var(--glass-sheen),
+    inset 0 -1px 0 var(--glass-rim),
+    var(--glass-shadow);
+  /* isola il ridisegno del vetro dal resto della schermata */
+  contain: paint;
 }
-/* Spigolo: una cornice da 1px con gradiente, ritagliata col mask
-   così resta solo il bordo. */
+.vetro-svg { position: absolute; width: 0; height: 0; overflow: hidden; pointer-events: none; }
+
+/* Bordo speculare: un anello di un pixel con un gradiente che va dal
+   riflesso in alto a sinistra all'ombra in basso a destra. È il
+   dettaglio che distingue il vetro da un rettangolo semitrasparente. */
 .vetro::after {
   content: "";
   position: absolute; inset: 0;
   border-radius: inherit;
   padding: 1px;
-  background: linear-gradient(160deg,
-    rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.08) 40%,
-    rgba(255,255,255,0.04) 60%, rgba(255,255,255,0.28) 100%);
+  background: linear-gradient(145deg, var(--glass-rim-hi), var(--glass-rim) 34%, transparent 62%, var(--glass-rim));
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
   mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   mask-composite: exclude;
   pointer-events: none;
 }
-/* Riflesso: un'ellisse chiara in alto che si spegne verso il basso */
-.vetro::before {
+
+/* Risposta al tocco */
+.vetro-tocco {
+  touch-action: manipulation;
+  transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+/* mentre il dito tira, il vetro lo insegue quasi subito */
+.vetro-tocco[data-tirato] { transition: transform 90ms linear; }
+
+/* Riflesso sotto il dito: un alone che si accende nel punto premuto e
+   segue il dito. È la parte che fa sembrare il vetro una lente. */
+.vetro-tocco::before {
   content: "";
   position: absolute; inset: 0;
   border-radius: inherit;
-  background: radial-gradient(120% 60% at 50% -10%, rgba(255,255,255,0.20) 0%, rgba(255,255,255,0) 60%);
   pointer-events: none;
+  opacity: var(--pr, 0);
+  transition: opacity 240ms ease-out;
+  background: radial-gradient(circle 96px at var(--px, 50%) var(--py, 50%), var(--glass-press), transparent 70%);
 }
-:root[data-theme="light"] .vetro {
-  background:
-    linear-gradient(160deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.3) 40%, rgba(0,0,0,0.02) 100%),
-    var(--glass-strong);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), inset 0 -1px 0 rgba(0,0,0,0.08), 0 12px 40px -12px rgba(0,0,0,0.25);
-}
-:root[data-theme="light"] .vetro::after {
-  background: linear-gradient(160deg, rgba(255,255,255,1) 0%, rgba(0,0,0,0.06) 45%, rgba(0,0,0,0.1) 100%);
-}
+@media (prefers-reduced-motion: reduce) { .vetro-tocco { transition: none; } }
 
-/* La capsula e i dischetti in barra sono vetro */
-.capsule { overflow: visible; }
-/* Da lente, la capsula non porta più sfocatura né sfondo propri:
-   il vetro è la copia rifratta di quel che ha dietro. */
-.capsule.lente {
+/* ---------------- La capsula come vetro ----------------
+   Il disco bianco segue il dito lungo la capsula e scatta sulla scheda
+   più vicina al rilascio, come la barra di iOS 26. */
+.capsule.vetro {
   position: fixed;
-  background: rgba(20,20,22,0.35);
-  backdrop-filter: none; -webkit-backdrop-filter: none;
-  box-shadow: 0 14px 44px -12px rgba(0,0,0,0.8);
+  background: var(--tint);
+  backdrop-filter: var(--bf); -webkit-backdrop-filter: var(--bf);
+  box-shadow: inset 0 1px 0 var(--glass-sheen), inset 0 -1px 0 var(--glass-rim), var(--glass-shadow);
+  touch-action: none;           /* il gesto sulla capsula è nostro */
+  overflow: visible;
+  contain: none;
 }
-:root[data-theme="light"] .capsule.lente { background: rgba(255,255,255,0.35); }
-.nav-act.lente { background: rgba(20,20,22,0.3); box-shadow: 0 6px 20px -8px rgba(0,0,0,0.7); display: grid; place-items: center; }
-:root[data-theme="light"] .nav-act.lente { background: rgba(255,255,255,0.35); }
-.nav-act.lente > .lente-dentro { display: grid; place-items: center; flex: none; }
-.nav-act { position: relative; }
-.nav-act.vetro { box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), inset 0 -1px 0 rgba(0,0,0,0.3), 0 6px 20px -8px rgba(0,0,0,0.7); }
-.nav-act.vetro::before { display: none; }
-
-/* Il disco che scivola tra le icone: uno solo, e si allunga
-   mentre viaggia, come una goccia. */
 .capsule-thumb {
-  position: absolute;
   left: 6px; right: 6px;
-  height: 40px;
   top: calc(6px + var(--i, 0) * 42px);
-  border-radius: var(--r-full);
-  background: var(--cta);
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.95),
-    inset 0 -3px 6px rgba(0,0,0,0.14),
-    0 6px 16px -4px rgba(0,0,0,0.6);
-  transition: top 520ms cubic-bezier(0.34, 1.4, 0.64, 1);
-  z-index: 0;
-  transform-origin: center;
+  transition: top 520ms cubic-bezier(0.34, 1.4, 0.64, 1), transform 260ms cubic-bezier(0.34, 1.4, 0.64, 1);
 }
-.capsule-thumb.is-liquido { animation: liquido 520ms cubic-bezier(0.34, 1.4, 0.64, 1); }
-@keyframes liquido {
-  0%   { transform: scale(1, 1); }
-  35%  { transform: scale(0.86, 1.34); }
-  70%  { transform: scale(1.06, 0.94); }
-  100% { transform: scale(1, 1); }
-}
-.capsule .lente-dentro { display: flex; flex-direction: column; gap: 2px; }
-.capsule.lente .capsule-thumb { left: 0; right: 0; top: calc(var(--i, 0) * 42px); }
-.capsule .tab { z-index: 1; }
-.capsule .tab[aria-selected="true"] { background: transparent; }
-.capsule .tab:active .tab-ico { transform: scale(0.82); }
-.capsule .tab .tab-ico { transition: transform 260ms cubic-bezier(0.34, 1.56, 0.64, 1); }
-:root[data-theme="light"] .capsule-thumb { box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), inset 0 -3px 6px rgba(0,0,0,0.3), 0 6px 16px -4px rgba(0,0,0,0.4); }
+/* col dito sopra: nessuna molla, il disco è incollato al dito e un po' gonfio */
+.capsule[data-trascina] .capsule-thumb { transition: transform 120ms ease-out; transform: scale(1.06, 1.18); }
+.capsule[data-trascina] .capsule-thumb.is-liquido { animation: none; }
 
-/* Stessa goccia nel controllo segmentato */
-.seg-thumb {
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), inset 0 -2px 5px rgba(0,0,0,0.12), 0 3px 10px -3px rgba(0,0,0,0.5);
-  transition: left 480ms cubic-bezier(0.34, 1.3, 0.64, 1), width 480ms cubic-bezier(0.34, 1.3, 0.64, 1);
-}
-.seg-thumb.is-liquido { animation: liquido-x 480ms cubic-bezier(0.34, 1.3, 0.64, 1); }
-@keyframes liquido-x {
-  0%   { transform: scale(1, 1); }
-  35%  { transform: scale(1.18, 0.86); }
-  70%  { transform: scale(0.96, 1.05); }
-  100% { transform: scale(1, 1); }
-}
-:root[data-theme="light"] .seg-thumb { box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), inset 0 -2px 5px rgba(0,0,0,0.3), 0 3px 10px -3px rgba(0,0,0,0.3); }
-
-/* ============================================================
-   Lente (liquid glass vero)
-   ============================================================ */
-
-.lente {
-  position: relative;
-  isolation: isolate;
-  /* Se la copia non copre (fuori dalla fonte), sotto resta il gelo */
-  background: var(--glass-strong);
-  box-shadow: 0 14px 44px -12px rgba(0,0,0,0.75);
-}
-.lente-svg { position: absolute; width: 0; height: 0; overflow: hidden; pointer-events: none; }
-.lente-clip {
-  position: absolute; inset: 0;
-  border-radius: inherit;
-  overflow: hidden;
-  /* Safari: senza questo il clip arrotondato non taglia i figli filtrati */
-  -webkit-mask-image: -webkit-radial-gradient(#000, #000);
-  transform: translateZ(0);
-  pointer-events: none;
-}
-.lente-filtro { position: absolute; display: block; }
-.lente-specchio { position: absolute; inset: 0; }
-.lente-clone .capsule, .lente-clone .sheet, .lente-clone .backdrop { display: none !important; }
-
-/* Velo: il vetro ha un corpo, leggermente lattiginoso */
-.lente-velo {
-  position: absolute; inset: 0;
-  border-radius: inherit;
-  background: linear-gradient(160deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.03) 45%, rgba(0,0,0,0.05) 100%);
-  pointer-events: none;
-}
-/* Spigolo: cornice da 1px a gradiente, la luce che prende il bordo */
-.lente-bordo {
-  position: absolute; inset: 0;
-  border-radius: inherit;
-  padding: 1px;
-  background: linear-gradient(160deg,
-    rgba(255,255,255,0.60) 0%, rgba(255,255,255,0.10) 38%,
-    rgba(255,255,255,0.04) 62%, rgba(255,255,255,0.32) 100%);
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  mask-composite: exclude;
-  pointer-events: none;
-}
-/* Riflesso mobile: segue lo scroll, come una luce che scorre sul vetro */
-.lente-luce {
-  position: absolute; inset: 0;
-  border-radius: inherit;
-  background: radial-gradient(90% 45% at 50% var(--luce-y, -8%), rgba(255,255,255,0.22) 0%, rgba(255,255,255,0) 70%);
-  pointer-events: none;
-  transition: --luce-y 200ms linear;
-}
-.lente-dentro {
-  position: relative; z-index: 1;
-  display: flex;
-  flex-direction: inherit; align-items: inherit; justify-content: inherit;
-  gap: inherit; flex: 1; min-width: 0;
-}
-
-:root[data-theme="light"] .lente { background: var(--glass-strong); }
-:root[data-theme="light"] .lente-velo { background: linear-gradient(160deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.25) 45%, rgba(0,0,0,0.02) 100%); }
-:root[data-theme="light"] .lente-bordo { background: linear-gradient(160deg, rgba(255,255,255,1) 0%, rgba(0,0,0,0.05) 45%, rgba(0,0,0,0.10) 100%); }
+.nav-act.vetro { display: grid; place-items: center; background: var(--tint); box-shadow: inset 0 1px 0 var(--glass-sheen), inset 0 -1px 0 var(--glass-rim), 0 6px 20px -8px rgba(0,0,0,0.5); }

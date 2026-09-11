@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useApp } from './lib/store'
 import { Icona, type NomeIcona } from './components/Icona'
-import { Lente } from './components/Lente'
+import { Vetro } from './components/Vetro'
 import { Oggi } from './screens/Oggi'
 import { Libretto } from './screens/Libretto'
 import { Esami } from './screens/Esami'
@@ -62,6 +62,35 @@ export function App() {
     })
   }, [])
 
+  // Il disco segue il dito lungo la capsula e al rilascio scatta sulla
+  // scheda più vicina, come la barra di iOS 26. Un tocco secco resta
+  // un tocco: giù e su sulla stessa scheda la seleziona.
+  const capsula = useRef<HTMLElement>(null)
+  const [trascina, setTrascina] = useState<number | null>(null)   // indice frazionario
+  const PASSO = 42, PAD = 6, N = TAB.length
+  const indiceDa = (clientY: number) => {
+    const r = capsula.current!.getBoundingClientRect()
+    const y = clientY - r.top - PAD - 20
+    return Math.max(0, Math.min(N - 1, y / PASSO))
+  }
+  const giu = (e: React.PointerEvent<HTMLElement>) => {
+    if (e.pointerType === 'mouse' && e.button !== 0) return
+    // La cattura tiene il gesto sulla capsula anche se il dito esce;
+    // può fallire se il puntatore non è più attivo: non è un errore.
+    try { capsula.current?.setPointerCapture(e.pointerId) } catch { /* ignora */ }
+    setTrascina(indiceDa(e.clientY))
+  }
+  const muovi = (e: React.PointerEvent<HTMLElement>) => {
+    if (trascina === null) return
+    setTrascina(indiceDa(e.clientY))
+  }
+  const su = (e: React.PointerEvent<HTMLElement>) => {
+    if (trascina === null) return
+    const i = Math.round(indiceDa(e.clientY))
+    setTrascina(null)
+    cambiaVista(TAB[i].v)
+  }
+
   if (s.onboarding) return <Onboarding />
 
   // Pallino sulla tab Esami quando c'è una prenotazione entro
@@ -90,15 +119,16 @@ export function App() {
       {/* Capsula di navigazione: verticale, sul bordo destro, dove
           arriva il pollice. L'etichetta resta per gli screen reader. */}
       {pila === null && (
-        <Lente
+        <Vetro
           as="nav" className="capsule" role="tablist" aria-label="Sezioni"
-          fonte=".app > .scroll" raggio={26} chiave={vista}
-          ottica={{ forza: 32, labbro: 18, curva: 1.5, gelo: 3, dispersione: 0.1, saturazione: 1.6 }}
-          flessione={liquido ? 1 : 0}
+          raggio={26} sfoco={18} forza={44}
+          ref={capsula}
+          data-trascina={trascina !== null ? '' : undefined}
+          onPointerDown={giu} onPointerMove={muovi} onPointerUp={su} onPointerCancel={() => setTrascina(null)}
         >
           <span
             className={`capsule-thumb${liquido ? ' is-liquido' : ''}`}
-            style={{ ['--i' as string]: TAB.findIndex(t => t.v === vista) }}
+            style={{ ['--i' as string]: trascina ?? TAB.findIndex(t => t.v === vista) }}
             aria-hidden="true"
           />
           {TAB.map(t => (
@@ -115,7 +145,7 @@ export function App() {
               <span className="tab-label">{t.l}</span>
             </button>
           ))}
-        </Lente>
+        </Vetro>
       )}
 
       {avvisoCorrente && (

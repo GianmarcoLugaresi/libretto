@@ -3,7 +3,7 @@ import { useApp } from '../lib/store'
 import { Icona } from '../components/Icona'
 import { Anello, Sezione, Vuoto } from '../components/ui'
 import { Poster } from '../components/Poster'
-import { Lente } from '../components/Lente'
+import { Vetro } from '../components/Vetro'
 import { immaginePer, immagineLibera } from '../lib/poster'
 import { tinta, PIENO, posizioneVoto } from '../lib/tinte'
 import {
@@ -124,8 +124,7 @@ export function Oggi({ vai, apri }: {
           <h1 className="eroe-titolo" style={{ fontSize: corpoTitolo(scena.r.ins.nome) }}>{scena.r.ins.nome}</h1>
 
           {/* Le quattro cose che contano adesso: quando, dove, quanto */}
-          <Lente as="div" className="eroe-fatti" fonte=".poster" raggio={22}
-            ottica={{ forza: 14, labbro: 12, curva: 1.4, gelo: 3, dispersione: 0.1, saturazione: 1.4 }}>
+          <Vetro as="div" className="eroe-fatti" raggio={22} sfoco={14} forza={36}>
             <span className="fatto">
               <span className="fatto-valore num">{scena.r.lezione.inizio}<span className="fatto-sep">–</span>{scena.r.lezione.fine}</span>
               <span className="fatto-etichetta">orario</span>
@@ -140,7 +139,7 @@ export function Oggi({ vai, apri }: {
               <span className="fatto-valore num">{durata(scena.r.lezione.inizio, scena.r.lezione.fine)}</span>
               <span className="fatto-etichetta">durata</span>
             </span>
-          </Lente>
+          </Vetro>
 
           {scena.tipo === 'ora' && (
             <div className="eroe-progresso">

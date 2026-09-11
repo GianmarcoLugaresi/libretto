@@ -49,17 +49,15 @@ navigazione una capsula di vetro sul bordo destro, a portata di pollice.
   da "Modifica corso" puoi mettere un URL tuo, anche di un'immagine
   generata con l'AI. Se la foto non c'è, resta il poster generato dal
   colore.
-- **Liquid glass vero** (`components/Lente.tsx`). Safari non applica
-  filtri SVG al backdrop (WebKit 245510), quindi la lente non filtra lo
-  sfondo: filtra una *copia viva* del DOM che le sta dietro, clonata e
-  tenuta allineata a ogni scroll. Sulla copia gira un `feDisplacementMap`
-  con una mappa costruita come signed-distance field del rettangolo
-  arrotondato (R/G = spostamento, B = maschera del riflesso), tre passate
-  per l'aberrazione cromatica. La capsula specchia tutto lo scroll; le
-  pillole sull'eroe specchiano il poster. Il disco bianco scivola tra le
-  icone allungandosi come una goccia.
-- **Anton** (condensato, maiuscolo) per il titolo da manifesto: una cosa
-  sola per schermo. Tutto il resto è il sans di sistema.
+- **Liquid glass** (`components/Vetro.tsx`, porting in React del
+  LiquidGlass.vue di Aiutly): riempimento translucido, sfocatura di ciò
+  che sta dietro, bordo speculare a gradiente, alone sotto il dito; premuto
+  si ingrandisce di un soffio e trascinato si lascia tirare, tornando a
+  posto al rilascio. La rifrazione sul bordo (`backdrop-filter: url()` +
+  `feDisplacementMap`) la disegna Chromium; WebKit la ignora (bug 245510),
+  quindi su iPhone resta la versione sfocata. Nella capsula il disco
+  bianco segue il dito e scatta sulla scheda più vicina, come la barra di
+  iOS 26.
 - **Scala 18→30**: la barra arcobaleno con la manopola. Lo stesso colore
   torna nell'anello del voto nel libretto e nelle barre dell'istogramma.
 - Tema chiaro disponibile dalle impostazioni: stessa grammatica, invertita.
