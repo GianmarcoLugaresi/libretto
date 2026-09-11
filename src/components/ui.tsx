@@ -164,7 +164,7 @@ export function Segmentato<T extends string>({
 /* ---------------- Anello di avanzamento ---------------- */
 
 export function Anello({
-  valore, size = 132, spessore = 10, colore = 'var(--accent)', pista = 'var(--surface-2)', children,
+  valore, size = 132, spessore = 10, colore = 'var(--cta)', pista = 'var(--surface-2)', children,
 }: {
   valore: number            // 0–1
   size?: number
@@ -185,7 +185,8 @@ export function Anello({
           strokeWidth={spessore} strokeLinecap="round"
           strokeDasharray={c}
           strokeDashoffset={c * (1 - v)}
-          style={{ transition: 'stroke-dashoffset 700ms cubic-bezier(0.32,0.72,0,1)' }}
+          style={{ transition: 'stroke-dashoffset 700ms cubic-bezier(0.32,0.72,0,1)',
+                   filter: 'drop-shadow(0 0 6px rgba(255,255,255,0.35))' }}
         />
       </svg>
       <div style={{

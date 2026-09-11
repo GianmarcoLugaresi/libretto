@@ -64,7 +64,7 @@ export function Onboarding() {
       {passo === 0 && (
         <div className="onb-body">
           <div className="onb-mark"><Icona nome="cappello" size={26} /></div>
-          <h1 className="display-l">Libretto</h1>
+          <h1 className="hero-xl">Libretto</h1>
           <p className="body dim" style={{ maxWidth: 320 }}>
             Esami, appelli, orario e statistiche del tuo percorso alla Sapienza.
             Tutto sul telefono, niente account.

@@ -8,7 +8,7 @@ import { esameDi, perAnno } from '../lib/query'
 import { portaCfu, riepilogo, fmtMedia } from '../lib/stats'
 import { quando } from '../lib/date'
 import { LABEL_TIPO, type Insegnamento } from '../lib/types'
-import { tinta, PIENO } from '../lib/tinte'
+import { tinta, PIENO, coloreVoto } from '../lib/tinte'
 
 type Filtro = 'tutti' | 'dafare' | 'fatti'
 
@@ -160,7 +160,7 @@ function RigaEsame({ ins, onClick }: { ins: Insegnamento; onClick: () => void })
 
   return (
     <button className="list-row is-tappable" onClick={onClick} style={tinta(ins.tinta)}>
-      <span className="riga-tinta" style={{ background: PIENO }} />
+      <span className="riga-tinta" style={{ background: PIENO, color: PIENO }} />
       <div className="grow stack" style={{ gap: 2 }}>
         <span className="callout strong clamp-2">{ins.nome}</span>
         <span className="foot dimmer truncate">
@@ -179,9 +179,10 @@ export function EsitoEsame({ stato, voto, lode, escluso }: {
 }) {
   if (stato === 'superato' && voto != null) {
     return (
-      <span className="esito" data-lode={!!lode} data-escluso={!!escluso}>
-        <span className="display-m num esito-voto">{voto}</span>
-        {lode && <Icona nome="stella" size={11} pieno className="esito-lode" />}
+      <span className="esito" data-lode={!!lode} data-escluso={!!escluso}
+        style={{ ['--voto-colore' as string]: coloreVoto(voto) }}>
+        <span className="num esito-voto">{voto}</span>
+        {lode && <Icona nome="stella" size={12} pieno className="esito-lode" />}
       </span>
     )
   }

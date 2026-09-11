@@ -10,7 +10,7 @@ import { portaCfu, fmtVoto } from '../lib/stats'
 import { fmtData, meseAnno, oggi, quando, sessione } from '../lib/date'
 import { LABEL_PROVA, type Appello, type Insegnamento } from '../lib/types'
 import { plurale } from '../lib/testo'
-import { tinta, PIENO, VELO, TESTO } from '../lib/tinte'
+import { tinta, PIENO, coloreVoto } from '../lib/tinte'
 
 type Vista = 'arrivo' | 'pianificare' | 'storico'
 
@@ -124,9 +124,7 @@ export function Esami() {
                   {voci.map(({ appello: a, ins, prenotato }) => (
                     <button key={a.id} className="list-row is-tappable" style={tinta(ins.tinta)}
                       onClick={() => setAppello(a)}>
-                      <div className="data-blocco" style={
-                        prenotato ? { background: VELO, color: TESTO } : undefined
-                      }>
+                      <div className="data-blocco" data-on={prenotato}>
                         <span className="display-m num">{a.data.slice(8, 10)}</span>
                         <span className="caption">{fmtData(a.data, 'giorno').split(' ')[0].slice(0, 3)}</span>
                       </div>
@@ -183,7 +181,7 @@ export function Esami() {
                     const a = e.appelloId ? s.appelli.find(x => x.id === e.appelloId) : undefined
                     return (
                       <div key={i.id} className="list-row" style={tinta(i.tinta)}>
-                        <span className="riga-tinta" style={{ background: PIENO }} />
+                        <span className="riga-tinta" style={{ background: PIENO, color: PIENO }} />
                         <button className="grow stack" style={{ gap: 2, textAlign: 'left', minWidth: 0 }}
                           onClick={() => setEsameAperto(i)}>
                           <span className="callout strong clamp-2">{i.nome}</span>
@@ -227,16 +225,17 @@ export function Esami() {
                   {voci.map(({ ins, e }) => (
                     <button key={ins.id} className="list-row is-tappable" style={tinta(ins.tinta)}
                       onClick={() => setEsameAperto(ins)}>
-                      <span className="riga-tinta" style={{ background: PIENO }} />
+                      <span className="riga-tinta" style={{ background: PIENO, color: PIENO }} />
                       <div className="grow stack" style={{ gap: 2 }}>
                         <span className="callout strong clamp-2">{ins.nome}</span>
                         <span className="foot dimmer">{fmtData(e.data!, 'medio')} · {ins.cfu} CFU</span>
                       </div>
-                      <span className="esito" data-lode={!!e.lode} data-escluso={!!e.escludiDaMedia}>
-                        <span className={e.stato === 'idoneo' ? 'chip chip-pass' : 'display-m num esito-voto'}>
+                      <span className="esito" data-lode={!!e.lode} data-escluso={!!e.escludiDaMedia}
+                        style={e.voto != null ? { ['--voto-colore' as string]: coloreVoto(e.voto) } : undefined}>
+                        <span className={e.stato === 'idoneo' ? 'chip chip-pass' : 'num esito-voto'}>
                           {fmtVoto(e)}
                         </span>
-                        {e.lode && <Icona nome="stella" size={11} pieno className="esito-lode" />}
+                        {e.lode && <Icona nome="stella" size={12} pieno className="esito-lode" />}
                       </span>
                     </button>
                   ))}

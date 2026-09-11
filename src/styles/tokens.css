@@ -1,57 +1,94 @@
 /* ============================================================
    LIBRETTO — Design tokens
-   Palette: carta calda + bordeaux Sapienza.
-   Nessun gradiente decorativo: la gerarchia la fanno
-   tipografia, spazio e filetti da 1px.
+   Nero cinematografico come base; il colore lo portano i corsi,
+   ognuno col suo bordo luminoso. Le azioni sono pill bianche,
+   la navigazione una capsula di vetro sul bordo destro.
    ============================================================ */
 
-:root {
-  color-scheme: light dark;
+@font-face {
+  font-family: 'Anton';
+  src: url('/fonts/Anton-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Instrument Serif';
+  src: url('/fonts/InstrumentSerif-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Instrument Serif';
+  src: url('/fonts/InstrumentSerif-Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
 
-  /* ---------- Superfici ---------- */
-  --paper:        #faf8f4;   /* fondo app, carta calda */
-  --surface:      #ffffff;   /* card, righe di lista */
-  --surface-2:    #f3f0ea;   /* campi, chip spenti */
-  --surface-sunk: #efece5;   /* fondo di sezioni incassate */
-  --scrim:        rgba(20, 17, 14, 0.32);
+:root {
+  color-scheme: dark;
+
+  /* ---------- Superfici (scuro = default) ---------- */
+  --paper:        #060607;   /* fondo, quasi nero */
+  --surface:      #131315;   /* card */
+  --surface-2:    #1c1c1f;   /* chip, campi */
+  --surface-3:    #26262a;   /* pressione, hover */
+  --surface-sunk: #000000;
+  --glass:        rgba(18, 18, 20, 0.66);
+  --glass-strong: rgba(10, 10, 12, 0.72);
+  --scrim:        rgba(0, 0, 0, 0.7);
 
   /* ---------- Inchiostro ---------- */
-  --ink:          #17151a;
-  --ink-2:        #5b555f;
-  --ink-3:        #8d8791;
-  --ink-4:        #b5b0b8;
+  --ink:          #f6f6f4;
+  --ink-2:        #a9a9ad;
+  --ink-3:        #77777c;
+  --ink-4:        #4d4d52;
 
   /* ---------- Filetti ---------- */
-  --rule:         rgba(23, 21, 26, 0.10);
-  --rule-strong:  rgba(23, 21, 26, 0.18);
+  --rule:         rgba(255, 255, 255, 0.08);
+  --rule-strong:  rgba(255, 255, 255, 0.16);
 
-  /* ---------- Bordeaux Sapienza ---------- */
-  --accent:       #7e1d2c;
-  --accent-press: #661624;
-  --accent-ink:   #ffffff;
-  --accent-wash:  #f6e9eb;
-  --accent-rule:  rgba(126, 29, 44, 0.22);
+  /* ---------- Azione primaria: pill bianca ---------- */
+  --cta:          #ffffff;
+  --cta-ink:      #0a0a0a;
+  --cta-press:    #e6e6e6;
+
+  /* ---------- Accento (rosso Sapienza spinto al neon) ---------- */
+  --accent:       #ff3d5f;
+  --accent-press: #ff6480;
+  --accent-ink:   #1a0308;
+  --accent-wash:  rgba(255, 61, 95, 0.14);
+  --accent-rule:  rgba(255, 61, 95, 0.36);
+  --accent-glow:  rgba(255, 61, 95, 0.45);
 
   /* ---------- Semantici ---------- */
-  --pass:         #1f6b4e;   /* superato */
-  --pass-wash:    #e5efe9;
-  --plan:         #8f5a0d;   /* prenotato / in programma */
-  --plan-wash:    #f9efdd;
-  --todo:         #6a6470;   /* da sostenere */
-  --todo-wash:    #eeebe6;
-  --fail:         #a32637;   /* non superato / ritirato */
-  --fail-wash:    #f8e8ea;
-  --gold:         #a67c1f;   /* lode */
+  --pass:         #5fe3a3;
+  --pass-wash:    rgba(95, 227, 163, 0.14);
+  --plan:         #ffb857;
+  --plan-wash:    rgba(255, 184, 87, 0.14);
+  --todo:         #9c9ca2;
+  --todo-wash:    rgba(255, 255, 255, 0.06);
+  --fail:         #ff5c7a;
+  --fail-wash:    rgba(255, 92, 122, 0.14);
+  --gold:         #ffd56a;
+
+  /* Scala dei voti 18 → 30, come la barra di valutazione */
+  --spettro: linear-gradient(90deg,
+    #ff4d6a 0%, #ff8c42 22%, #ffd166 44%, #7ee787 64%, #4cc9f0 82%, #a78bfa 100%);
 
   /* ---------- Tipografia ---------- */
   --font-ui: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI",
              system-ui, "Helvetica Neue", sans-serif;
-  --font-display: ui-serif, "New York", "Iowan Old Style", "Palatino",
-             Georgia, serif;
+  --font-hero: "Anton", "Arial Narrow", "Impact", "Helvetica Neue Condensed",
+             sans-serif-condensed, sans-serif;
+  --font-display: "Instrument Serif", ui-serif, "New York", Georgia, serif;
 
-  --t-display-xl: 52px;
-  --t-display-l:  38px;
-  --t-display-m:  28px;
+  --t-hero-xl:    64px;
+  --t-hero-l:     44px;
+  --t-display-xl: 56px;
+  --t-display-l:  40px;
+  --t-display-m:  30px;
   --t-title:      22px;
   --t-headline:   17px;
   --t-body:       16px;
@@ -61,124 +98,88 @@
   --t-caption:    12px;
   --t-micro:      11px;
 
-  /* ---------- Spazio (scala 4) ---------- */
+  /* ---------- Spazio ---------- */
   --s-1: 4px;  --s-2: 8px;  --s-3: 12px; --s-4: 16px;
   --s-5: 20px; --s-6: 24px; --s-7: 32px; --s-8: 40px;
   --s-9: 56px; --s-10: 72px;
 
-  /* ---------- Raggi ---------- */
-  --r-sm: 8px; --r-md: 12px; --r-lg: 16px; --r-xl: 22px; --r-full: 999px;
+  /* ---------- Raggi: pill per i controlli, ampi per le card ---------- */
+  --r-sm: 10px; --r-md: 16px; --r-lg: 22px; --r-xl: 28px; --r-full: 999px;
 
-  /* ---------- Elevazione (discreta) ---------- */
-  --lift-1: 0 1px 2px rgba(23, 21, 26, 0.05);
-  --lift-2: 0 4px 16px -6px rgba(23, 21, 26, 0.14);
-  --lift-3: 0 24px 60px -24px rgba(23, 21, 26, 0.34);
+  /* ---------- Elevazione ---------- */
+  --lift-1: 0 1px 2px rgba(0, 0, 0, 0.5);
+  --lift-2: 0 8px 24px -8px rgba(0, 0, 0, 0.7);
+  --lift-3: 0 30px 80px -20px rgba(0, 0, 0, 0.9);
 
   /* ---------- Movimento ---------- */
-  --ease: cubic-bezier(0.32, 0.72, 0, 1);   /* la curva iOS */
+  --ease: cubic-bezier(0.32, 0.72, 0, 1);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --dur-1: 140ms; --dur-2: 240ms; --dur-3: 420ms;
 
   /* ---------- Cornici ---------- */
-  --tabbar-h: 56px;
-  --gutter: 20px;
+  --capsule-w: 52px;
+  --gutter: 18px;
   --safe-t: env(safe-area-inset-top, 0px);
   --safe-b: env(safe-area-inset-bottom, 0px);
+
+  /* ---------- Tinte dei corsi: neon sul nero ---------- */
+  --c-s: 78%;  --c-l: 62%;        /* pieno: bordo luminoso, testo */
+  --c-w-s: 60%; --c-w-l: 14%;     /* velatura di fondo */
+  --c-t-s: 80%; --c-t-l: 72%;     /* testo sulla velatura */
+  --c-g-a: 0.55;                  /* intensità del bagliore */
 }
 
 /* ============================================================
-   Tema scuro — non è il chiaro invertito: la carta diventa
-   inchiostro, il bordeaux si schiarisce per restare leggibile.
+   Tema chiaro: stessa grammatica, invertita. Le pill diventano
+   nere, i bordi luminosi si fanno bordi pieni.
    ============================================================ */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --paper:        #111013;
-    --surface:      #1a181d;
-    --surface-2:    #232027;
-    --surface-sunk: #0c0b0e;
-    --scrim:        rgba(0, 0, 0, 0.58);
+:root[data-theme="light"] {
+  color-scheme: light;
 
-    --ink:          #f2efea;
-    --ink-2:        #a9a3ae;
-    --ink-3:        #78737f;
-    --ink-4:        #56515c;
+  --paper:        #f3f3f4;
+  --surface:      #ffffff;
+  --surface-2:    #ebebed;
+  --surface-3:    #e0e0e3;
+  --surface-sunk: #e6e6e9;
+  --glass:        rgba(243, 243, 244, 0.72);
+  --glass-strong: rgba(255, 255, 255, 0.86);
+  --scrim:        rgba(0, 0, 0, 0.36);
 
-    --rule:         rgba(242, 239, 234, 0.11);
-    --rule-strong:  rgba(242, 239, 234, 0.20);
+  --ink:          #0b0b0c;
+  --ink-2:        #5a5a5f;
+  --ink-3:        #8a8a90;
+  --ink-4:        #b8b8bd;
 
-    --accent:       #e0687c;
-    --accent-press: #f0899a;
-    --accent-ink:   #24070d;
-    --accent-wash:  #2c1319;
-    --accent-rule:  rgba(224, 104, 124, 0.28);
+  --rule:         rgba(0, 0, 0, 0.08);
+  --rule-strong:  rgba(0, 0, 0, 0.16);
 
-    --pass:         #5fc49b;
-    --pass-wash:    #13291f;
-    --plan:         #e0ac5c;
-    --plan-wash:    #2b2113;
-    --todo:         #9b95a2;
-    --todo-wash:    #232027;
-    --fail:         #f0808f;
-    --fail-wash:    #2e151a;
-    --gold:         #d9b256;
+  --cta:          #0b0b0c;
+  --cta-ink:      #ffffff;
+  --cta-press:    #2a2a2e;
 
-    --lift-1: 0 1px 2px rgba(0, 0, 0, 0.4);
-    --lift-2: 0 4px 16px -6px rgba(0, 0, 0, 0.6);
-    --lift-3: 0 24px 60px -20px rgba(0, 0, 0, 0.75);
-  }
-}
+  --accent:       #d9163f;
+  --accent-press: #b8102f;
+  --accent-ink:   #ffffff;
+  --accent-wash:  rgba(217, 22, 63, 0.10);
+  --accent-rule:  rgba(217, 22, 63, 0.30);
+  --accent-glow:  rgba(217, 22, 63, 0.25);
 
-:root[data-theme="dark"] {
-  --paper:        #111013;
-  --surface:      #1a181d;
-  --surface-2:    #232027;
-  --surface-sunk: #0c0b0e;
-  --scrim:        rgba(0, 0, 0, 0.58);
-  --ink:          #f2efea;
-  --ink-2:        #a9a3ae;
-  --ink-3:        #78737f;
-  --ink-4:        #56515c;
-  --rule:         rgba(242, 239, 234, 0.11);
-  --rule-strong:  rgba(242, 239, 234, 0.20);
-  --accent:       #e0687c;
-  --accent-press: #f0899a;
-  --accent-ink:   #24070d;
-  --accent-wash:  #2c1319;
-  --accent-rule:  rgba(224, 104, 124, 0.28);
-  --pass:         #5fc49b;
-  --pass-wash:    #13291f;
-  --plan:         #e0ac5c;
-  --plan-wash:    #2b2113;
-  --todo:         #9b95a2;
-  --todo-wash:    #232027;
-  --fail:         #f0808f;
-  --fail-wash:    #2e151a;
-  --gold:         #d9b256;
-  --lift-1: 0 1px 2px rgba(0, 0, 0, 0.4);
-  --lift-2: 0 4px 16px -6px rgba(0, 0, 0, 0.6);
-  --lift-3: 0 24px 60px -20px rgba(0, 0, 0, 0.75);
-}
+  --pass:         #178a55;
+  --pass-wash:    rgba(23, 138, 85, 0.12);
+  --plan:         #b3690a;
+  --plan-wash:    rgba(179, 105, 10, 0.12);
+  --todo:         #6a6a70;
+  --todo-wash:    rgba(0, 0, 0, 0.05);
+  --fail:         #c4203f;
+  --fail-wash:    rgba(196, 32, 63, 0.10);
+  --gold:         #b8860b;
 
-/* ============================================================
-   Tinte dei corsi.
-   L'insegnamento porta solo la sua tonalità (--h); saturazione e
-   luminosità le decide il tema. Così lo stesso corso resta
-   riconoscibile di giorno e di notte senza doppie definizioni.
-   ============================================================ */
-:root {
-  --c-s: 44%;  --c-l: 40%;         /* pieno */
-  --c-w-s: 64%; --c-w-l: 94%;      /* velatura di sfondo */
-  --c-t-s: 48%; --c-t-l: 34%;      /* testo su velatura */
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --c-s: 52%;  --c-l: 62%;
-    --c-w-s: 34%; --c-w-l: 15%;
-    --c-t-s: 55%; --c-t-l: 70%;
-  }
-}
-:root[data-theme="dark"] {
-  --c-s: 52%;  --c-l: 62%;
-  --c-w-s: 34%; --c-w-l: 15%;
-  --c-t-s: 55%; --c-t-l: 70%;
+  --lift-1: 0 1px 2px rgba(0, 0, 0, 0.06);
+  --lift-2: 0 8px 24px -10px rgba(0, 0, 0, 0.18);
+  --lift-3: 0 30px 80px -24px rgba(0, 0, 0, 0.35);
+
+  --c-s: 62%;  --c-l: 42%;
+  --c-w-s: 70%; --c-w-l: 93%;
+  --c-t-s: 60%; --c-t-l: 32%;
+  --c-g-a: 0.22;
 }

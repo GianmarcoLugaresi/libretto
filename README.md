@@ -35,6 +35,22 @@ In alternativa, per provarla al volo in casa: apri l'indirizzo `Network` da
 Safari sull'iPhone mentre `npm run dev` gira. Su HTTP semplice il service
 worker non si registra, quindi niente modalità offline.
 
+## Linguaggio visivo
+
+Nero cinematografico come base; il colore lo portano i corsi, ognuno con
+la sua tinta e un bordo luminoso. Le azioni sono pill bianche, la
+navigazione una capsula di vetro sul bordo destro, a portata di pollice.
+
+- **Anton** (condensato, maiuscolo) per il titolo da manifesto: una cosa
+  sola per schermo.
+- **Instrument Serif** per nomi e numeri grandi.
+- **Scala 18→30**: la barra arcobaleno con la manopola. Lo stesso colore
+  torna nell'anello del voto nel libretto e nelle barre dell'istogramma.
+- Tema chiaro disponibile dalle impostazioni: stessa grammatica, invertita.
+
+I font sono self-hosted in `public/fonts/` (licenza OFL) così l'app
+funziona anche offline.
+
 ## Struttura
 
 ```

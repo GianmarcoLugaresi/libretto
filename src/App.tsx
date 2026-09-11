@@ -70,18 +70,21 @@ export function App() {
       {pila === 'impostazioni' && <Impostazioni chiudi={chiudiPila} />}
       {pila === 'esplora' && <Esplora chiudi={chiudiPila} />}
 
+      {/* Capsula di navigazione: verticale, sul bordo destro, dove
+          arriva il pollice. L'etichetta resta per gli screen reader. */}
       {pila === null && (
-        <nav className="tabbar" role="tablist" aria-label="Sezioni">
+        <nav className="capsule" role="tablist" aria-label="Sezioni">
           {TAB.map(t => (
             <button
               key={t.v} role="tab" className="tab"
               aria-selected={vista === t.v}
+              aria-label={t.l}
               onClick={() => setVista(t.v)}
             >
-              <span className="tab-ico" style={{ position: 'relative' }}>
-                <Icona nome={t.i} size={23} peso={vista === t.v ? 2.2 : 1.75} />
-                {t.v === 'esami' && imminente && <span className="tab-dot" />}
+              <span className="tab-ico">
+                <Icona nome={t.i} size={21} peso={vista === t.v ? 2.3 : 1.9} />
               </span>
+              {t.v === 'esami' && imminente && <span className="tab-dot" />}
               <span className="tab-label">{t.l}</span>
             </button>
           ))}

@@ -152,12 +152,11 @@ export function Impostazioni({ chiudi }: { chiudi: () => void }) {
       <Sezione titolo="Aspetto">
         <div className="field">
           <Segmentato
-            valore={s.impostazioni.tema}
-            cambia={v => d({ t: 'impostazioni', v: { tema: v as 'auto' | 'chiaro' | 'scuro' } })}
+            valore={s.impostazioni.tema === 'chiaro' ? 'chiaro' : 'scuro'}
+            cambia={v => d({ t: 'impostazioni', v: { tema: v as 'chiaro' | 'scuro' } })}
             opzioni={[
-              { v: 'auto', l: 'Automatico' },
-              { v: 'chiaro', l: 'Chiaro' },
               { v: 'scuro', l: 'Scuro' },
+              { v: 'chiaro', l: 'Chiaro' },
             ]}
           />
         </div>

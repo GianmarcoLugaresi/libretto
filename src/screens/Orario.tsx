@@ -10,7 +10,7 @@ import {
   oggi as dataOggi, oraOra, settimana,
 } from '../lib/date'
 import { GIORNI, GIORNI_BREVI, type Giorno, type Lezione } from '../lib/types'
-import { tinta, PIENO, VELO, TESTO } from '../lib/tinte'
+import { tinta, PIENO } from '../lib/tinte'
 
 type Modo = 'giorno' | 'settimana'
 
@@ -223,16 +223,13 @@ export function Orario() {
                       </div>
                       <div className="tl-rail">
                         <span className="tl-pallino" style={{
-                          background: attiva ? PIENO : 'var(--surface)', borderColor: PIENO,
+                          background: attiva ? PIENO : 'var(--surface)', borderColor: PIENO, color: PIENO,
                         }} />
                       </div>
                       <button
-                        className="tl-card card is-tappable" onClick={() => setLezione(l)}
-                        style={{
-                          borderColor: attiva ? PIENO : undefined,
-                          background: attiva ? VELO : undefined,
-                          textAlign: 'left',
-                        }}
+                        className={`tl-card card is-tappable${attiva ? ' card-tinta' : ''}`}
+                        onClick={() => setLezione(l)}
+                        style={{ textAlign: 'left' }}
                       >
                         <span className="callout strong truncate">{ins.nome}</span>
                         <span className="foot dimmer row" style={{ gap: 8, marginTop: 3, flexWrap: 'wrap' }}>
@@ -297,8 +294,6 @@ export function Orario() {
                               key={l.id} className="gr-blocco" style={{
                                 ...tinta(ins.tinta),
                                 top, height: Math.max(h - 3, 22),
-                                background: VELO, color: TESTO,
-                                borderLeftColor: PIENO,
                               }}
                               onClick={() => setLezione(l)}
                             >

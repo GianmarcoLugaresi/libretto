@@ -8,6 +8,7 @@ import {
 } from '../lib/stats'
 import { esameDi } from '../lib/query'
 import { fmtData } from '../lib/date'
+import { coloreVoto, posizioneVoto } from '../lib/tinte'
 
 export function Statistiche() {
   const { s, d } = useApp()
@@ -45,28 +46,41 @@ export function Statistiche() {
     >
       {/* ---------------- Sintesi ---------------- */}
       <Sezione stretto>
-        <div className="card card-pad sintesi">
-          <Anello valore={r.percentuale} size={118} spessore={10}>
-            <span className="display-m num">{Math.round(r.percentuale * 100)}<span style={{ fontSize: 15 }}>%</span></span>
-            <span className="caption dimmer num">{r.cfuAcquisiti}/{r.cfuTotali}</span>
-          </Anello>
-          <div className="grow stack" style={{ gap: 14 }}>
-            <div className="stack" style={{ gap: 2 }}>
-              <div className="between">
-                <span className="eyebrow">Media ponderata</span>
-                <button className="scala" onClick={() => setScalaMedia(v => (v === '30' ? '110' : '30'))}>
-                  {scalaMedia === '30' ? '/30' : '/110'}
-                </button>
+        <div className="card card-pad stack" style={{ gap: 18 }}>
+          <div className="sintesi">
+            <Anello valore={r.percentuale} size={112} spessore={10}>
+              <span className="display-m num">{Math.round(r.percentuale * 100)}<span style={{ fontSize: 15 }}>%</span></span>
+              <span className="caption dimmer num">{r.cfuAcquisiti}/{r.cfuTotali}</span>
+            </Anello>
+            <div className="grow stack" style={{ gap: 14 }}>
+              <div className="stack" style={{ gap: 2 }}>
+                <div className="between">
+                  <span className="eyebrow">Media ponderata</span>
+                  <button className="scala" onClick={() => setScalaMedia(v => (v === '30' ? '110' : '30'))}>
+                    {scalaMedia === '30' ? '/30' : '/110'}
+                  </button>
+                </div>
+                <span className="display-l num">
+                  {scalaMedia === '30' ? fmtMedia(r.mediaPonderata) : fmt110(r.votoPartenza)}
+                </span>
               </div>
-              <span className="display-l num">
-                {scalaMedia === '30' ? fmtMedia(r.mediaPonderata) : fmt110(r.votoPartenza)}
-              </span>
-            </div>
-            <div className="stack" style={{ gap: 2 }}>
-              <span className="eyebrow">Media aritmetica</span>
-              <span className="headline num">{fmtMedia(r.mediaAritmetica)}</span>
+              <div className="stack" style={{ gap: 2 }}>
+                <span className="eyebrow">Media aritmetica</span>
+                <span className="headline num">{fmtMedia(r.mediaAritmetica)}</span>
+              </div>
             </div>
           </div>
+
+          {r.mediaPonderata != null && (
+            <div className="stack" style={{ gap: 6 }}>
+              <div className="spettro-wrap">
+                <div className="spettro" style={{ ['--pos' as string]: `${posizioneVoto(r.mediaPonderata)}%` }}>
+                  <span className="spettro-knob">{fmtMedia(r.mediaPonderata, 1)}</span>
+                </div>
+              </div>
+              <div className="between caption dimmer num"><span>18</span><span>24</span><span>30</span></div>
+            </div>
+          )}
         </div>
       </Sezione>
 
@@ -324,8 +338,8 @@ function Andamento({ serie }: { serie: { media: number; data: string; nome: stri
       <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" style={{ width: '100%', height: 116 }}>
         <defs>
           <linearGradient id="velo-andamento" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="var(--accent)" stopOpacity="0.16" />
-            <stop offset="100%" stopColor="var(--accent)" stopOpacity="0" />
+            <stop offset="0%" stopColor="var(--cta)" stopOpacity="0.18" />
+            <stop offset="100%" stopColor="var(--cta)" stopOpacity="0" />
           </linearGradient>
         </defs>
         {[lo, (lo + hi) / 2, hi].map(v => (
@@ -333,10 +347,10 @@ function Andamento({ serie }: { serie: { media: number; data: string; nome: stri
             stroke="var(--rule)" strokeWidth="1" strokeDasharray="2 4" vectorEffect="non-scaling-stroke" />
         ))}
         <path d={area} fill="url(#velo-andamento)" />
-        <path d={linea} fill="none" stroke="var(--accent)" strokeWidth="2"
+        <path d={linea} fill="none" stroke="var(--cta)" strokeWidth="2"
           strokeLinejoin="round" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
-        <circle cx={x(serie.length - 1)} cy={y(ultimo.media)} r="3.5"
-          fill="var(--accent)" stroke="var(--surface)" strokeWidth="2" vectorEffect="non-scaling-stroke" />
+        <circle cx={x(serie.length - 1)} cy={y(ultimo.media)} r="4"
+          fill="var(--cta)" stroke="var(--surface)" strokeWidth="2" vectorEffect="non-scaling-stroke" />
       </svg>
       <span className="grafico-hi caption num">{hi}</span>
       <span className="grafico-lo caption num">{lo}</span>
@@ -362,7 +376,8 @@ function Istogramma({ dati }: { dati: { voto: number; conta: number }[] }) {
           >
             <span className="isto-barra" style={{
               height: `${(d.conta / max) * 100}%`,
-              opacity: d.conta === 0 ? 0.25 : 1,
+              opacity: d.conta === 0 ? 0.22 : 1,
+              ['--barra-colore' as string]: coloreVoto(d.voto),
             }} />
             <span className="isto-etichetta num">{d.voto}</span>
           </button>

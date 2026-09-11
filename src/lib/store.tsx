@@ -174,10 +174,11 @@ export function Provider({ children }: { children: ReactNode }) {
 
   // Il tema segue le impostazioni, non solo il sistema.
   useEffect(() => {
-    const t = s.impostazioni.tema
+    // Il design è nato scuro: 'chiaro' è l'unica variante esplicita,
+    // tutto il resto (compreso il vecchio 'auto') cade sullo scuro.
     const root = document.documentElement
-    if (t === 'auto') root.removeAttribute('data-theme')
-    else root.setAttribute('data-theme', t === 'scuro' ? 'dark' : 'light')
+    if (s.impostazioni.tema === 'chiaro') root.setAttribute('data-theme', 'light')
+    else root.removeAttribute('data-theme')
   }, [s.impostazioni.tema])
 
   const valore = useMemo<Ctx>(() => ({

@@ -5,11 +5,7 @@
 *, *::before, *::after { box-sizing: border-box; }
 
 html, body { height: 100%; }
-
-html {
-  -webkit-text-size-adjust: 100%;
-  text-size-adjust: 100%;
-}
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 
 body {
   margin: 0;
@@ -24,63 +20,52 @@ body {
   overscroll-behavior-y: none;
 }
 
-/* Niente evidenziazione blu al tap, niente selezione accidentale
-   trascinando le liste: è la differenza fra "sito" e "app". */
-* {
-  -webkit-tap-highlight-color: transparent;
-}
+* { -webkit-tap-highlight-color: transparent; }
 button, a, [role="button"], .tap {
-  -webkit-user-select: none;
-  user-select: none;
+  -webkit-user-select: none; user-select: none;
   touch-action: manipulation;
 }
 
 h1, h2, h3, h4, p, figure { margin: 0; }
 ul, ol { margin: 0; padding: 0; list-style: none; }
 
-button {
-  font: inherit;
-  color: inherit;
-  background: none;
-  border: 0;
-  padding: 0;
-  cursor: pointer;
-}
-
-input, select, textarea {
-  font: inherit;
-  color: inherit;
-  background: none;
-  border: 0;
-  margin: 0;
-}
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+input, select, textarea { font: inherit; color: inherit; background: none; border: 0; margin: 0; }
 input:focus, select:focus, textarea:focus, button:focus { outline: none; }
-:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
-  border-radius: 4px;
-}
+:focus-visible { outline: 2px solid var(--cta); outline-offset: 2px; border-radius: 6px; }
 
 svg { display: block; flex: none; }
 
-/* Numeri sempre a larghezza fissa: le colonne di voti e CFU
-   non devono ballare mentre scorri. */
 .num { font-variant-numeric: tabular-nums; font-feature-settings: "tnum" 1; }
 
 /* ---------- Scale tipografiche ---------- */
 
+/* Titolo da manifesto: condensato, maiuscolo, serrato. Va usato
+   per una cosa sola per schermo, altrimenti urla e basta. */
+.hero-xl, .hero-l {
+  font-family: var(--font-hero);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.005em;
+  line-height: 0.92;
+}
+.hero-xl { font-size: var(--t-hero-xl); }
+.hero-l  { font-size: var(--t-hero-l); }
+
+/* Numeri e nomi in serif: la voce "umana" accanto al manifesto. */
 .display-xl, .display-l, .display-m {
   font-family: var(--font-display);
   font-weight: 400;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
   line-height: 1;
   font-variant-numeric: tabular-nums;
 }
 .display-xl { font-size: var(--t-display-xl); }
 .display-l  { font-size: var(--t-display-l); }
-.display-m  { font-size: var(--t-display-m); letter-spacing: -0.015em; }
+.display-m  { font-size: var(--t-display-m); }
+.corsivo    { font-style: italic; }
 
-.title    { font-size: var(--t-title); font-weight: 700; letter-spacing: -0.021em; line-height: 1.2; }
+.title    { font-size: var(--t-title); font-weight: 700; letter-spacing: -0.022em; line-height: 1.2; }
 .headline { font-size: var(--t-headline); font-weight: 600; letter-spacing: -0.015em; line-height: 1.3; }
 .body     { font-size: var(--t-body); }
 .callout  { font-size: var(--t-callout); }
@@ -88,12 +73,10 @@ svg { display: block; flex: none; }
 .foot     { font-size: var(--t-foot); line-height: 1.35; }
 .caption  { font-size: var(--t-caption); line-height: 1.3; }
 
-/* Occhiello di sezione: maiuscoletto spaziato, come
-   l'intestazione di un registro cartaceo. */
 .eyebrow {
   font-size: var(--t-micro);
   font-weight: 600;
-  letter-spacing: 0.085em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--ink-3);
 }
@@ -112,16 +95,10 @@ svg { display: block; flex: none; }
 
 #root { min-height: 100%; }
 
-/* Altezza fissa, non min-height: solo così il figlio .scroll
-   diventa il vero contenitore di scorrimento. Con min-height
-   cresceva l'intera app e a scorrere era il body, il che
-   spegneva il collasso del titolo in cima. */
 .app {
   height: 100dvh;
   display: flex;
   flex-direction: column;
-  /* L'app vive in una colonna da telefono anche su desktop:
-     è nata per un iPhone, non la stiro su 1400px. */
   max-width: 520px;
   margin: 0 auto;
   position: relative;
@@ -129,16 +106,17 @@ svg { display: block; flex: none; }
   overflow: hidden;
 }
 @media (min-width: 560px) {
-  body { background: var(--surface-sunk); }
+  body { background: #000; }
   .app { box-shadow: 0 0 0 1px var(--rule); }
 }
 
 .scroll {
   flex: 1;
-  min-height: 0;          /* senza questo il figlio non scende sotto il contenuto */
+  min-height: 0;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  padding-bottom: calc(var(--tabbar-h) + var(--safe-b) + var(--s-8));
+  /* Spazio in fondo per non finire sotto la capsula di navigazione */
+  padding-bottom: calc(var(--safe-b) + 120px);
 }
 
 .gut { padding-inline: var(--gutter); }
