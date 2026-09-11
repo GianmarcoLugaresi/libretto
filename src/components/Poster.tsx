@@ -8,7 +8,7 @@
    tinta: lo stesso corso ha sempre lo stesso poster.
    ============================================================ */
 
-import { useEffect, useState } from 'react'
+import { useLayoutEffect, useRef, useState } from 'react'
 import { TINTE } from '../lib/types'
 
 export function Poster({ tinta, sigla, immagine }: {
@@ -20,8 +20,20 @@ export function Poster({ tinta, sigla, immagine }: {
   const i = tinta ?? 4
   // Se la foto non arriva (offline, URL rotto) resta il poster
   // generato: l'eroe non deve mai essere un buco nero.
-  const [fotoOk, setFotoOk] = useState(false)
-  useEffect(() => { setFotoOk(false) }, [immagine])
+  //
+  // Lo stato "caricata" è legato all'URL, non a un booleano da
+  // resettare: un effetto di reset arrivava DOPO l'onLoad di una foto
+  // già in cache e la lasciava invisibile finché non si cambiava
+  // schermata. E Safari, con le immagini in cache, può far scattare
+  // load prima che React ascolti: per questo si controlla anche
+  // img.complete subito dopo il montaggio.
+  const foto = useRef<HTMLImageElement>(null)
+  const [caricata, setCaricata] = useState<string | null>(null)
+  const fotoOk = !!immagine && caricata === immagine
+  useLayoutEffect(() => {
+    const el = foto.current
+    if (immagine && el && el.complete && el.naturalWidth > 0) setCaricata(immagine)
+  }, [immagine])
   const h = tinta == null ? 0 : TINTE[i % TINTE.length].h
   const sat = tinta == null ? '0%' : '88%'
 
@@ -38,9 +50,10 @@ export function Poster({ tinta, sigla, immagine }: {
       {immagine && (
         <>
           <img
-            className="poster-foto" src={immagine} alt="" decoding="async"
+            key={immagine} ref={foto}
+            className="poster-foto" src={immagine} alt="" decoding="async" loading="eager"
             data-ok={fotoOk}
-            onLoad={() => setFotoOk(true)} onError={() => setFotoOk(false)}
+            onLoad={() => setCaricata(immagine)} onError={() => setCaricata(null)}
           />
           {/* Gradazione: il colore del corso "tinge" la foto conservando
               le luci, come una color correction cinematografica */}
