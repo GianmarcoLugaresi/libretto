@@ -141,9 +141,9 @@ export function SchedaOrarioUfficiale({ corso, aperto, chiudi }: {
       <div className="card card-pad row" style={{ gap: 10, marginTop: 4 }}>
         <Icona nome="info" size={17} className="dimmer" />
         <span className="foot dim" style={{ lineHeight: 1.45 }}>
-          {corso.nome} · {orario.semestre}° semestre {orario.aa}, dal calendario
-          ufficiale del catalogo. Gli orari possono cambiare in corso d'anno:
-          la fonte è <span className="strong">{orario.fonte}</span>.
+          {corso.nome} · {orario.semestre}° semestre {orario.aa}, come pubblicato
+          dalla facoltà. Gli orari sono provvisori e cambiano: verificali su{' '}
+          <span className="strong">{orario.fonte}</span>.
         </span>
       </div>
 
@@ -224,10 +224,10 @@ export function SchedaOrarioUfficiale({ corso, aperto, chiudi }: {
           </Campo></div>
         </div>
         <p className="caption dimmer" style={{ lineHeight: 1.5 }}>
-          Primo e ultimo giorno di lezione pubblicati nel calendario ufficiale
-          {dal && al && <> ({fmtData(dal, 'breve')} – {fmtData(al, 'medio')})</>}; i ponti e
-          le vacanze di Natale vengono saltati da soli. Fuori da qui le lezioni
-          spariscono dall'orario.
+          Queste due date sono la finestra tipica del semestre, non una data
+          ufficiale: correggile sul calendario didattico della facoltà.
+          Fuori da qui le lezioni spariscono dall'orario.
+          {dal && al && <> Ora: {fmtData(dal, 'breve')} – {fmtData(al, 'medio')}.</>}
         </p>
       </div>
     </Foglio>

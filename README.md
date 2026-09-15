@@ -135,7 +135,7 @@ Attualmente verificato:
 | Corso | Classe | Fonte | A.A. |
 |---|---|---|---|
 | Design | L-4 | `corsidilaurea.uniroma1.it/it/course/33426/study-plan` | 2026/27 |
-| Design — orario 1° semestre | | `corsidilaurea.uniroma1.it/it/course/33426/attendance/timetable` (dati GOMP, 535 lezioni, 28 set → 13 gen, con ponti e vacanze) | 2026/27 |
+| Design — orario 1° semestre | | `app.arc.uniroma1.it/didattica/orario/de` | 2026/27 |
 
 Per gli altri corsi si parte da zero e si aggiungono gli esami a mano dal
 Libretto.
