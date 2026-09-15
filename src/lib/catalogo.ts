@@ -23,6 +23,9 @@ export interface SlotOrario {
   inizio: string
   fine: string
   aula?: string
+  edificio?: string
+  /** Modulo tenuto in questa fascia, se l'insegnamento ne ha più d'uno */
+  modulo?: string
 }
 
 /** Un modo di seguire un insegnamento: il canale (A-Li / Lo-Z) o,
@@ -44,6 +47,11 @@ export interface OrarioUfficiale {
   aa: string
   semestre: 1 | 2
   fonte: string
+  /** Primo e ultimo giorno di lezione pubblicati */
+  dal: string
+  al: string
+  /** Giorni senza lezione dentro il periodo (ponti, Natale) */
+  sospese: string[]
   varianti: VarianteOrario[]
 }
 
@@ -109,96 +117,106 @@ export const CATALOGO: CorsoLaurea[] = [
       ['A scelta dello studente', 12, 3, 2, S],
       ['Prova finale', 10, 3, 2, P],
     ],
-    // Orario ufficiale 1° semestre 2026/27 — Facoltà di Architettura.
-    // Trascritto da app.arc.uniroma1.it/didattica/orario/de.
+    // Orario ufficiale 1° semestre 2026/27, dal calendario del catalogo
+    // (dati GOMP, 535 lezioni da settembre a gennaio). Anno e canale
+    // vengono dai campi strutturati dove ci sono; per gli insegnamenti
+    // del 3° anno, che il calendario elenca per modulo, l'aggancio al
+    // piano segue aule e giorni, che combaciano con la precedente
+    // pubblicazione della facoltà (G33, F5, Y1, F6, Y3).
     orario: {
       aa: '2026/27',
       semestre: 1,
-      fonte: 'app.arc.uniroma1.it/didattica/orario/de',
+      fonte: 'corsidilaurea.uniroma1.it/it/course/33426/attendance/timetable',
+      dal: '2026-09-28',
+      al: '2027-01-13',
+      sospese: ['2026-11-23', '2026-12-07', '2026-12-08', '2026-12-24', '2026-12-25', '2026-12-28',
+        '2026-12-29', '2026-12-30', '2026-12-31', '2027-01-01', '2027-01-04', '2027-01-05', '2027-01-06'],
       varianti: [
         // ---------------- I anno ----------------
-        { ins: 'Istituzioni di matematica', anno: 1, etichetta: 'Canale 1', docente: 'Porzio M. M.', slot: [
-          { giorno: 2, inizio: '11:00', fine: '14:00', aula: 'Aula F1' },
-          { giorno: 4, inizio: '12:00', fine: '14:00', aula: 'Aula F1' },
+        { ins: 'Istituzioni di matematica', anno: 1, etichetta: 'Canale 1', slot: [
+          { giorno: 2, inizio: '11:00', fine: '14:00', aula: 'Aula F1', edificio: 'RM068' },
+          { giorno: 4, inizio: '12:00', fine: '14:00', aula: 'Aula F1', edificio: 'RM068' },
         ]},
-        { ins: 'Istituzioni di matematica', anno: 1, etichetta: 'Canale 2', docente: 'De Bonis I.', slot: [
-          { giorno: 2, inizio: '11:00', fine: '13:30', aula: 'Aula F5' },
-          { giorno: 5, inizio: '09:00', fine: '11:30', aula: 'Aula F1' },
+        { ins: 'Istituzioni di matematica', anno: 1, etichetta: 'Canale 2', slot: [
+          { giorno: 2, inizio: '11:00', fine: '13:30', aula: 'Aula F5', edificio: 'RM068' },
+          { giorno: 5, inizio: '09:00', fine: '11:30', aula: 'Aula F1', edificio: 'RM068' },
         ]},
         { ins: 'Fondamenti di disegno', anno: 1, etichetta: 'Canale 1', docente: 'Meschini A.', slot: [
-          { giorno: 2, inizio: '14:30', fine: '19:30', aula: 'Aula F5' },
-          { giorno: 4, inizio: '14:30', fine: '19:30', aula: 'Aula F6' },
+          { giorno: 2, inizio: '14:30', fine: '19:30', aula: 'Aula F5', edificio: 'RM068', modulo: 'Disegno digitale' },
+          { giorno: 4, inizio: '14:30', fine: '19:30', aula: 'Aula F6', edificio: 'RM068', modulo: 'Geometria descrittiva' },
         ]},
-        { ins: 'Fondamenti di disegno', anno: 1, etichetta: 'Canale 2', docente: 'Salvatore M. / Colonnese F.', slot: [
-          { giorno: 2, inizio: '14:30', fine: '19:30', aula: 'Aula F6' },
-          { giorno: 4, inizio: '14:30', fine: '19:30', aula: 'Aula F5' },
+        { ins: 'Fondamenti di disegno', anno: 1, etichetta: 'Canale 2', docente: 'Colonnese F. / Salvatore M.', slot: [
+          { giorno: 2, inizio: '14:30', fine: '19:30', aula: 'Aula F6', edificio: 'RM068', modulo: 'Disegno digitale' },
+          { giorno: 4, inizio: '14:30', fine: '19:30', aula: 'Aula F5', edificio: 'RM068', modulo: 'Geometria descrittiva' },
         ]},
-        { ins: 'Scienza dei materiali', anno: 1, etichetta: 'Canale 1', docente: 'Marra F.', slot: [
-          { giorno: 3, inizio: '11:30', fine: '13:30', aula: 'Aula F2' },
-          { giorno: 5, inizio: '14:30', fine: '16:30', aula: 'Aula F2' },
+        { ins: 'Scienza dei materiali', anno: 1, etichetta: 'Canale 1', slot: [
+          { giorno: 3, inizio: '11:30', fine: '13:30', aula: 'Aula F2', edificio: 'RM068' },
+          { giorno: 5, inizio: '14:30', fine: '16:30', aula: 'Aula F2', edificio: 'RM068' },
         ]},
         { ins: 'Scienza dei materiali', anno: 1, etichetta: 'Canale 2', slot: [
-          { giorno: 3, inizio: '14:00', fine: '16:00', aula: 'Aula F6' },
-          { giorno: 5, inizio: '16:30', fine: '18:30', aula: 'Aula F2' },
+          { giorno: 3, inizio: '14:00', fine: '16:00', aula: 'Aula F6', edificio: 'RM068' },
+          { giorno: 5, inizio: '16:30', fine: '18:30', aula: 'Aula F2', edificio: 'RM068' },
         ]},
         { ins: 'Storia delle arti applicate', anno: 1, slot: [
-          { giorno: 2, inizio: '08:30', fine: '11:00', aula: 'Aula F1' },
-          { giorno: 5, inizio: '11:30', fine: '14:00', aula: 'Aula F1' },
+          { giorno: 2, inizio: '08:30', fine: '11:00', aula: 'Aula F1', edificio: 'RM068' },
+          { giorno: 5, inizio: '11:30', fine: '14:00', aula: 'Aula F1', edificio: 'RM068' },
         ]},
         // ---------------- II anno ----------------
-        { ins: 'Material design e tecnologie per la sostenibilità', anno: 2, etichetta: 'Canale 1 · A-Li', slot: [
-          { giorno: 4, inizio: '14:30', fine: '19:30', aula: 'Aula G31' },
+        { ins: 'Material design e tecnologie per la sostenibilità', anno: 2, etichetta: 'Canale 1', slot: [
+          { giorno: 4, inizio: '14:30', fine: '17:00', aula: 'Aula G31', edificio: 'RM089', modulo: 'Material design' },
+          { giorno: 4, inizio: '17:00', fine: '19:30', aula: 'Aula G31', edificio: 'RM089', modulo: 'Tecnologie per la sostenibilità' },
         ]},
-        { ins: 'Material design e tecnologie per la sostenibilità', anno: 2, etichetta: 'Canale 2 · Lo-Z', docente: 'Baiani S.', slot: [
-          { giorno: 4, inizio: '09:00', fine: '13:30', aula: 'Aula F5' },
+        { ins: 'Material design e tecnologie per la sostenibilità', anno: 2, etichetta: 'Canale 2', docente: 'Baiani S.', slot: [
+          { giorno: 4, inizio: '09:00', fine: '11:30', aula: 'Aula F5', edificio: 'RM068', modulo: 'Tecnologie per la sostenibilità' },
+          { giorno: 4, inizio: '11:30', fine: '13:30', aula: 'Aula F5', edificio: 'RM068', modulo: 'Material design' },
         ]},
-        { ins: 'Disegno e modello', anno: 2, etichetta: 'Canale 1 · A-Li', docente: 'Calvano M. / Casale A.', slot: [
-          { giorno: 2, inizio: '11:30', fine: '13:30', aula: 'Aula F3' },
-          { giorno: 4, inizio: '09:00', fine: '13:30', aula: 'Aula F3' },
+        { ins: 'Disegno e modello', anno: 2, etichetta: 'Canale 1', docente: 'Calvano M. / Casale A.', slot: [
+          { giorno: 2, inizio: '11:30', fine: '13:30', aula: 'Aula F3', edificio: 'RM068', modulo: 'Modellazione digitale' },
+          { giorno: 4, inizio: '09:00', fine: '13:30', aula: 'Aula F3', edificio: 'RM068', modulo: 'Modellazione tridimensionale' },
         ]},
-        { ins: 'Disegno e modello', anno: 2, etichetta: 'Canale 2 · Lo-Z', docente: 'Romor J. / Valenti G. M.', slot: [
-          { giorno: 2, inizio: '09:30', fine: '11:30', aula: 'Aula F3' },
-          { giorno: 4, inizio: '14:30', fine: '19:30', aula: 'Aula F3' },
+        { ins: 'Disegno e modello', anno: 2, etichetta: 'Canale 2', docente: 'Romor J. / Valenti G. M.', slot: [
+          { giorno: 2, inizio: '09:30', fine: '11:30', aula: 'Aula F3', edificio: 'RM068', modulo: 'Modellazione digitale' },
+          { giorno: 4, inizio: '14:30', fine: '19:30', aula: 'Aula F3', edificio: 'RM068', modulo: 'Modellazione tridimensionale' },
         ]},
         { ins: 'Teoria e storia del design', anno: 2, slot: [
-          { giorno: 1, inizio: '09:30', fine: '13:30', aula: 'Aula F1' },
+          { giorno: 2, inizio: '14:30', fine: '18:30', aula: 'Aula 9', edificio: 'RM064' },
         ]},
-        { ins: 'Progettazione strutturale e principi di meccanica per il design', anno: 2, etichetta: 'Canale 1 · A-Li', docente: 'Lofrano E.', slot: [
-          { giorno: 1, inizio: '14:30', fine: '19:00', aula: 'Aula F5' },
-          { giorno: 3, inizio: '09:00', fine: '11:30', aula: 'Aula F2' },
+        { ins: 'Progettazione strutturale e principi di meccanica per il design', anno: 2, etichetta: 'Canale 1', docente: 'Lofrano E.', slot: [
+          { giorno: 1, inizio: '14:30', fine: '19:00', aula: 'Aula F5', edificio: 'RM068', modulo: 'Progettazione strutturale' },
+          { giorno: 3, inizio: '09:00', fine: '11:30', aula: 'Aula F2', edificio: 'RM068', modulo: 'Principi di meccanica' },
         ]},
-        { ins: 'Progettazione strutturale e principi di meccanica per il design', anno: 2, etichetta: 'Canale 2 · Lo-Z', docente: 'Boscato G.', slot: [
-          { giorno: 1, inizio: '14:30', fine: '19:00', aula: 'Aula F6' },
-          { giorno: 3, inizio: '09:00', fine: '11:30', aula: 'Aula F6' },
+        { ins: 'Progettazione strutturale e principi di meccanica per il design', anno: 2, etichetta: 'Canale 2', docente: 'Boscato G.', slot: [
+          { giorno: 1, inizio: '14:30', fine: '19:00', aula: 'Aula F6', edificio: 'RM068', modulo: 'Progettazione strutturale' },
+          { giorno: 3, inizio: '09:00', fine: '11:30', aula: 'Aula F6', edificio: 'RM068', modulo: 'Principi di meccanica' },
         ]},
         // ---------------- III anno ----------------
-        { ins: 'Storia dell’industria e management dell’innovazione', anno: 3,
-          titolo: 'Management dell’innovazione', docente: 'Capalbo C.', slot: [
-          { giorno: 1, inizio: '09:00', fine: '13:30', aula: 'Aula F5' },
+        { ins: 'Storia dell’industria e management dell’innovazione', anno: 3, slot: [
+          { giorno: 1, inizio: '09:00', fine: '11:00', aula: 'Aula F5', edificio: 'RM068', modulo: 'Fondamenti di marketing e comunicazione d’impresa' },
+          { giorno: 1, inizio: '11:00', fine: '13:30', aula: 'Aula F5', edificio: 'RM068', modulo: 'Imprenditorialità e sviluppo di nuovi business' },
         ]},
-        { ins: 'Laboratorio di sintesi finale (uno a scelta)', anno: 3,
-          etichetta: 'Exhibit e public design', docente: 'Clemente M. C. / Quici F.', slot: [
-          { giorno: 2, inizio: '09:00', fine: '19:00', aula: 'Aula G33' },
+        { ins: 'Laboratorio di sintesi finale (uno a scelta)', anno: 3, etichetta: 'Exhibit e spazio pubblico', slot: [
+          { giorno: 2, inizio: '09:00', fine: '14:00', aula: 'Aula G33', edificio: 'RM089', modulo: 'Design per l’exhibit e lo spazio pubblico' },
+          { giorno: 2, inizio: '14:00', fine: '19:00', aula: 'Aula G33', edificio: 'RM089', modulo: 'Comunicazione visiva e multimediale' },
         ]},
-        { ins: 'Laboratorio di sintesi finale (uno a scelta)', anno: 3,
-          etichetta: 'Comunicazione', docente: 'Minestroni L. / Martino C.', slot: [
-          { giorno: 3, inizio: '09:00', fine: '19:00', aula: 'Aula F5' },
+        { ins: 'Laboratorio di sintesi finale (uno a scelta)', anno: 3, etichetta: 'Comunicazione visiva', slot: [
+          { giorno: 3, inizio: '09:00', fine: '14:00', aula: 'Aula F5', edificio: 'RM068', modulo: 'Branding' },
+          { giorno: 3, inizio: '14:00', fine: '19:00', aula: 'Aula F5', edificio: 'RM068', modulo: 'Design per la comunicazione visiva 2' },
         ]},
-        { ins: 'Laboratorio di sintesi finale (uno a scelta)', anno: 3,
-          etichetta: 'Prodotto', docente: 'Imbesi L.', slot: [
-          { giorno: 4, inizio: '09:00', fine: '19:00', aula: 'Aula Y1' },
+        { ins: 'Laboratorio di sintesi finale (uno a scelta)', anno: 3, etichetta: 'Prodotto', slot: [
+          { giorno: 4, inizio: '09:00', fine: '14:00', aula: 'Aula Y1', edificio: 'RM094', modulo: 'Design per il prodotto 2' },
+          { giorno: 4, inizio: '14:00', fine: '19:00', aula: 'Aula Y1', edificio: 'RM094', modulo: 'Processi produttivi' },
         ]},
-        { ins: 'Design dell’interazione, dell’esperienza o del multimediale', anno: 3,
-          etichetta: 'Design dell’interazione', slot: [
-          { giorno: 5, inizio: '09:00', fine: '19:00', aula: 'Aula F6' },
+        { ins: 'Design dell’interazione, dell’esperienza o del multimediale', anno: 3, etichetta: 'Design dell’interazione', slot: [
+          { giorno: 5, inizio: '09:00', fine: '14:00', aula: 'Aula F6', edificio: 'RM068', modulo: 'Design per le tecnologie digitali' },
+          { giorno: 5, inizio: '14:00', fine: '19:00', aula: 'Aula F6', edificio: 'RM068', modulo: 'Tecnologie informatiche' },
         ]},
-        { ins: 'Design dell’interazione, dell’esperienza o del multimediale', anno: 3,
-          etichetta: 'Design dell’esperienza', docente: 'Di Nocera F.', slot: [
-          { giorno: 5, inizio: '09:00', fine: '19:00', aula: 'Aula F5' },
+        { ins: 'Design dell’interazione, dell’esperienza o del multimediale', anno: 3, etichetta: 'Design dell’esperienza', slot: [
+          { giorno: 5, inizio: '09:00', fine: '14:00', aula: 'Aula F5', edificio: 'RM068', modulo: 'Analisi del comportamento' },
+          { giorno: 5, inizio: '14:00', fine: '19:00', aula: 'Aula F5', edificio: 'RM068', modulo: 'Design per l’esperienza utente' },
         ]},
-        { ins: 'Design dell’interazione, dell’esperienza o del multimediale', anno: 3,
-          etichetta: 'Disegno del multimediale', docente: 'Empler T. / Ruzza L.', slot: [
-          { giorno: 5, inizio: '09:00', fine: '19:00', aula: 'Aula Y3' },
+        { ins: 'Design dell’interazione, dell’esperienza o del multimediale', anno: 3, etichetta: 'Disegno del multimediale', slot: [
+          { giorno: 5, inizio: '09:00', fine: '14:00', aula: 'Aula Y3', edificio: 'RM094', modulo: 'Rappresentazione multimediale' },
+          { giorno: 5, inizio: '14:00', fine: '19:00', aula: 'Aula Y3', edificio: 'RM094', modulo: 'Tecniche per la scenografia e per gli eventi' },
         ]},
       ],
     },

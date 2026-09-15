@@ -92,6 +92,9 @@ export interface Lezione {
   fine: string
   aula?: string
   edificio?: string
+  /** Modulo dell'insegnamento, quando le ore sono divise per modulo
+   *  (es. "Geometria descrittiva" dentro Fondamenti di disegno) */
+  modulo?: string
   /** Periodo di validità: fuori da qui la lezione non compare
    *  (le lezioni del 1° semestre non devono apparire a maggio). */
   dal?: string

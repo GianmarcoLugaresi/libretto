@@ -120,6 +120,7 @@ export function Oggi({ vai, apri }: {
             {scena.tipo === 'ora'
               ? <><span className="polso" style={{ background: 'var(--sapienza)', boxShadow: '0 0 10px var(--accent-glow)' }} />Ora in aula</>
               : scena.data === o ? 'Prossima lezione · oggi' : `Prossima lezione · ${quando(scena.data)}`}
+            {scena.r.lezione.modulo && <> · {scena.r.lezione.modulo}</>}
           </span>
           <h1 className="eroe-titolo" style={{ fontSize: corpoTitolo(scena.r.ins.nome) }}>{scena.r.ins.nome}</h1>
 
@@ -216,8 +217,10 @@ export function Oggi({ vai, apri }: {
                       <span className="riga-tinta" style={{ background: PIENO, color: PIENO }} />
                       <div className="grow stack" style={{ gap: 2 }}>
                         <span className="callout strong clamp-2">{ins.nome}</span>
-                        {(l.aula || l.edificio) && (
-                          <span className="foot dimmer truncate">{[l.aula, l.edificio].filter(Boolean).join(', ')}</span>
+                        {(l.modulo || l.aula || l.edificio) && (
+                          <span className="foot dimmer truncate">
+                            {[l.modulo, [l.aula, l.edificio].filter(Boolean).join(', ')].filter(Boolean).join(' · ')}
+                          </span>
                         )}
                       </div>
                       <Icona nome="chevron" size={16} peso={2.2} className="chev" />

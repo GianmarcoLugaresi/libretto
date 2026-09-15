@@ -11,6 +11,7 @@ import { Foglio, Campo, Segmentato } from './ui'
 import { Icona } from './Icona'
 import { CATALOGO, type CorsoLaurea, type VarianteOrario } from '../lib/catalogo'
 import { GIORNI_BREVI, TINTE, type AnnoCorso, type Insegnamento } from '../lib/types'
+import { giornoSettimana } from '../lib/date'
 import { fmtData } from '../lib/date'
 import { plurale } from '../lib/testo'
 
@@ -21,15 +22,6 @@ export function corsoDelProfilo(catalogoId?: string, nome?: string): CorsoLaurea
     if (c) return c
   }
   return nome ? CATALOGO.find(x => x.nome === nome) : undefined
-}
-
-/** Finestra tipica del semestre. Non è una data ufficiale: è un
- *  punto di partenza che si corregge sul calendario didattico. */
-function periodoTipico(aa: string, semestre: 1 | 2): { dal: string; al: string } {
-  const y = Number(aa.slice(0, 4))
-  return semestre === 1
-    ? { dal: `${y}-09-28`, al: `${y + 1}-01-22` }
-    : { dal: `${y + 1}-02-23`, al: `${y + 1}-06-05` }
 }
 
 export function SchedaOrarioUfficiale({ corso, aperto, chiudi }: {
@@ -57,8 +49,7 @@ export function SchedaOrarioUfficiale({ corso, aperto, chiudi }: {
 
   useEffect(() => {
     if (!aperto) return
-    const p = periodoTipico(orario.aa, orario.semestre)
-    setDal(p.dal); setAl(p.al)
+    setDal(orario.dal); setAl(orario.al)
     setAnno(s.profilo.annoCorrente)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [aperto])
@@ -116,10 +107,15 @@ export function SchedaOrarioUfficiale({ corso, aperto, chiudi }: {
         d({ t: 'lezione.del', id: vecchia.id })
       }
       for (const sl of v.slot) {
+        // I giorni di sospensione del suo giorno della settimana
+        // diventano date saltate: il calendario combacia con quello vero.
+        const saltate = orario.sospese.filter(g => giornoSettimana(g) === sl.giorno)
         d({ t: 'lezione.add', v: {
           id: nuovoId(), insegnamentoId: ins.id,
           giorno: sl.giorno, inizio: sl.inizio, fine: sl.fine,
-          aula: sl.aula, dal: dal || undefined, al: al || undefined,
+          aula: sl.aula, edificio: sl.edificio, modulo: sl.modulo,
+          dal: dal || undefined, al: al || undefined,
+          saltate: saltate.length ? saltate : undefined,
         }})
         aggiunte++
       }
@@ -145,9 +141,9 @@ export function SchedaOrarioUfficiale({ corso, aperto, chiudi }: {
       <div className="card card-pad row" style={{ gap: 10, marginTop: 4 }}>
         <Icona nome="info" size={17} className="dimmer" />
         <span className="foot dim" style={{ lineHeight: 1.45 }}>
-          {corso.nome} · {orario.semestre}° semestre {orario.aa}, come pubblicato
-          dalla facoltà. Gli orari sono provvisori e cambiano: verificali su{' '}
-          <span className="strong">{orario.fonte}</span>.
+          {corso.nome} · {orario.semestre}° semestre {orario.aa}, dal calendario
+          ufficiale del catalogo. Gli orari possono cambiare in corso d'anno:
+          la fonte è <span className="strong">{orario.fonte}</span>.
         </span>
       </div>
 
@@ -205,6 +201,7 @@ export function SchedaOrarioUfficiale({ corso, aperto, chiudi }: {
                         <span key={k} className="foot dimmer num">
                           {GIORNI_BREVI[sl.giorno]} {sl.inizio}–{sl.fine}
                           {sl.aula && ` · ${sl.aula}`}
+                          {sl.modulo && <span className="dim"> · {sl.modulo}</span>}
                         </span>
                       ))}
                     </span>
@@ -227,10 +224,10 @@ export function SchedaOrarioUfficiale({ corso, aperto, chiudi }: {
           </Campo></div>
         </div>
         <p className="caption dimmer" style={{ lineHeight: 1.5 }}>
-          Queste due date sono la finestra tipica del semestre, non una data
-          ufficiale: correggile sul calendario didattico della facoltà.
-          Fuori da qui le lezioni spariscono dall'orario.
-          {dal && al && <> Ora: {fmtData(dal, 'breve')} – {fmtData(al, 'medio')}.</>}
+          Primo e ultimo giorno di lezione pubblicati nel calendario ufficiale
+          {dal && al && <> ({fmtData(dal, 'breve')} – {fmtData(al, 'medio')})</>}; i ponti e
+          le vacanze di Natale vengono saltati da soli. Fuori da qui le lezioni
+          spariscono dall'orario.
         </p>
       </div>
     </Foglio>

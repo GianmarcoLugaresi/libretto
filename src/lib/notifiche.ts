@@ -59,7 +59,7 @@ export function elencoNotifiche(s: Stato, o: OpzioniNotifiche, adesso = new Date
         voci.push({
           at,
           title: `Fra ${o.minutiPrima} minuti: ${ins.nome}`,
-          body: `${l.inizio}–${l.fine}${dove ? ` · ${dove}` : ''}`,
+          body: `${l.modulo ? `${l.modulo} · ` : ''}${l.inizio}–${l.fine}${dove ? ` · ${dove}` : ''}`,
         })
       }
     }

@@ -22,6 +22,7 @@ export function SchedaLezione({ lezione, aperto, chiudi, preGiorno }: {
   const [fine, setFine] = useState('11:00')
   const [aula, setAula] = useState('')
   const [edificio, setEdificio] = useState('')
+  const [modulo, setModulo] = useState('')
   const [dal, setDal] = useState('')
   const [al, setAl] = useState('')
   const [conferma, setConferma] = useState(false)
@@ -36,12 +37,13 @@ export function SchedaLezione({ lezione, aperto, chiudi, preGiorno }: {
       setInsId(lezione.insegnamentoId); setGiorno(lezione.giorno)
       setInizio(lezione.inizio); setFine(lezione.fine)
       setAula(lezione.aula ?? ''); setEdificio(lezione.edificio ?? '')
+      setModulo(lezione.modulo ?? '')
       setDal(lezione.dal ?? ''); setAl(lezione.al ?? '')
     } else {
       setInsId(corsi[0]?.id ?? '')
       setGiorno(preGiorno ?? 1)
       setInizio('09:00'); setFine('11:00')
-      setAula(''); setEdificio(''); setDal(''); setAl('')
+      setAula(''); setEdificio(''); setModulo(''); setDal(''); setAl('')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [aperto, lezione?.id, preGiorno])
@@ -52,6 +54,7 @@ export function SchedaLezione({ lezione, aperto, chiudi, preGiorno }: {
     const v = {
       insegnamentoId: insId, giorno, inizio, fine,
       aula: aula || undefined, edificio: edificio || undefined,
+      modulo: modulo.trim() || undefined,
       dal: dal || undefined, al: al || undefined,
     }
     if (lezione) { d({ t: 'lezione.set', id: lezione.id, v }); avviso('Lezione aggiornata') }
@@ -108,6 +111,10 @@ export function SchedaLezione({ lezione, aperto, chiudi, preGiorno }: {
             <input className="input" value={edificio} onChange={e => setEdificio(e.target.value)} placeholder="RM018" />
           </Campo></div>
         </div>
+
+        <Campo label="Modulo" hint="Se l'insegnamento è diviso in moduli con ore diverse (es. Geometria descrittiva)">
+          <input className="input" value={modulo} onChange={e => setModulo(e.target.value)} placeholder="Opzionale" />
+        </Campo>
 
         <details className="dettagli">
           <summary className="callout strong">

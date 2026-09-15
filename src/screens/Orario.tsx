@@ -234,6 +234,7 @@ export function Orario() {
                         style={{ textAlign: 'left' }}
                       >
                         <span className="callout strong truncate">{ins.nome}</span>
+                        {l.modulo && <span className="foot dim truncate">{l.modulo}</span>}
                         <span className="foot dimmer row" style={{ gap: 8, marginTop: 3, flexWrap: 'wrap' }}>
                           <span>{durata(l.inizio, l.fine)}</span>
                           {(l.aula || l.edificio) && (
@@ -299,7 +300,7 @@ export function Orario() {
                               }}
                               onClick={() => setLezione(l)}
                             >
-                              <span className="gr-nome">{ins.nome}</span>
+                              <span className="gr-nome">{l.modulo ?? ins.nome}</span>
                               {h > 44 && l.aula && <span className="gr-aula">{l.aula}</span>}
                             </button>
                           )
