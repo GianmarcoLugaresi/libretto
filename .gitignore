@@ -4,3 +4,5 @@ dist
 *.local
 tsconfig.tsbuildinfo
 graphify-out/
+release/
+ios/App/build-ipa/

@@ -95,6 +95,22 @@ I dati dell'app nativa sono separati da quelli del sito (origini
 diverse): per portarli usa *Profilo → Scarica un backup* sul sito e
 *Ripristina da backup* nell'app.
 
+### Con AltStore (rinnovo automatico della firma)
+
+Con un Apple ID gratuito la firma scade ogni 7 giorni. AltStore la
+rinnova da solo quando iPhone e Mac (con AltServer) sono sulla stessa
+Wi‑Fi. Serve un IPA non firmato:
+
+```bash
+npm run ipa
+```
+
+Produce `release/MySapienza.ipa`. Poi: AltServer sul Mac → *Install
+AltStore* sul telefono (login con il tuo Apple ID), e da AltStore sul
+telefono *My Apps → + → MySapienza.ipa* (l'IPA va copiato sul telefono,
+ad esempio via AirDrop o iCloud Drive). Per aggiornare: rigenera l'IPA e
+reinstalla dalla stessa voce; i dati restano.
+
 ## Struttura
 
 ```
