@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { useApp, nuovoId } from '../lib/store'
+import { useApp } from '../lib/store'
 import { CATALOGO, espandi, type CorsoLaurea } from '../lib/catalogo'
 import { Icona } from '../components/Icona'
 import { Campo } from '../components/ui'
@@ -40,7 +40,7 @@ export function Onboarding() {
       annoCorrente: anno,
     }})
     if (corso && !daZero) {
-      for (const ins of espandi(corso, nuovoId)) d({ t: 'ins.add', v: ins })
+      for (const ins of espandi(corso)) d({ t: 'ins.add', v: ins })
     }
     d({ t: 'onboarding.fine' })
   }

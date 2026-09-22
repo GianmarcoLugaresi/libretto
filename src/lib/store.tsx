@@ -7,12 +7,13 @@
 import { createContext, useContext, useEffect, useMemo, useReducer, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 import type {
-  Stato, Profilo, Impostazioni, Insegnamento, Esame, Appello, Lezione,
+  Stato, Profilo, Impostazioni, Insegnamento, Esame, Appello, Lezione, StatoSync,
 } from './types'
-import { statoIniziale } from './seed'
+import { depositoCarriera, VERSIONE_SCHEMA } from './deposito'
+import { migra } from './migrazione'
 
-const CHIAVE = 'libretto:v1'
-export const VERSIONE = 1
+export const VERSIONE = VERSIONE_SCHEMA
+const deposito = depositoCarriera()
 
 export function nuovoId(): string {
   return Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-4)
@@ -35,6 +36,7 @@ type Azione =
   | { t: 'lezione.add'; v: Lezione }
   | { t: 'lezione.set'; id: string; v: Partial<Lezione> }
   | { t: 'lezione.del'; id: string }
+  | { t: 'sync'; v: Partial<StatoSync> }
   | { t: 'onboarding.fine' }
 
 function esameBase(id: string): Esame {
@@ -114,6 +116,9 @@ function riduci(s: Stato, a: Azione): Stato {
     case 'lezione.del':
       return { ...s, lezioni: s.lezioni.filter(x => x.id !== a.id) }
 
+    case 'sync':
+      return { ...s, sync: { ...s.sync, ...a.v } }
+
     case 'onboarding.fine':
       return { ...s, onboarding: false }
   }
@@ -121,31 +126,17 @@ function riduci(s: Stato, a: Azione): Stato {
 
 /* ---------------- Persistenza ---------------- */
 
-function leggi(): Stato | null {
-  try {
-    const raw = localStorage.getItem(CHIAVE)
-    if (!raw) return null
-    const dati = JSON.parse(raw) as Stato
-    if (typeof dati?.versione !== 'number') return null
-    return migra(dati)
-  } catch {
-    // Dati corrotti o storage bloccato (Safari privato): si riparte
-    // dal seed invece di lasciare l'app in pagina bianca.
-    return null
-  }
-}
-
-function migra(s: Stato): Stato {
-  // Un solo schema per ora; l'aggancio serve ai rilasci futuri.
-  return { ...statoIniziale(), ...s, versione: VERSIONE }
+/** Legge quel che c'è su disco e lo porta allo schema corrente.
+ *  Le note della migrazione finiscono in console: servono a capire
+ *  cos'è successo ai dati, non all'utente. */
+function leggi(): Stato {
+  const { carriera, passaggi, note } = migra(deposito.leggiGrezzo(), nuovoId)
+  if (passaggi > 0 && note.length) console.info('[dati]', note.join(' '))
+  return carriera
 }
 
 function scrivi(s: Stato) {
-  try {
-    localStorage.setItem(CHIAVE, JSON.stringify(s))
-  } catch {
-    /* quota piena o storage negato: l'app continua in memoria */
-  }
+  deposito.scrivi(s)
 }
 
 /* ---------------- Contesto ---------------- */
@@ -161,7 +152,7 @@ interface Ctx {
 const AppCtx = createContext<Ctx | null>(null)
 
 export function Provider({ children }: { children: ReactNode }) {
-  const [s, d] = useReducer(riduci, null, () => leggi() ?? statoIniziale())
+  const [s, d] = useReducer(riduci, null, leggi)
   const [avvisoCorrente, setAvviso] = useState<string | null>(null)
   const timer = useRef<number | undefined>(undefined)
   const primo = useRef(true)
@@ -211,9 +202,11 @@ export function importa(testo: string): Stato {
   if (!dati || !Array.isArray(dati.insegnamenti) || !dati.profilo) {
     throw new Error('Il file non sembra un backup di MySapienza.')
   }
-  return migra(dati as Stato)
+  // Un backup può venire da una versione precedente: passa dalla
+  // stessa migrazione dei dati su disco.
+  return migra(dati, nuovoId).carriera
 }
 
 export function cancellaTutto() {
-  try { localStorage.removeItem(CHIAVE) } catch { /* ignora */ }
+  deposito.cancella()
 }

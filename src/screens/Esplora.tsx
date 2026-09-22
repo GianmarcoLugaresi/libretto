@@ -3,6 +3,7 @@ import { useApp, nuovoId } from '../lib/store'
 import { Icona } from '../components/Icona'
 import { Schermo, Segmentato, Sezione, Vuoto } from '../components/ui'
 import { CATALOGO, type CorsoLaurea } from '../lib/catalogo'
+import { chiaveManuale } from '../lib/chiavi'
 import { LABEL_TIPO, TINTE, type AnnoCorso, type Semestre } from '../lib/types'
 
 /** Esplora i piani di studio degli altri corsi: utile per scegliere
@@ -113,7 +114,9 @@ function Dettaglio({ corso, chiudi }: { corso: CorsoLaurea; chiudi: () => void }
 
   function aggiungi(r: { nome: string; cfu: number; anno: AnnoCorso; sem: Semestre; tipo?: string; ssd?: string }) {
     d({ t: 'ins.add', v: {
-      id: nuovoId(), nome: r.nome, cfu: r.cfu, anno: r.anno, semestre: r.sem,
+      // viene da un altro corso: è una scelta personale, non parte
+      // del piano, quindi porta una chiave manuale
+      id: chiaveManuale(r.nome, nuovoId), nome: r.nome, cfu: r.cfu, anno: r.anno, semestre: r.sem,
       tipo: (r.tipo as never) ?? 'a_scelta', ssd: r.ssd,
       tinta: s.insegnamenti.length % TINTE.length,
     }})

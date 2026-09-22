@@ -38,6 +38,7 @@ export function statoIniziale(): Stato {
     esami: {},
     appelli: [],
     lezioni: [],
+    sync: {},
     onboarding: true,
   }
 }

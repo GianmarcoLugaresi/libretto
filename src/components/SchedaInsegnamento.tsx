@@ -4,6 +4,7 @@
 
 import { useEffect, useState } from 'react'
 import { useApp, nuovoId } from '../lib/store'
+import { chiaveManuale } from '../lib/chiavi'
 import { Foglio, Campo, Segmentato, Selezione } from './ui'
 import { Icona } from './Icona'
 import {
@@ -61,7 +62,7 @@ export function SchedaInsegnamento({ ins, aperto, chiudi }: {
       d({ t: 'ins.set', id: ins.id, v: dati })
       avviso('Modifiche salvate')
     } else {
-      d({ t: 'ins.add', v: { id: nuovoId(), ...dati } })
+      d({ t: 'ins.add', v: { id: chiaveManuale(n, nuovoId), ...dati } })
       avviso(`${n} aggiunto al piano`)
     }
     chiudi()

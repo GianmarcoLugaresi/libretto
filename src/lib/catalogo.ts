@@ -13,6 +13,7 @@
    ============================================================ */
 
 import type { Giorno, Insegnamento, TipoCorsoLaurea, TipoInsegnamento } from './types'
+import { chiaveDaPiano } from './chiavi'
 
 /** [nome, cfu, anno, semestre (0=annuale), tipo?, ssd?] */
 type Riga = [string, number, number, number, TipoInsegnamento?, string?]
@@ -218,12 +219,15 @@ export const CATALOGO: CorsoLaurea[] = [
   },
 ]
 
-/** Espande un piano in insegnamenti pronti per il libretto. */
-export function espandi(c: CorsoLaurea, id: () => string): Insegnamento[] {
+/** Espande un piano in insegnamenti pronti per il libretto.
+ *  La chiave è derivata dal corso e dal nome: stesso piano, stessa
+ *  chiave su qualunque telefono — è ciò che permetterà alla
+ *  pipeline di aggiornare il piano senza toccare i voti. */
+export function espandi(c: CorsoLaurea): Insegnamento[] {
   return c.piano.map((r, i) => {
     const [nome, cfu, anno, semestre, tipo, ssd] = r
     return {
-      id: id(),
+      id: chiaveDaPiano(c.id, nome),
       nome,
       cfu,
       anno: anno as Insegnamento['anno'],

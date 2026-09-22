@@ -7,6 +7,7 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import { useApp, nuovoId } from '../lib/store'
+import { chiaveDaPiano, normalizza } from '../lib/chiavi'
 import { Foglio, Campo, Segmentato } from './ui'
 import { Icona } from './Icona'
 import { CATALOGO, type CorsoLaurea, type VarianteOrario } from '../lib/catalogo'
@@ -82,13 +83,16 @@ export function SchedaOrarioUfficiale({ corso, aperto, chiudi }: {
 
       // Aggancia l'insegnamento già nel libretto; se manca (per
       // esempio l'hai cancellato) lo ricrea dal piano ufficiale.
+      // Confronto normalizzato: le fonti scrivono lo stesso nome con
+      // accenti e apostrofi diversi.
       let ins: Insegnamento | undefined =
-        s.insegnamenti.find(i => i.nome.toLowerCase() === nomeIns.toLowerCase())
+        s.insegnamenti.find(i => normalizza(i.nome) === normalizza(nomeIns))
 
       if (!ins) {
         const riga = corso.piano.find(r => r[0] === nomeIns)
         ins = {
-          id: nuovoId(),
+          // viene dal piano del corso, quindi porta la chiave del piano
+          id: chiaveDaPiano(corso.id, nomeIns),
           nome: nomeIns,
           cfu: riga?.[1] ?? 6,
           anno: (riga?.[2] ?? anno) as AnnoCorso,

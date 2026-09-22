@@ -137,15 +137,30 @@ export interface Impostazioni {
   notifiche?: { lezioni: boolean; esami: boolean; minutiPrima: number }
 }
 
-/** Radice dello stato persistito. */
+/** Avanzamento delle sincronizzazioni. Sta nello stato perché la UI
+ *  deve poter dire "aggiornato il…" senza interrogare la rete. */
+export interface StatoSync {
+  /** Ultimo controllo dei dati pubblici (ISO) */
+  pubblicaIl?: string
+  /** Ultima sincronizzazione con Infostud (ISO) */
+  infostudIl?: string
+  /** ETag per file scaricato: evita di riscaricare l'invariato */
+  etag?: Record<string, string>
+}
+
+/** Radice dello stato persistito.
+ *  `esami` è indicizzato per chiave stabile dell'insegnamento
+ *  (vedi chiavi.ts): è quella che regge gli aggiornamenti del
+ *  catalogo e, più avanti, l'aggancio degli esami di Infostud. */
 export interface Stato {
   versione: number
   profilo: Profilo
   impostazioni: Impostazioni
   insegnamenti: Insegnamento[]
-  esami: Record<string, Esame>        // chiave = insegnamentoId
+  esami: Record<string, Esame>
   appelli: Appello[]
   lezioni: Lezione[]
+  sync: StatoSync
   /** Prima apertura non ancora conclusa */
   onboarding: boolean
 }
