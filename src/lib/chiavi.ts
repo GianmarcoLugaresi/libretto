@@ -11,13 +11,18 @@
    reinstallazione.
    ============================================================ */
 
+/** I segni diacritici che NFD stacca dalle lettere. Scritto con
+ *  gli escape e non con i caratteri veri: in un sorgente sono
+ *  invisibili e si perdono nei passaggi. */
+const SEGNI_DIACRITICI = new RegExp('[\\u0300-\\u036f]', 'g')
+
 /** Toglie accenti, punteggiatura e doppi spazi: serve a confrontare
  *  nomi che le fonti scrivono in modi diversi
  *  ("Storia dell’industria" / "STORIA DELL'INDUSTRIA"). */
 export function normalizza(testo: string): string {
   return testo
     .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')      // via gli accenti
+    .replace(SEGNI_DIACRITICI, '')      // via gli accenti
     .toLowerCase()
     .replace(/['’`´]/g, ' ')              // apostrofi come separatori
     .replace(/[^a-z0-9]+/g, ' ')

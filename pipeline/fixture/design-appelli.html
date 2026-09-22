@@ -1,0 +1,1482 @@
+<!DOCTYPE html>
+<html lang="it" dir="ltr">
+<head>
+  <link rel="profile" href="http://www.w3.org/1999/xhtml/vocab" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Generator" content="Drupal 7 (http://drupal.org)" />
+<link rel="shortcut icon" href="https://corsidilaurea.uniroma1.it/sites/all/themes/custom/cdl/favicon.ico" type="image/vnd.microsoft.icon" />
+  <title>Design | Course catalogue</title>
+  <style>
+@import url("https://corsidilaurea.uniroma1.it/modules/system/system.base.css?tlrnfa");
+</style>
+<style>
+@import url("https://corsidilaurea.uniroma1.it/sites/all/modules/custom/cdl_backend/css/backend.css?tlrnfa");
+@import url("https://corsidilaurea.uniroma1.it/sites/all/modules/custom/cdl_course_home/css/course_home.css?tlrnfa");
+@import url("https://corsidilaurea.uniroma1.it/sites/all/modules/custom/cdl_lessons/css/lessons.css?tlrnfa");
+@import url("https://corsidilaurea.uniroma1.it/modules/field/theme/field.css?tlrnfa");
+@import url("https://corsidilaurea.uniroma1.it/modules/node/node.css?tlrnfa");
+@import url("https://corsidilaurea.uniroma1.it/sites/all/modules/contrib/views/css/views.css?tlrnfa");
+@import url("https://corsidilaurea.uniroma1.it/sites/all/modules/contrib/ckeditor/css/ckeditor.css?tlrnfa");
+</style>
+<style>
+@import url("https://corsidilaurea.uniroma1.it/sites/all/modules/contrib/ctools/css/ctools.css?tlrnfa");
+@import url("https://corsidilaurea.uniroma1.it/modules/locale/locale.css?tlrnfa");
+</style>
+<link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.css" media="all" />
+<link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@unicorn-fail/drupal-bootstrap-styles@0.0.2/dist/3.3.1/7.x-3.x/drupal-bootstrap.css" media="all" />
+<style>
+@import url("https://corsidilaurea.uniroma1.it/sites/all/themes/custom/cdl/libraries/fontawesome/css/fontawesome.min.css?tlrnfa");
+@import url("https://corsidilaurea.uniroma1.it/sites/all/themes/custom/cdl/css/styles.css?tlrnfa");
+</style>
+  <!-- HTML5 element support for IE6-8 -->
+  <!--[if lt IE 9]>
+    <script src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <script src="https://corsidilaurea.uniroma1.it/sites/all/modules/contrib/jquery_update/replace/jquery/2.2/jquery.min.js?v=2.2.4"></script>
+<script src="https://corsidilaurea.uniroma1.it/misc/jquery-extend-3.4.0.js?v=2.2.4"></script>
+<script src="https://corsidilaurea.uniroma1.it/misc/jquery-html-prefilter-3.5.0-backport.js?v=2.2.4"></script>
+<script src="https://corsidilaurea.uniroma1.it/misc/jquery.once.js?v=1.2"></script>
+<script src="https://corsidilaurea.uniroma1.it/misc/drupal.js?tlrnfa"></script>
+<script src="https://corsidilaurea.uniroma1.it/sites/all/modules/contrib/jquery_update/js/jquery_browser.js?v=0.0.1"></script>
+<script src="https://corsidilaurea.uniroma1.it/misc/form.js?v=7.103.6+7.103.1:drupal"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.js"></script>
+<script src="https://corsidilaurea.uniroma1.it/sites/all/modules/contrib/admin_menu/admin_devel/admin_devel.js?tlrnfa"></script>
+<script src="https://corsidilaurea.uniroma1.it/sites/all/modules/custom/cdl_backend/js/backend.js?tlrnfa"></script>
+<script src="https://corsidilaurea.uniroma1.it/sites/all/modules/custom/cdl_course_attendance/js/timetable.js?tlrnfa"></script>
+<script src="https://corsidilaurea.uniroma1.it/sites/all/modules/custom/cdl_course_contacts/js/contacts.js?tlrnfa"></script>
+<script src="https://corsidilaurea.uniroma1.it/sites/all/modules/custom/cdl_course_home/js/course_home.js?tlrnfa"></script>
+<script src="https://corsidilaurea.uniroma1.it/sites/all/modules/custom/cdl_homepage/js/base.js?tlrnfa"></script>
+<script src="https://corsidilaurea.uniroma1.it/sites/all/modules/contrib/entityreference/js/entityreference.js?tlrnfa"></script>
+<script src="https://corsidilaurea.uniroma1.it/sites/default/files/languages/it_IAIsrAD3YrRJDGneU8nrs0AJ8zDbwyvNlpVkqqsjZoQ.js?tlrnfa"></script>
+<script src="https://corsidilaurea.uniroma1.it/sites/all/themes/contrib/bootstrap/js/misc/_collapse.js?v=7.103.6+7.103.1:drupal"></script>
+<script src="https://corsidilaurea.uniroma1.it/misc/tableheader.js?tlrnfa"></script>
+<script src="https://corsidilaurea.uniroma1.it/sites/all/modules/custom/cdl_lessons/js/exams_filter.js?tlrnfa"></script>
+<script src="https://corsidilaurea.uniroma1.it/sites/all/themes/custom/cdl/libraries/fontawesome/js/fontawesome.min.js?tlrnfa"></script>
+<script src="https://corsidilaurea.uniroma1.it/sites/all/themes/custom/cdl/libraries/fontawesome/js/solid.min.js?tlrnfa"></script>
+<script src="https://corsidilaurea.uniroma1.it/sites/all/themes/custom/cdl/libraries/js/css3-mediaqueries.js?tlrnfa"></script>
+<script src="https://corsidilaurea.uniroma1.it/sites/all/themes/custom/cdl/libraries/js/html5shiv.min.js?tlrnfa"></script>
+<script src="https://corsidilaurea.uniroma1.it/sites/all/themes/custom/cdl/libraries/js/jquery.matchHeight-min.js?tlrnfa"></script>
+<script src="https://corsidilaurea.uniroma1.it/sites/all/themes/custom/cdl/libraries/js/modernizr.min.js?tlrnfa"></script>
+<script src="https://corsidilaurea.uniroma1.it/sites/all/themes/custom/cdl/libraries/js/respond.js?tlrnfa"></script>
+<script src="https://corsidilaurea.uniroma1.it/sites/all/themes/custom/cdl/js/components/cdl_accordion.js?tlrnfa"></script>
+<script src="https://corsidilaurea.uniroma1.it/sites/all/themes/custom/cdl/js/components/cdl_video.js?tlrnfa"></script>
+<script src="https://corsidilaurea.uniroma1.it/sites/all/themes/custom/cdl/js/components/cdl_lessons.js?tlrnfa"></script>
+<script src="https://corsidilaurea.uniroma1.it/sites/all/themes/custom/cdl/js/scripts.js?tlrnfa"></script>
+<script>jQuery.extend(Drupal.settings, {"basePath":"\/","pathPrefix":"it\/","setHasJsCookie":0,"ajaxPageState":{"theme":"cdl","theme_token":"LEvq9GgLgJstRh32ednK9xbWg9hV8nkQWOEgP03iL1o","js":{"sites\/all\/themes\/contrib\/bootstrap\/js\/bootstrap.js":1,"sites\/all\/modules\/contrib\/jquery_update\/replace\/jquery\/2.2\/jquery.min.js":1,"misc\/jquery-extend-3.4.0.js":1,"misc\/jquery-html-prefilter-3.5.0-backport.js":1,"misc\/jquery.once.js":1,"misc\/drupal.js":1,"sites\/all\/modules\/contrib\/jquery_update\/js\/jquery_browser.js":1,"misc\/form.js":1,"https:\/\/cdn.jsdelivr.net\/npm\/bootstrap@3.4.1\/dist\/js\/bootstrap.js":1,"sites\/all\/modules\/contrib\/admin_menu\/admin_devel\/admin_devel.js":1,"sites\/all\/modules\/custom\/cdl_backend\/js\/backend.js":1,"sites\/all\/modules\/custom\/cdl_course_attendance\/js\/timetable.js":1,"sites\/all\/modules\/custom\/cdl_course_contacts\/js\/contacts.js":1,"sites\/all\/modules\/custom\/cdl_course_home\/js\/course_home.js":1,"sites\/all\/modules\/custom\/cdl_homepage\/js\/base.js":1,"sites\/all\/modules\/contrib\/entityreference\/js\/entityreference.js":1,"public:\/\/languages\/it_IAIsrAD3YrRJDGneU8nrs0AJ8zDbwyvNlpVkqqsjZoQ.js":1,"sites\/all\/themes\/contrib\/bootstrap\/js\/misc\/_collapse.js":1,"misc\/tableheader.js":1,"sites\/all\/modules\/custom\/cdl_lessons\/js\/exams_filter.js":1,"sites\/all\/themes\/custom\/cdl\/libraries\/fontawesome\/js\/fontawesome.min.js":1,"sites\/all\/themes\/custom\/cdl\/libraries\/fontawesome\/js\/solid.min.js":1,"sites\/all\/themes\/custom\/cdl\/libraries\/js\/css3-mediaqueries.js":1,"sites\/all\/themes\/custom\/cdl\/libraries\/js\/html5shiv.min.js":1,"sites\/all\/themes\/custom\/cdl\/libraries\/js\/jquery.matchHeight-min.js":1,"sites\/all\/themes\/custom\/cdl\/libraries\/js\/modernizr.min.js":1,"sites\/all\/themes\/custom\/cdl\/libraries\/js\/respond.js":1,"sites\/all\/themes\/custom\/cdl\/js\/components\/cdl_accordion.js":1,"sites\/all\/themes\/custom\/cdl\/js\/components\/cdl_video.js":1,"sites\/all\/themes\/custom\/cdl\/js\/components\/cdl_lessons.js":1,"sites\/all\/themes\/custom\/cdl\/js\/scripts.js":1},"css":{"modules\/system\/system.base.css":1,"sites\/all\/modules\/custom\/cdl_backend\/css\/backend.css":1,"sites\/all\/modules\/custom\/cdl_course_home\/css\/course_home.css":1,"sites\/all\/modules\/custom\/cdl_lessons\/css\/lessons.css":1,"modules\/field\/theme\/field.css":1,"modules\/node\/node.css":1,"sites\/all\/modules\/contrib\/views\/css\/views.css":1,"sites\/all\/modules\/contrib\/ckeditor\/css\/ckeditor.css":1,"sites\/all\/modules\/contrib\/ctools\/css\/ctools.css":1,"modules\/locale\/locale.css":1,"https:\/\/cdn.jsdelivr.net\/npm\/bootstrap@3.4.1\/dist\/css\/bootstrap.css":1,"https:\/\/cdn.jsdelivr.net\/npm\/@unicorn-fail\/drupal-bootstrap-styles@0.0.2\/dist\/3.3.1\/7.x-3.x\/drupal-bootstrap.css":1,"sites\/all\/themes\/custom\/cdl\/libraries\/fontawesome\/cs\/fontawesome.min.css":1,"sites\/all\/themes\/custom\/cdl\/libraries\/fontawesome\/css\/fontawesome.min.css":1,"sites\/all\/themes\/custom\/cdl\/css\/styles.css":1}},"bootstrap":{"anchorsFix":"0","anchorsSmoothScrolling":"0","formHasError":1,"popoverEnabled":1,"popoverOptions":{"animation":1,"html":0,"placement":"right","selector":"","trigger":"click","triggerAutoclose":1,"title":"","content":"","delay":0,"container":"body"},"tooltipEnabled":1,"tooltipOptions":{"animation":1,"html":0,"placement":"auto left","selector":"","trigger":"focus hover","delay":0,"container":"body"}}});</script>
+</head>
+<body class="navbar-is-fixed-top html not-front not-logged-in no-sidebars page-course page-course- page-course-33426 page-course-attendance page-course-attendance-exams">
+  <div class="cdl-overlay-div"></div>
+  <div id="skip-link">
+    <a href="#main-content" role="link" aria-label="Skip to main content" class="element-invisible element-focusable">Skip to main content</a>
+  </div>
+    <header id="navbar" role="banner" class="section navbar navbar-fixed-top navbar-default">
+  <div class="container">
+
+      <div class="navbar-brand">
+              <a href="https://www.uniroma1.it/" class="site-logo">
+          <img class="logo pull-left" src="https://corsidilaurea.uniroma1.it/sites/all/themes/custom/cdl/logo.png" alt="Uniroma 1" />
+        </a>
+      
+              <div class="site-name">
+          <a title="Torna alla Home Page" href="/"><h2>Catalogo dei corsi di studio</h2></a>
+        </div>
+            </div>
+
+            <button class="main-menu-open">
+        <img src="/sites/all/themes/custom/cdl/images/hamburgher.svg" />
+      </button>
+      
+                <div class="region region-header">
+    <section id="block-locale-language-content" class="block- block block-locale clearfix">
+
+      
+  <ul class="language-switcher-locale-url"><li class="it first active"><a href="/it/course/33426/attendance/exams" class="language-link active" xml:lang="it">IT</a></li>
+<li class="en last"><a href="/en/course/33426/attendance/exams" class="language-link" xml:lang="en">EN</a></li>
+</ul>
+</section>
+  </div>
+
+        </div>
+</header>
+
+<div class="main-menu-overlay">
+  <div class="container">
+    <div class="main-menu-header">
+      <button class="main-menu-search"></button>
+      <button class="main-menu-close"></button>
+    </div>
+
+    <div class="main-menu-container">
+      <ul class="menu nav"><li class="first leaf"><a href="/it/course/33426">Il corso</a></li>
+<li class="leaf"><a href="/it/course/33426/apply">Iscriversi</a></li>
+<li class="leaf"><a href="/it/course/33426/attendance">Frequentare</a></li>
+<li class="leaf"><a href="/it/course/33426/contacts">Contattaci</a></li>
+<li class="last leaf"><a href="/it/course/33426/sapienza-for-you">Sapienza per te</a></li>
+</ul>      <div class="main-menu-logo">
+        <img src="/sites/all/themes/custom/cdl/logo_bianco.png" />
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+<section id="page-title" class="section">
+  <div class="container">
+        <div class="main-menu-corso">
+      <ul class="menu nav"><li class="first leaf"><a href="/it/course/33426">Il corso</a></li>
+<li class="leaf"><a href="/it/course/33426/apply">Iscriversi</a></li>
+<li class="leaf"><a href="/it/course/33426/attendance">Frequentare</a></li>
+<li class="leaf"><a href="/it/course/33426/contacts">Contattaci</a></li>
+<li class="last leaf"><a href="/it/course/33426/sapienza-for-you">Sapienza per te</a></li>
+</ul>    </div>
+        <h1>
+              <a href="/it/course/33426">Design</a>
+          </h1>
+      </div>
+</section>
+
+<section id="breadcrumb" class="section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <ol class="breadcrumb"><li><a href="/it">Catalogo</a></li>
+<li><a href="/it/course/33426"> Corso</a></li>
+<li><a href="/it/course/33426/attendance">Frequentare</a></li>
+<li>Appelli</li>
+</ol>      </div>
+    </div>
+  </div>
+</section>
+<section id="breadcrumb" class="section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="panel-group" id="announcement-accordion"><h3><a href="https://corsidilaurea.uniroma1.it/it/course/33426/announcements" target="_blank"><span class="glyphicon glyphicon-bullhorn" aria-hidden="true"></span> Avvisi in evidenza</a></h3>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+           <a data-toggle="collapse" data-parent="#announcement-accordion" href="#announcement-8980">
+            <h4 class="panel-title">17/09/2026 - Pubblicazione delle graduatorie corrette 
+            </h4>
+          </a>
+          </div>
+          <div id="announcement-8980" class="panel-collapse collapse">
+            <div class="panel-body"><p>Pubblicate le graduatorie corrette approvate con D.R. n. 1916 del 17 settembre 2026.<br />
+Il pagamento della prima rata dei contributi per chi vince un posto in graduatoria deve essere effettuato <strong>entro il 22 settembre 2026.</strong><br />
+Consulta la graduatoria nella sezione iscriversi</p>
+
+              <div class="panel-attachments">
+              
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+           <a data-toggle="collapse" data-parent="#announcement-accordion" href="#announcement-8303">
+            <h4 class="panel-title">21/07/2026 - Avviso posti disponibili per anni successivi a.a. 2026-2027 cdl Design
+            </h4>
+          </a>
+          </div>
+          <div id="announcement-8303" class="panel-collapse collapse">
+            <div class="panel-body"><p><strong>Avviso posti disponibili per anni successivi a.a. 2026-2027 cdl Design</strong></p>
+<p>Avviso posti disponibili per anni successivi a.a. 2026-2027 cdl Design Per l’anno accademico 2026/2027 sono disponibili i seguenti posti per l’iscrizione agli anni successivi al primo per il corso di laurea in Design L-4:</p>
+<p>       A.A.              Anno di corso                  n° Posti disponibili<br />
+2025-2026                 2°                                         0<br />
+2024-2025                 3°                                        25</p>
+<p>Al fine di una verifica dei CFU effettivamente convalidabili, gli interessati, tassativamente entro le ore 14:00 del giorno 10 settembre 2026, dovranno inviare apposita domanda a mezzo e-mail<br />
+contestualmente (con un unico invio) sia all’indirizzo di posta elettronica dedicato all’ammissione sia all’indirizzo di posta elettronica della Segreteria studenti:</p>
+<p><a href="mailto:sabrina.lucibello@uniroma1.it">sabrina.lucibello@uniroma1.it</a><br />
+<a href="mailto:segrstudenti.architettura@uniroma1.it">segrstudenti.architettura@uniroma1.it</a></p>
+<p>L’e-mail dovrà indicare nell’oggetto la seguente dicitura “Valutazione anni successivi al primo in Design”, mentre nella e-mail dovranno essere riportate le seguenti informazioni ed allegati:</p>
+<p>- la domanda, redatta secondo il fac-simile allegato, “domanda_anni_successivi_cds_design.pdf” (Allegati ITA), completa dei dati richiesti e salvata in formato PDF;<br />
+- il certificato o autocertificazione degli esami sostenuti;<br />
+- i programmi dettagliati redatti su carta intestata dell’Università di provenienza di tutti gli esami sostenuti;<br />
+- copia fronte retro di un documento di identità in corso di validità, in formato PDF.</p>
+<p><strong>Gli esiti delle valutazioni delle richieste di ammissione saranno pubblicati entro il giorno 22 settembre 2026.</strong><br />
+ </p>
+
+              <div class="panel-attachments">
+              <ul class="document-list"><li><a href="https://corsidilaurea.uniroma1.it/sites/default/files/avvisi/domanda_anni_successivi_cds_design_0.pdf" class="document-icon pdf"></a> <span class="file-type">(PDF)</span></li>
+</ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+           <a data-toggle="collapse" data-parent="#announcement-accordion" href="#announcement-4719">
+            <h4 class="panel-title">30/10/2025 - Recupero OFA
+            </h4>
+          </a>
+          </div>
+          <div id="announcement-4719" class="panel-collapse collapse">
+            <div class="panel-body"><p>Nelle date 16 gennaio, 8 giugno e 14 settembre 2026 alle ore 9:00 si svolgerà la verifica per il recupero degli OFA.</p>
+<p>Per maggiori informazioni: <a href="https://www.architettura.uniroma1.it/it/recupero-ofa-0">https://www.architettura.uniroma1.it/it/recupero-ofa-0</a></p>
+<p>N.B. le iscrizioni per la prova sono aperte per la data del 16 gennaio 2026</p>
+
+              <div class="panel-attachments">
+              
+              </div>
+            </div>
+          </div>
+        </div></div>      </div>
+    </div>
+  </div>
+</section>
+<section class="section section-highlighted">
+  <div class="container">
+                    <div class="region region-help alert alert-info messages info">
+    <span class="icon glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+<section id="block-block-2" class="block-avviso-per-dati-mancanti block block-block clearfix">
+
+      
+  <p><strong>I contenuti del catalogo per l'a.a. 2026-2027 sono in corso di aggiornamento</strong></p>
+
+</section>
+  </div>
+          </div>
+</section>
+
+<section class="section section-tabs">
+  <div class="container">
+      </div>
+</section>
+
+<main role="main" class="section section-content">
+  <span id="main-content" tabindex="-1"></span>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+          <div class="region region-content">
+    <section id="block-system-main" class="block- block block-system clearfix">
+
+      
+  <div class='mt-2 cdl-lessons-view'>
+    <div class='row form-container'>
+    <div class='col-md-12'>
+                </div>
+  </div>
+  <div class='row content-container'>
+    <div class='col-md-12'>
+      <div class="form-item form-type-textfield form-group"><input id="exams-filter" placeholder="Filtra appelli" class="form-control form-text" type="text" size="60" maxlength="128" /> <label class="control-label element-invisible">Filtra appelli</label>
+</div><fieldset  class="collapsible exam panel panel-default form-wrapper" data-group-type="group-exam" data-exam-id="1020309" data-exam-title="1020309 | SCIENZA DEI MATERIALI" id="bootstrap-panel">
+          <legend class="panel-heading">
+      <a href="#bootstrap-panel-body" class="panel-title fieldset-legend collapsed" data-toggle="collapse">1020309 | SCIENZA DEI MATERIALI</a>
+    </legend>
+        <div class="panel-body panel-collapse collapse fade collapsed" id="bootstrap-panel-body">
+        <div class="table-responsive">
+<table class="exams-table table table-hover table-striped sticky-enabled">
+ <thead><tr><th>Codice corso</th><th>Docente</th><th>Data inizio prenotazione</th><th>Data fine prenotazione</th><th>Data appello</th> </tr></thead>
+<tbody>
+ <tr><td>33426</td><td>MARRA FRANCESCO</td><td>31/05/2027</td><td>31/10/2027</td><td>05/11/2027</td> </tr>
+ <tr><td>33426</td><td>MARRA FRANCESCO</td><td>31/05/2027</td><td>12/09/2027</td><td>17/09/2027</td> </tr>
+ <tr><td>33426</td><td>MARRA FRANCESCO</td><td>31/05/2027</td><td>29/08/2027</td><td>03/09/2027</td> </tr>
+ <tr><td>33426</td><td>MARRA FRANCESCO</td><td>31/05/2027</td><td>04/07/2027</td><td>09/07/2027</td> </tr>
+ <tr><td>33426</td><td>MARRA FRANCESCO</td><td>31/05/2027</td><td>20/06/2027</td><td>25/06/2027</td> </tr>
+ <tr><td>33426</td><td>MARRA FRANCESCO</td><td>31/05/2027</td><td>06/06/2027</td><td>11/06/2027</td> </tr>
+ <tr><td>33426</td><td>MARRA FRANCESCO</td><td>13/01/2027</td><td>11/04/2027</td><td>16/04/2027</td> </tr>
+ <tr><td>33426</td><td>MARRA FRANCESCO</td><td>13/01/2027</td><td>14/02/2027</td><td>19/02/2027</td> </tr>
+ <tr><td>33426</td><td>MARRA FRANCESCO</td><td>13/01/2027</td><td>31/01/2027</td><td>05/02/2027</td> </tr>
+ <tr><td>33426</td><td>MARRA FRANCESCO</td><td>13/01/2027</td><td>17/01/2027</td><td>22/01/2027</td> </tr>
+</tbody>
+</table>
+</div>
+  </div>
+</fieldset>
+<fieldset  class="collapsible exam panel panel-default form-wrapper" data-group-type="group-exam" data-exam-id="1026553" data-exam-title="1026553 | ISTITUZIONI DI MATEMATICA" id="bootstrap-panel--2">
+          <legend class="panel-heading">
+      <a href="#bootstrap-panel-2-body" class="panel-title fieldset-legend collapsed" data-toggle="collapse">1026553 | ISTITUZIONI DI MATEMATICA</a>
+    </legend>
+        <div class="panel-body panel-collapse collapse fade collapsed" id="bootstrap-panel-2-body">
+        <div class="table-responsive">
+<table class="exams-table table table-hover table-striped sticky-enabled">
+ <thead><tr><th>Codice corso</th><th>Docente</th><th>Data inizio prenotazione</th><th>Data fine prenotazione</th><th>Data appello</th> </tr></thead>
+<tbody>
+ <tr><td>33426</td><td>de BONIS IDA</td><td>31/05/2027</td><td>28/10/2027</td><td>02/11/2027</td> </tr>
+ <tr><td>33426</td><td>PORZIO MARIA MICHAELA</td><td>20/10/2027</td><td>28/10/2027</td><td>02/11/2027</td> </tr>
+ <tr><td>33426</td><td>de BONIS IDA</td><td>31/05/2027</td><td>09/09/2027</td><td>14/09/2027</td> </tr>
+ <tr><td>33426</td><td>PORZIO MARIA MICHAELA</td><td>03/09/2027</td><td>10/09/2027</td><td>14/09/2027</td> </tr>
+ <tr><td>33426</td><td>PORZIO MARIA MICHAELA</td><td>15/08/2027</td><td>27/08/2027</td><td>01/09/2027</td> </tr>
+ <tr><td>33426</td><td>de BONIS IDA</td><td>31/05/2027</td><td>27/08/2027</td><td>01/09/2027</td> </tr>
+ <tr><td>33426</td><td>de BONIS IDA</td><td>31/05/2027</td><td>01/07/2027</td><td>06/07/2027</td> </tr>
+ <tr><td>33426</td><td>PORZIO MARIA MICHAELA</td><td>24/06/2027</td><td>01/07/2027</td><td>06/07/2027</td> </tr>
+ <tr><td>33426</td><td>de BONIS IDA</td><td>31/05/2027</td><td>17/06/2027</td><td>22/06/2027</td> </tr>
+ <tr><td>33426</td><td>PORZIO MARIA MICHAELA</td><td>09/06/2027</td><td>17/06/2027</td><td>22/06/2027</td> </tr>
+ <tr><td>33426</td><td>PORZIO MARIA MICHAELA</td><td>25/05/2027</td><td>03/06/2027</td><td>08/06/2027</td> </tr>
+ <tr><td>33426</td><td>de BONIS IDA</td><td>31/05/2027</td><td>03/06/2027</td><td>08/06/2027</td> </tr>
+ <tr><td>33426</td><td>PORZIO MARIA MICHAELA</td><td>25/03/2027</td><td>08/04/2027</td><td>13/04/2027</td> </tr>
+ <tr><td>33426</td><td>de BONIS IDA</td><td>13/01/2027</td><td>08/04/2027</td><td>13/04/2027</td> </tr>
+ <tr><td>33426</td><td>de BONIS IDA</td><td>13/01/2027</td><td>11/02/2027</td><td>16/02/2027</td> </tr>
+ <tr><td>33426</td><td>PORZIO MARIA MICHAELA</td><td>04/02/2027</td><td>11/02/2027</td><td>16/02/2027</td> </tr>
+ <tr><td>33426</td><td>de BONIS IDA</td><td>13/01/2027</td><td>28/01/2027</td><td>02/02/2027</td> </tr>
+ <tr><td>33426</td><td>PORZIO MARIA MICHAELA</td><td>20/01/2027</td><td>28/01/2027</td><td>02/02/2027</td> </tr>
+ <tr><td>33426</td><td>de BONIS IDA</td><td>13/01/2027</td><td>14/01/2027</td><td>19/01/2027</td> </tr>
+ <tr><td>33426</td><td>PORZIO MARIA MICHAELA</td><td>13/01/2027</td><td>14/01/2027</td><td>19/01/2027</td> </tr>
+</tbody>
+</table>
+</div>
+  </div>
+</fieldset>
+<fieldset  class="collapsible exam panel panel-default form-wrapper" data-group-type="group-exam" data-exam-id="10622523" data-exam-title="10622523 | ERGONOMIA E PSICOLOGIA COGNITIVA PER IL DESIGN" id="bootstrap-panel--3">
+          <legend class="panel-heading">
+      <a href="#bootstrap-panel-3-body" class="panel-title fieldset-legend collapsed" data-toggle="collapse">10622523 | ERGONOMIA E PSICOLOGIA COGNITIVA PER IL DESIGN</a>
+    </legend>
+        <div class="panel-body panel-collapse collapse fade collapsed" id="bootstrap-panel-3-body">
+        <div class="table-responsive">
+<table class="exams-table table table-hover table-striped sticky-enabled">
+ <thead><tr><th>Codice corso</th><th>Docente</th><th>Data inizio prenotazione</th><th>Data fine prenotazione</th><th>Data appello</th> </tr></thead>
+<tbody>
+ <tr><td>33426</td><td>TALAMO ALESSANDRA</td><td>31/05/2027</td><td>28/10/2027</td><td>02/11/2027</td> </tr>
+ <tr><td>33426</td><td>BONAIUTO MARINO</td><td>31/05/2027</td><td>28/10/2027</td><td>02/11/2027</td> </tr>
+ <tr><td>33426</td><td>TALAMO ALESSANDRA</td><td>31/05/2027</td><td>08/09/2027</td><td>13/09/2027</td> </tr>
+ <tr><td>33426</td><td>BONAIUTO MARINO</td><td>31/05/2027</td><td>08/09/2027</td><td>13/09/2027</td> </tr>
+ <tr><td>33426</td><td>BONAIUTO MARINO</td><td>31/05/2027</td><td>27/08/2027</td><td>01/09/2027</td> </tr>
+ <tr><td>33426</td><td>TALAMO ALESSANDRA</td><td>31/05/2027</td><td>27/08/2027</td><td>01/09/2027</td> </tr>
+ <tr><td>33426</td><td>TALAMO ALESSANDRA</td><td>31/05/2027</td><td>30/06/2027</td><td>05/07/2027</td> </tr>
+ <tr><td>33426</td><td>BONAIUTO MARINO</td><td>31/05/2027</td><td>30/06/2027</td><td>05/07/2027</td> </tr>
+ <tr><td>33426</td><td>TALAMO ALESSANDRA</td><td>31/05/2027</td><td>16/06/2027</td><td>21/06/2027</td> </tr>
+ <tr><td>33426</td><td>BONAIUTO MARINO</td><td>31/05/2027</td><td>16/06/2027</td><td>21/06/2027</td> </tr>
+ <tr><td>33426</td><td>TALAMO ALESSANDRA</td><td>31/05/2027</td><td>02/06/2027</td><td>07/06/2027</td> </tr>
+ <tr><td>33426</td><td>BONAIUTO MARINO</td><td>31/05/2027</td><td>02/06/2027</td><td>07/06/2027</td> </tr>
+ <tr><td>33426</td><td>TALAMO ALESSANDRA</td><td>13/01/2027</td><td>07/04/2027</td><td>12/04/2027</td> </tr>
+ <tr><td>33426</td><td>BONAIUTO MARINO</td><td>13/01/2027</td><td>07/04/2027</td><td>12/04/2027</td> </tr>
+ <tr><td>33426</td><td>BONAIUTO MARINO</td><td>13/01/2027</td><td>10/02/2027</td><td>15/02/2027</td> </tr>
+ <tr><td>33426</td><td>TALAMO ALESSANDRA</td><td>13/01/2027</td><td>10/02/2027</td><td>15/02/2027</td> </tr>
+ <tr><td>33426</td><td>BONAIUTO MARINO</td><td>13/01/2027</td><td>27/01/2027</td><td>01/02/2027</td> </tr>
+ <tr><td>33426</td><td>TALAMO ALESSANDRA</td><td>13/01/2027</td><td>27/01/2027</td><td>01/02/2027</td> </tr>
+ <tr><td>33426</td><td>TALAMO ALESSANDRA</td><td>13/01/2027</td><td>13/01/2027</td><td>18/01/2027</td> </tr>
+ <tr><td>33426</td><td>BONAIUTO MARINO</td><td>13/01/2027</td><td>13/01/2027</td><td>18/01/2027</td> </tr>
+</tbody>
+</table>
+</div>
+  </div>
+</fieldset>
+<fieldset  class="collapsible exam panel panel-default form-wrapper" data-group-type="group-exam" data-exam-id="10622517" data-exam-title="10622517 | SCIENZA DEI MATERIALI" id="bootstrap-panel--4">
+          <legend class="panel-heading">
+      <a href="#bootstrap-panel-4-body" class="panel-title fieldset-legend collapsed" data-toggle="collapse">10622517 | SCIENZA DEI MATERIALI</a>
+    </legend>
+        <div class="panel-body panel-collapse collapse fade collapsed" id="bootstrap-panel-4-body">
+        <div class="table-responsive">
+<table class="exams-table table table-hover table-striped sticky-enabled">
+ <thead><tr><th>Codice corso</th><th>Docente</th><th>Data inizio prenotazione</th><th>Data fine prenotazione</th><th>Data appello</th> </tr></thead>
+<tbody>
+ <tr><td>33426</td><td>MARRA FRANCESCO</td><td>31/05/2027</td><td>31/10/2027</td><td>05/11/2027</td> </tr>
+ <tr><td>33426</td><td>MARRA FRANCESCO</td><td>31/05/2027</td><td>12/09/2027</td><td>17/09/2027</td> </tr>
+ <tr><td>33426</td><td>MARRA FRANCESCO</td><td>31/05/2027</td><td>29/08/2027</td><td>03/09/2027</td> </tr>
+ <tr><td>33426</td><td>MARRA FRANCESCO</td><td>31/05/2027</td><td>04/07/2027</td><td>09/07/2027</td> </tr>
+ <tr><td>33426</td><td>MARRA FRANCESCO</td><td>31/05/2027</td><td>20/06/2027</td><td>25/06/2027</td> </tr>
+ <tr><td>33426</td><td>MARRA FRANCESCO</td><td>31/05/2027</td><td>06/06/2027</td><td>11/06/2027</td> </tr>
+ <tr><td>33426</td><td>MARRA FRANCESCO</td><td>13/01/2027</td><td>11/04/2027</td><td>16/04/2027</td> </tr>
+ <tr><td>33426</td><td>MARRA FRANCESCO</td><td>13/01/2027</td><td>14/02/2027</td><td>19/02/2027</td> </tr>
+ <tr><td>33426</td><td>MARRA FRANCESCO</td><td>13/01/2027</td><td>31/01/2027</td><td>05/02/2027</td> </tr>
+ <tr><td>33426</td><td>MARRA FRANCESCO</td><td>13/01/2027</td><td>17/01/2027</td><td>22/01/2027</td> </tr>
+</tbody>
+</table>
+</div>
+  </div>
+</fieldset>
+<fieldset  class="collapsible exam panel panel-default form-wrapper" data-group-type="group-exam" data-exam-id="10620339" data-exam-title="10620339 | ERGONOMIA E PSICOLOGIA COGNITIVA PER IL DESIGN" id="bootstrap-panel--5">
+          <legend class="panel-heading">
+      <a href="#bootstrap-panel-5-body" class="panel-title fieldset-legend collapsed" data-toggle="collapse">10620339 | ERGONOMIA E PSICOLOGIA COGNITIVA PER IL DESIGN</a>
+    </legend>
+        <div class="panel-body panel-collapse collapse fade collapsed" id="bootstrap-panel-5-body">
+        <div class="table-responsive">
+<table class="exams-table table table-hover table-striped sticky-enabled">
+ <thead><tr><th>Codice corso</th><th>Docente</th><th>Data inizio prenotazione</th><th>Data fine prenotazione</th><th>Data appello</th> </tr></thead>
+<tbody>
+ <tr><td>33426</td><td>VILLANI TERESA</td><td>31/05/2027</td><td>31/10/2027</td><td>05/11/2027</td> </tr>
+ <tr><td>33426</td><td>VILLANI TERESA</td><td>31/05/2027</td><td>12/09/2027</td><td>17/09/2027</td> </tr>
+ <tr><td>33426</td><td>VILLANI TERESA</td><td>31/05/2027</td><td>29/08/2027</td><td>03/09/2027</td> </tr>
+ <tr><td>33426</td><td>VILLANI TERESA</td><td>31/05/2027</td><td>04/07/2027</td><td>09/07/2027</td> </tr>
+ <tr><td>33426</td><td>VILLANI TERESA</td><td>31/05/2027</td><td>20/06/2027</td><td>25/06/2027</td> </tr>
+ <tr><td>33426</td><td>VILLANI TERESA</td><td>31/05/2027</td><td>06/06/2027</td><td>11/06/2027</td> </tr>
+ <tr><td>33426</td><td>VILLANI TERESA</td><td>13/01/2027</td><td>11/04/2027</td><td>16/04/2027</td> </tr>
+ <tr><td>33426</td><td>VILLANI TERESA</td><td>13/01/2027</td><td>14/02/2027</td><td>19/02/2027</td> </tr>
+ <tr><td>33426</td><td>VILLANI TERESA</td><td>13/01/2027</td><td>31/01/2027</td><td>05/02/2027</td> </tr>
+ <tr><td>33426</td><td>VILLANI TERESA</td><td>13/01/2027</td><td>17/01/2027</td><td>22/01/2027</td> </tr>
+</tbody>
+</table>
+</div>
+  </div>
+</fieldset>
+<fieldset  class="collapsible exam panel panel-default form-wrapper" data-group-type="group-exam" data-exam-id="10621011" data-exam-title="10621011 | LABORATORIO DI BASIC DESIGN PER LO SPAZIO INTERNO" id="bootstrap-panel--6">
+          <legend class="panel-heading">
+      <a href="#bootstrap-panel-6-body" class="panel-title fieldset-legend collapsed" data-toggle="collapse">10621011 | LABORATORIO DI BASIC DESIGN PER LO SPAZIO INTERNO</a>
+    </legend>
+        <div class="panel-body panel-collapse collapse fade collapsed" id="bootstrap-panel-6-body">
+        <div class="table-responsive">
+<table class="exams-table table table-hover table-striped sticky-enabled">
+ <thead><tr><th>Codice corso</th><th>Docente</th><th>Data inizio prenotazione</th><th>Data fine prenotazione</th><th>Data appello</th> </tr></thead>
+<tbody>
+ <tr><td>33426</td><td>SENATORE LUCA JAMES</td><td>31/05/2027</td><td>28/10/2027</td><td>02/11/2027</td> </tr>
+ <tr><td>33426</td><td>RIBICHINI LUCA</td><td>31/05/2027</td><td>28/10/2027</td><td>02/11/2027</td> </tr>
+ <tr><td>33426</td><td>RIBICHINI LUCA</td><td>31/05/2027</td><td>08/09/2027</td><td>13/09/2027</td> </tr>
+ <tr><td>33426</td><td>SENATORE LUCA JAMES</td><td>31/05/2027</td><td>08/09/2027</td><td>13/09/2027</td> </tr>
+ <tr><td>33426</td><td>RIBICHINI LUCA</td><td>31/05/2027</td><td>27/08/2027</td><td>01/09/2027</td> </tr>
+ <tr><td>33426</td><td>SENATORE LUCA JAMES</td><td>31/05/2027</td><td>27/08/2027</td><td>01/09/2027</td> </tr>
+ <tr><td>33426</td><td>SENATORE LUCA JAMES</td><td>31/05/2027</td><td>30/06/2027</td><td>05/07/2027</td> </tr>
+ <tr><td>33426</td><td>RIBICHINI LUCA</td><td>31/05/2027</td><td>30/06/2027</td><td>05/07/2027</td> </tr>
+ <tr><td>33426</td><td>RIBICHINI LUCA</td><td>31/05/2027</td><td>16/06/2027</td><td>21/06/2027</td> </tr>
+ <tr><td>33426</td><td>SENATORE LUCA JAMES</td><td>31/05/2027</td><td>16/06/2027</td><td>21/06/2027</td> </tr>
+ <tr><td>33426</td><td>SENATORE LUCA JAMES</td><td>31/05/2027</td><td>02/06/2027</td><td>07/06/2027</td> </tr>
+ <tr><td>33426</td><td>RIBICHINI LUCA</td><td>31/05/2027</td><td>02/06/2027</td><td>07/06/2027</td> </tr>
+ <tr><td>33426</td><td>SENATORE LUCA JAMES</td><td>13/01/2027</td><td>07/04/2027</td><td>12/04/2027</td> </tr>
+ <tr><td>33426</td><td>RIBICHINI LUCA</td><td>13/01/2027</td><td>07/04/2027</td><td>12/04/2027</td> </tr>
+ <tr><td>33426</td><td>RIBICHINI LUCA</td><td>13/01/2027</td><td>10/02/2027</td><td>15/02/2027</td> </tr>
+ <tr><td>33426</td><td>SENATORE LUCA JAMES</td><td>13/01/2027</td><td>10/02/2027</td><td>15/02/2027</td> </tr>
+ <tr><td>33426</td><td>RIBICHINI LUCA</td><td>13/01/2027</td><td>27/01/2027</td><td>01/02/2027</td> </tr>
+ <tr><td>33426</td><td>SENATORE LUCA JAMES</td><td>13/01/2027</td><td>27/01/2027</td><td>01/02/2027</td> </tr>
+ <tr><td>33426</td><td>SENATORE LUCA JAMES</td><td>13/01/2027</td><td>13/01/2027</td><td>18/01/2027</td> </tr>
+ <tr><td>33426</td><td>RIBICHINI LUCA</td><td>13/01/2027</td><td>13/01/2027</td><td>18/01/2027</td> </tr>
+</tbody>
+</table>
+</div>
+  </div>
+</fieldset>
+<fieldset  class="collapsible exam panel panel-default form-wrapper" data-group-type="group-exam" data-exam-id="10621013" data-exam-title="10621013 | LABORATORIO DI DESIGN PER IL PRODOTTO" id="bootstrap-panel--7">
+          <legend class="panel-heading">
+      <a href="#bootstrap-panel-7-body" class="panel-title fieldset-legend collapsed" data-toggle="collapse">10621013 | LABORATORIO DI DESIGN PER IL PRODOTTO</a>
+    </legend>
+        <div class="panel-body panel-collapse collapse fade collapsed" id="bootstrap-panel-7-body">
+        <div class="table-responsive">
+<table class="exams-table table table-hover table-striped sticky-enabled">
+ <thead><tr><th>Codice corso</th><th>Docente</th><th>Data inizio prenotazione</th><th>Data fine prenotazione</th><th>Data appello</th> </tr></thead>
+<tbody>
+ <tr><td>33426</td><td>LUCIBELLO SABRINA</td><td>31/05/2027</td><td>31/10/2027</td><td>05/11/2027</td> </tr>
+ <tr><td>33426</td><td>DI LUCCHIO LOREDANA</td><td>31/05/2027</td><td>28/10/2027</td><td>02/11/2027</td> </tr>
+ <tr><td>33426</td><td>LUCIBELLO SABRINA</td><td>31/05/2027</td><td>12/09/2027</td><td>17/09/2027</td> </tr>
+ <tr><td>33426</td><td>DI LUCCHIO LOREDANA</td><td>31/05/2027</td><td>09/09/2027</td><td>14/09/2027</td> </tr>
+ <tr><td>33426</td><td>LUCIBELLO SABRINA</td><td>31/05/2027</td><td>29/08/2027</td><td>03/09/2027</td> </tr>
+ <tr><td>33426</td><td>DI LUCCHIO LOREDANA</td><td>31/05/2027</td><td>27/08/2027</td><td>01/09/2027</td> </tr>
+ <tr><td>33426</td><td>LUCIBELLO SABRINA</td><td>31/05/2027</td><td>04/07/2027</td><td>09/07/2027</td> </tr>
+ <tr><td>33426</td><td>DI LUCCHIO LOREDANA</td><td>31/05/2027</td><td>01/07/2027</td><td>06/07/2027</td> </tr>
+ <tr><td>33426</td><td>LUCIBELLO SABRINA</td><td>31/05/2027</td><td>20/06/2027</td><td>25/06/2027</td> </tr>
+ <tr><td>33426</td><td>DI LUCCHIO LOREDANA</td><td>31/05/2027</td><td>17/06/2027</td><td>22/06/2027</td> </tr>
+ <tr><td>33426</td><td>LUCIBELLO SABRINA</td><td>31/05/2027</td><td>06/06/2027</td><td>11/06/2027</td> </tr>
+ <tr><td>33426</td><td>DI LUCCHIO LOREDANA</td><td>31/05/2027</td><td>03/06/2027</td><td>08/06/2027</td> </tr>
+ <tr><td>33426</td><td>LUCIBELLO SABRINA</td><td>13/01/2027</td><td>11/04/2027</td><td>16/04/2027</td> </tr>
+ <tr><td>33426</td><td>DI LUCCHIO LOREDANA</td><td>13/01/2027</td><td>08/04/2027</td><td>13/04/2027</td> </tr>
+ <tr><td>33426</td><td>LUCIBELLO SABRINA</td><td>13/01/2027</td><td>14/02/2027</td><td>19/02/2027</td> </tr>
+ <tr><td>33426</td><td>DI LUCCHIO LOREDANA</td><td>13/01/2027</td><td>11/02/2027</td><td>16/02/2027</td> </tr>
+ <tr><td>33426</td><td>LUCIBELLO SABRINA</td><td>13/01/2027</td><td>31/01/2027</td><td>05/02/2027</td> </tr>
+ <tr><td>33426</td><td>DI LUCCHIO LOREDANA</td><td>13/01/2027</td><td>28/01/2027</td><td>02/02/2027</td> </tr>
+ <tr><td>33426</td><td>LUCIBELLO SABRINA</td><td>13/01/2027</td><td>17/01/2027</td><td>22/01/2027</td> </tr>
+ <tr><td>33426</td><td>DI LUCCHIO LOREDANA</td><td>13/01/2027</td><td>14/01/2027</td><td>19/01/2027</td> </tr>
+</tbody>
+</table>
+</div>
+  </div>
+</fieldset>
+<fieldset  class="collapsible exam panel panel-default form-wrapper" data-group-type="group-exam" data-exam-id="10620344" data-exam-title="10620344 | LABORATORIO DI DESIGN PER LO SPAZIO PUBBLICO" id="bootstrap-panel--8">
+          <legend class="panel-heading">
+      <a href="#bootstrap-panel-8-body" class="panel-title fieldset-legend collapsed" data-toggle="collapse">10620344 | LABORATORIO DI DESIGN PER LO SPAZIO PUBBLICO</a>
+    </legend>
+        <div class="panel-body panel-collapse collapse fade collapsed" id="bootstrap-panel-8-body">
+        <div class="table-responsive">
+<table class="exams-table table table-hover table-striped sticky-enabled">
+ <thead><tr><th>Codice corso</th><th>Docente</th><th>Data inizio prenotazione</th><th>Data fine prenotazione</th><th>Data appello</th> </tr></thead>
+<tbody>
+ <tr><td>33426</td><td>DAL FALCO FEDERICA</td><td>31/05/2027</td><td>29/10/2027</td><td>03/11/2027</td> </tr>
+ <tr><td>33426</td><td>DAL FALCO FEDERICA</td><td>31/05/2027</td><td>10/09/2027</td><td>15/09/2027</td> </tr>
+ <tr><td>33426</td><td>DAL FALCO FEDERICA</td><td>31/05/2027</td><td>27/08/2027</td><td>01/09/2027</td> </tr>
+ <tr><td>33426</td><td>DAL FALCO FEDERICA</td><td>31/05/2027</td><td>02/07/2027</td><td>07/07/2027</td> </tr>
+ <tr><td>33426</td><td>DAL FALCO FEDERICA</td><td>31/05/2027</td><td>18/06/2027</td><td>23/06/2027</td> </tr>
+ <tr><td>33426</td><td>DAL FALCO FEDERICA</td><td>31/05/2027</td><td>04/06/2027</td><td>09/06/2027</td> </tr>
+ <tr><td>33426</td><td>DAL FALCO FEDERICA</td><td>13/01/2027</td><td>09/04/2027</td><td>14/04/2027</td> </tr>
+ <tr><td>33426</td><td>DAL FALCO FEDERICA</td><td>13/01/2027</td><td>12/02/2027</td><td>17/02/2027</td> </tr>
+ <tr><td>33426</td><td>DAL FALCO FEDERICA</td><td>13/01/2027</td><td>29/01/2027</td><td>03/02/2027</td> </tr>
+ <tr><td>33426</td><td>DAL FALCO FEDERICA</td><td>13/01/2027</td><td>15/01/2027</td><td>20/01/2027</td> </tr>
+</tbody>
+</table>
+</div>
+  </div>
+</fieldset>
+<fieldset  class="collapsible exam panel panel-default form-wrapper" data-group-type="group-exam" data-exam-id="10600096" data-exam-title="10600096 | TEORIA DELLA FORMA" id="bootstrap-panel--9">
+          <legend class="panel-heading">
+      <a href="#bootstrap-panel-9-body" class="panel-title fieldset-legend collapsed" data-toggle="collapse">10600096 | TEORIA DELLA FORMA</a>
+    </legend>
+        <div class="panel-body panel-collapse collapse fade collapsed" id="bootstrap-panel-9-body">
+        <div class="table-responsive">
+<table class="exams-table table table-hover table-striped sticky-enabled">
+ <thead><tr><th>Codice corso</th><th>Docente</th><th>Data inizio prenotazione</th><th>Data fine prenotazione</th><th>Data appello</th> </tr></thead>
+<tbody>
+ <tr><td>33426</td><td>CALVANO MICHELE</td><td>31/05/2027</td><td>28/10/2027</td><td>02/11/2027</td> </tr>
+ <tr><td>33426</td><td>CALVANO MICHELE</td><td>31/05/2027</td><td>08/09/2027</td><td>13/09/2027</td> </tr>
+ <tr><td>33426</td><td>CALVANO MICHELE</td><td>31/05/2027</td><td>27/08/2027</td><td>01/09/2027</td> </tr>
+ <tr><td>33426</td><td>CALVANO MICHELE</td><td>31/05/2027</td><td>30/06/2027</td><td>05/07/2027</td> </tr>
+ <tr><td>33426</td><td>CALVANO MICHELE</td><td>31/05/2027</td><td>16/06/2027</td><td>21/06/2027</td> </tr>
+ <tr><td>33426</td><td>CALVANO MICHELE</td><td>31/05/2027</td><td>02/06/2027</td><td>07/06/2027</td> </tr>
+ <tr><td>33426</td><td>CALVANO MICHELE</td><td>13/01/2027</td><td>07/04/2027</td><td>12/04/2027</td> </tr>
+ <tr><td>33426</td><td>CALVANO MICHELE</td><td>13/01/2027</td><td>10/02/2027</td><td>15/02/2027</td> </tr>
+ <tr><td>33426</td><td>CALVANO MICHELE</td><td>13/01/2027</td><td>27/01/2027</td><td>01/02/2027</td> </tr>
+ <tr><td>33426</td><td>CALVANO MICHELE</td><td>13/01/2027</td><td>13/01/2027</td><td>18/01/2027</td> </tr>
+</tbody>
+</table>
+</div>
+  </div>
+</fieldset>
+<fieldset  class="collapsible exam panel panel-default form-wrapper" data-group-type="group-exam" data-exam-id="10622519" data-exam-title="10622519 | LABORATORIO DI BASIC DESIGN PER LA GRAFICA" id="bootstrap-panel--10">
+          <legend class="panel-heading">
+      <a href="#bootstrap-panel-10-body" class="panel-title fieldset-legend collapsed" data-toggle="collapse">10622519 | LABORATORIO DI BASIC DESIGN PER LA GRAFICA</a>
+    </legend>
+        <div class="panel-body panel-collapse collapse fade collapsed" id="bootstrap-panel-10-body">
+        <div class="table-responsive">
+<table class="exams-table table table-hover table-striped sticky-enabled">
+ <thead><tr><th>Codice corso</th><th>Docente</th><th>Data inizio prenotazione</th><th>Data fine prenotazione</th><th>Data appello</th> </tr></thead>
+<tbody>
+ <tr><td>33426</td><td>MASELLI VINCENZO</td><td>31/05/2027</td><td>29/10/2027</td><td>03/11/2027</td> </tr>
+ <tr><td>33426</td><td>MASELLI VINCENZO</td><td>31/05/2027</td><td>10/09/2027</td><td>15/09/2027</td> </tr>
+ <tr><td>33426</td><td>MASELLI VINCENZO</td><td>31/05/2027</td><td>27/08/2027</td><td>01/09/2027</td> </tr>
+ <tr><td>33426</td><td>MASELLI VINCENZO</td><td>31/05/2027</td><td>02/07/2027</td><td>07/07/2027</td> </tr>
+ <tr><td>33426</td><td>MASELLI VINCENZO</td><td>31/05/2027</td><td>18/06/2027</td><td>23/06/2027</td> </tr>
+ <tr><td>33426</td><td>MASELLI VINCENZO</td><td>31/05/2027</td><td>04/06/2027</td><td>09/06/2027</td> </tr>
+ <tr><td>33426</td><td>MASELLI VINCENZO</td><td>13/01/2027</td><td>09/04/2027</td><td>14/04/2027</td> </tr>
+ <tr><td>33426</td><td>MASELLI VINCENZO</td><td>13/01/2027</td><td>12/02/2027</td><td>17/02/2027</td> </tr>
+ <tr><td>33426</td><td>MASELLI VINCENZO</td><td>13/01/2027</td><td>29/01/2027</td><td>03/02/2027</td> </tr>
+ <tr><td>33426</td><td>MASELLI VINCENZO</td><td>13/01/2027</td><td>15/01/2027</td><td>20/01/2027</td> </tr>
+</tbody>
+</table>
+</div>
+  </div>
+</fieldset>
+<fieldset  class="collapsible exam panel panel-default form-wrapper" data-group-type="group-exam" data-exam-id="10622522" data-exam-title="10622522 | TEORIA DELLA FORMA" id="bootstrap-panel--11">
+          <legend class="panel-heading">
+      <a href="#bootstrap-panel-11-body" class="panel-title fieldset-legend collapsed" data-toggle="collapse">10622522 | TEORIA DELLA FORMA</a>
+    </legend>
+        <div class="panel-body panel-collapse collapse fade collapsed" id="bootstrap-panel-11-body">
+        <div class="table-responsive">
+<table class="exams-table table table-hover table-striped sticky-enabled">
+ <thead><tr><th>Codice corso</th><th>Docente</th><th>Data inizio prenotazione</th><th>Data fine prenotazione</th><th>Data appello</th> </tr></thead>
+<tbody>
+ <tr><td>33426</td><td>CALVANO MICHELE</td><td>31/05/2027</td><td>28/10/2027</td><td>02/11/2027</td> </tr>
+ <tr><td>33426</td><td>CALVANO MICHELE</td><td>31/05/2027</td><td>08/09/2027</td><td>13/09/2027</td> </tr>
+ <tr><td>33426</td><td>CALVANO MICHELE</td><td>31/05/2027</td><td>27/08/2027</td><td>01/09/2027</td> </tr>
+ <tr><td>33426</td><td>CALVANO MICHELE</td><td>31/05/2027</td><td>30/06/2027</td><td>05/07/2027</td> </tr>
+ <tr><td>33426</td><td>CALVANO MICHELE</td><td>31/05/2027</td><td>16/06/2027</td><td>21/06/2027</td> </tr>
+ <tr><td>33426</td><td>CALVANO MICHELE</td><td>31/05/2027</td><td>02/06/2027</td><td>07/06/2027</td> </tr>
+ <tr><td>33426</td><td>CALVANO MICHELE</td><td>13/01/2027</td><td>07/04/2027</td><td>12/04/2027</td> </tr>
+ <tr><td>33426</td><td>CALVANO MICHELE</td><td>13/01/2027</td><td>10/02/2027</td><td>15/02/2027</td> </tr>
+ <tr><td>33426</td><td>CALVANO MICHELE</td><td>13/01/2027</td><td>27/01/2027</td><td>01/02/2027</td> </tr>
+ <tr><td>33426</td><td>CALVANO MICHELE</td><td>13/01/2027</td><td>13/01/2027</td><td>18/01/2027</td> </tr>
+</tbody>
+</table>
+</div>
+  </div>
+</fieldset>
+<fieldset  class="collapsible exam panel panel-default form-wrapper" data-group-type="group-exam" data-exam-id="10620336" data-exam-title="10620336 | LABORATORIO DI BASIC DESIGN PER LA GRAFICA" id="bootstrap-panel--12">
+          <legend class="panel-heading">
+      <a href="#bootstrap-panel-12-body" class="panel-title fieldset-legend collapsed" data-toggle="collapse">10620336 | LABORATORIO DI BASIC DESIGN PER LA GRAFICA</a>
+    </legend>
+        <div class="panel-body panel-collapse collapse fade collapsed" id="bootstrap-panel-12-body">
+        <div class="table-responsive">
+<table class="exams-table table table-hover table-striped sticky-enabled">
+ <thead><tr><th>Codice corso</th><th>Docente</th><th>Data inizio prenotazione</th><th>Data fine prenotazione</th><th>Data appello</th> </tr></thead>
+<tbody>
+ <tr><td>33426</td><td>CACCAMO ALESSIO</td><td>31/05/2027</td><td>29/10/2027</td><td>03/11/2027</td> </tr>
+ <tr><td>33426</td><td>MASELLI VINCENZO</td><td>31/05/2027</td><td>29/10/2027</td><td>03/11/2027</td> </tr>
+ <tr><td>33426</td><td>CACCAMO ALESSIO</td><td>31/05/2027</td><td>10/09/2027</td><td>15/09/2027</td> </tr>
+ <tr><td>33426</td><td>MASELLI VINCENZO</td><td>31/05/2027</td><td>10/09/2027</td><td>15/09/2027</td> </tr>
+ <tr><td>33426</td><td>CACCAMO ALESSIO</td><td>31/05/2027</td><td>27/08/2027</td><td>01/09/2027</td> </tr>
+ <tr><td>33426</td><td>MASELLI VINCENZO</td><td>31/05/2027</td><td>27/08/2027</td><td>01/09/2027</td> </tr>
+ <tr><td>33426</td><td>MASELLI VINCENZO</td><td>31/05/2027</td><td>02/07/2027</td><td>07/07/2027</td> </tr>
+ <tr><td>33426</td><td>CACCAMO ALESSIO</td><td>31/05/2027</td><td>02/07/2027</td><td>07/07/2027</td> </tr>
+ <tr><td>33426</td><td>CACCAMO ALESSIO</td><td>31/05/2027</td><td>18/06/2027</td><td>23/06/2027</td> </tr>
+ <tr><td>33426</td><td>MASELLI VINCENZO</td><td>31/05/2027</td><td>18/06/2027</td><td>23/06/2027</td> </tr>
+ <tr><td>33426</td><td>CACCAMO ALESSIO</td><td>31/05/2027</td><td>04/06/2027</td><td>09/06/2027</td> </tr>
+ <tr><td>33426</td><td>MASELLI VINCENZO</td><td>31/05/2027</td><td>04/06/2027</td><td>09/06/2027</td> </tr>
+ <tr><td>33426</td><td>CACCAMO ALESSIO</td><td>13/01/2027</td><td>09/04/2027</td><td>14/04/2027</td> </tr>
+ <tr><td>33426</td><td>MASELLI VINCENZO</td><td>13/01/2027</td><td>09/04/2027</td><td>14/04/2027</td> </tr>
+ <tr><td>33426</td><td>CACCAMO ALESSIO</td><td>13/01/2027</td><td>12/02/2027</td><td>17/02/2027</td> </tr>
+ <tr><td>33426</td><td>MASELLI VINCENZO</td><td>13/01/2027</td><td>12/02/2027</td><td>17/02/2027</td> </tr>
+ <tr><td>33426</td><td>CACCAMO ALESSIO</td><td>13/01/2027</td><td>29/01/2027</td><td>03/02/2027</td> </tr>
+ <tr><td>33426</td><td>MASELLI VINCENZO</td><td>13/01/2027</td><td>29/01/2027</td><td>03/02/2027</td> </tr>
+ <tr><td>33426</td><td>MASELLI VINCENZO</td><td>13/01/2027</td><td>15/01/2027</td><td>20/01/2027</td> </tr>
+ <tr><td>33426</td><td>CACCAMO ALESSIO</td><td>13/01/2027</td><td>15/01/2027</td><td>20/01/2027</td> </tr>
+</tbody>
+</table>
+</div>
+  </div>
+</fieldset>
+<fieldset  class="collapsible exam panel panel-default form-wrapper" data-group-type="group-exam" data-exam-id="10622521" data-exam-title="10622521 | LABORATORIO DI BASIC DESIGN PER LO SPAZIO INTERNO" id="bootstrap-panel--13">
+          <legend class="panel-heading">
+      <a href="#bootstrap-panel-13-body" class="panel-title fieldset-legend collapsed" data-toggle="collapse">10622521 | LABORATORIO DI BASIC DESIGN PER LO SPAZIO INTERNO</a>
+    </legend>
+        <div class="panel-body panel-collapse collapse fade collapsed" id="bootstrap-panel-13-body">
+        <div class="table-responsive">
+<table class="exams-table table table-hover table-striped sticky-enabled">
+ <thead><tr><th>Codice corso</th><th>Docente</th><th>Data inizio prenotazione</th><th>Data fine prenotazione</th><th>Data appello</th> </tr></thead>
+<tbody>
+ <tr><td>33426</td><td>SCATENA DONATELLA</td><td>31/05/2027</td><td>30/10/2027</td><td>04/11/2027</td> </tr>
+ <tr><td>33426</td><td>GUARINI PAOLA</td><td>31/05/2027</td><td>30/10/2027</td><td>04/11/2027</td> </tr>
+ <tr><td>33426</td><td>SCATENA DONATELLA</td><td>31/05/2027</td><td>11/09/2027</td><td>16/09/2027</td> </tr>
+ <tr><td>33426</td><td>GUARINI PAOLA</td><td>31/05/2027</td><td>11/09/2027</td><td>16/09/2027</td> </tr>
+ <tr><td>33426</td><td>SCATENA DONATELLA</td><td>31/05/2027</td><td>28/08/2027</td><td>02/09/2027</td> </tr>
+ <tr><td>33426</td><td>GUARINI PAOLA</td><td>31/05/2027</td><td>28/08/2027</td><td>02/09/2027</td> </tr>
+ <tr><td>33426</td><td>SCATENA DONATELLA</td><td>31/05/2027</td><td>03/07/2027</td><td>08/07/2027</td> </tr>
+ <tr><td>33426</td><td>GUARINI PAOLA</td><td>31/05/2027</td><td>03/07/2027</td><td>08/07/2027</td> </tr>
+ <tr><td>33426</td><td>SCATENA DONATELLA</td><td>31/05/2027</td><td>19/06/2027</td><td>24/06/2027</td> </tr>
+ <tr><td>33426</td><td>GUARINI PAOLA</td><td>31/05/2027</td><td>19/06/2027</td><td>24/06/2027</td> </tr>
+ <tr><td>33426</td><td>SCATENA DONATELLA</td><td>31/05/2027</td><td>05/06/2027</td><td>10/06/2027</td> </tr>
+ <tr><td>33426</td><td>GUARINI PAOLA</td><td>31/05/2027</td><td>05/06/2027</td><td>10/06/2027</td> </tr>
+ <tr><td>33426</td><td>GUARINI PAOLA</td><td>13/01/2027</td><td>10/04/2027</td><td>15/04/2027</td> </tr>
+ <tr><td>33426</td><td>SCATENA DONATELLA</td><td>13/01/2027</td><td>10/04/2027</td><td>15/04/2027</td> </tr>
+ <tr><td>33426</td><td>SCATENA DONATELLA</td><td>13/01/2027</td><td>13/02/2027</td><td>18/02/2027</td> </tr>
+ <tr><td>33426</td><td>GUARINI PAOLA</td><td>13/01/2027</td><td>13/02/2027</td><td>18/02/2027</td> </tr>
+ <tr><td>33426</td><td>SCATENA DONATELLA</td><td>13/01/2027</td><td>30/01/2027</td><td>04/02/2027</td> </tr>
+ <tr><td>33426</td><td>GUARINI PAOLA</td><td>13/01/2027</td><td>30/01/2027</td><td>04/02/2027</td> </tr>
+ <tr><td>33426</td><td>SCATENA DONATELLA</td><td>13/01/2027</td><td>16/01/2027</td><td>21/01/2027</td> </tr>
+ <tr><td>33426</td><td>GUARINI PAOLA</td><td>13/01/2027</td><td>16/01/2027</td><td>21/01/2027</td> </tr>
+</tbody>
+</table>
+</div>
+  </div>
+</fieldset>
+<fieldset  class="collapsible exam panel panel-default form-wrapper" data-group-type="group-exam" data-exam-id="10622515" data-exam-title="10622515 | ISTITUZIONI DI MATEMATICA" id="bootstrap-panel--14">
+          <legend class="panel-heading">
+      <a href="#bootstrap-panel-14-body" class="panel-title fieldset-legend collapsed" data-toggle="collapse">10622515 | ISTITUZIONI DI MATEMATICA</a>
+    </legend>
+        <div class="panel-body panel-collapse collapse fade collapsed" id="bootstrap-panel-14-body">
+        <div class="table-responsive">
+<table class="exams-table table table-hover table-striped sticky-enabled">
+ <thead><tr><th>Codice corso</th><th>Docente</th><th>Data inizio prenotazione</th><th>Data fine prenotazione</th><th>Data appello</th> </tr></thead>
+<tbody>
+ <tr><td>33426</td><td>PORZIO MARIA MICHAELA</td><td>20/10/2027</td><td>28/10/2027</td><td>02/11/2027</td> </tr>
+ <tr><td>33426</td><td>de BONIS IDA</td><td>31/05/2027</td><td>28/10/2027</td><td>02/11/2027</td> </tr>
+ <tr><td>33426</td><td>de BONIS IDA</td><td>31/05/2027</td><td>09/09/2027</td><td>14/09/2027</td> </tr>
+ <tr><td>33426</td><td>PORZIO MARIA MICHAELA</td><td>03/09/2027</td><td>10/09/2027</td><td>14/09/2027</td> </tr>
+ <tr><td>33426</td><td>de BONIS IDA</td><td>31/05/2027</td><td>27/08/2027</td><td>01/09/2027</td> </tr>
+ <tr><td>33426</td><td>PORZIO MARIA MICHAELA</td><td>15/08/2027</td><td>27/08/2027</td><td>01/09/2027</td> </tr>
+ <tr><td>33426</td><td>de BONIS IDA</td><td>31/05/2027</td><td>01/07/2027</td><td>06/07/2027</td> </tr>
+ <tr><td>33426</td><td>PORZIO MARIA MICHAELA</td><td>24/06/2027</td><td>01/07/2027</td><td>06/07/2027</td> </tr>
+ <tr><td>33426</td><td>de BONIS IDA</td><td>31/05/2027</td><td>17/06/2027</td><td>22/06/2027</td> </tr>
+ <tr><td>33426</td><td>PORZIO MARIA MICHAELA</td><td>09/06/2027</td><td>17/06/2027</td><td>22/06/2027</td> </tr>
+ <tr><td>33426</td><td>PORZIO MARIA MICHAELA</td><td>25/05/2027</td><td>03/06/2027</td><td>08/06/2027</td> </tr>
+ <tr><td>33426</td><td>de BONIS IDA</td><td>31/05/2027</td><td>03/06/2027</td><td>08/06/2027</td> </tr>
+ <tr><td>33426</td><td>de BONIS IDA</td><td>13/01/2027</td><td>08/04/2027</td><td>13/04/2027</td> </tr>
+ <tr><td>33426</td><td>PORZIO MARIA MICHAELA</td><td>25/03/2027</td><td>08/04/2027</td><td>13/04/2027</td> </tr>
+ <tr><td>33426</td><td>PORZIO MARIA MICHAELA</td><td>04/02/2027</td><td>11/02/2027</td><td>16/02/2027</td> </tr>
+ <tr><td>33426</td><td>de BONIS IDA</td><td>13/01/2027</td><td>11/02/2027</td><td>16/02/2027</td> </tr>
+ <tr><td>33426</td><td>PORZIO MARIA MICHAELA</td><td>20/01/2027</td><td>28/01/2027</td><td>02/02/2027</td> </tr>
+ <tr><td>33426</td><td>de BONIS IDA</td><td>13/01/2027</td><td>28/01/2027</td><td>02/02/2027</td> </tr>
+ <tr><td>33426</td><td>de BONIS IDA</td><td>13/01/2027</td><td>14/01/2027</td><td>19/01/2027</td> </tr>
+ <tr><td>33426</td><td>PORZIO MARIA MICHAELA</td><td>13/01/2027</td><td>14/01/2027</td><td>19/01/2027</td> </tr>
+</tbody>
+</table>
+</div>
+  </div>
+</fieldset>
+<fieldset  class="collapsible exam panel panel-default form-wrapper" data-group-type="group-exam" data-exam-id="10622516" data-exam-title="10622516 | FONDAMENTI DI DISEGNO" id="bootstrap-panel--15">
+          <legend class="panel-heading">
+      <a href="#bootstrap-panel-15-body" class="panel-title fieldset-legend collapsed" data-toggle="collapse">10622516 | FONDAMENTI DI DISEGNO</a>
+    </legend>
+        <div class="panel-body panel-collapse collapse fade collapsed" id="bootstrap-panel-15-body">
+        <div class="table-responsive">
+<table class="exams-table table table-hover table-striped sticky-enabled">
+ <thead><tr><th>Codice corso</th><th>Docente</th><th>Data inizio prenotazione</th><th>Data fine prenotazione</th><th>Data appello</th> </tr></thead>
+<tbody>
+ <tr><td>33426</td><td>SALVATORE MARTA</td><td>31/05/2027</td><td>30/10/2027</td><td>04/11/2027</td> </tr>
+ <tr><td>33426</td><td>MESCHINI ALESSANDRA</td><td>31/05/2027</td><td>28/10/2027</td><td>02/11/2027</td> </tr>
+ <tr><td>33426</td><td>SALVATORE MARTA</td><td>31/05/2027</td><td>11/09/2027</td><td>16/09/2027</td> </tr>
+ <tr><td>33426</td><td>MESCHINI ALESSANDRA</td><td>31/05/2027</td><td>08/09/2027</td><td>13/09/2027</td> </tr>
+ <tr><td>33426</td><td>SALVATORE MARTA</td><td>31/05/2027</td><td>28/08/2027</td><td>02/09/2027</td> </tr>
+ <tr><td>33426</td><td>MESCHINI ALESSANDRA</td><td>31/05/2027</td><td>27/08/2027</td><td>01/09/2027</td> </tr>
+ <tr><td>33426</td><td>SALVATORE MARTA</td><td>31/05/2027</td><td>03/07/2027</td><td>08/07/2027</td> </tr>
+ <tr><td>33426</td><td>MESCHINI ALESSANDRA</td><td>31/05/2027</td><td>30/06/2027</td><td>05/07/2027</td> </tr>
+ <tr><td>33426</td><td>SALVATORE MARTA</td><td>31/05/2027</td><td>19/06/2027</td><td>24/06/2027</td> </tr>
+ <tr><td>33426</td><td>MESCHINI ALESSANDRA</td><td>31/05/2027</td><td>16/06/2027</td><td>21/06/2027</td> </tr>
+ <tr><td>33426</td><td>SALVATORE MARTA</td><td>31/05/2027</td><td>05/06/2027</td><td>10/06/2027</td> </tr>
+ <tr><td>33426</td><td>MESCHINI ALESSANDRA</td><td>31/05/2027</td><td>02/06/2027</td><td>07/06/2027</td> </tr>
+ <tr><td>33426</td><td>SALVATORE MARTA</td><td>13/01/2027</td><td>10/04/2027</td><td>15/04/2027</td> </tr>
+ <tr><td>33426</td><td>MESCHINI ALESSANDRA</td><td>13/01/2027</td><td>07/04/2027</td><td>12/04/2027</td> </tr>
+ <tr><td>33426</td><td>SALVATORE MARTA</td><td>13/01/2027</td><td>13/02/2027</td><td>18/02/2027</td> </tr>
+ <tr><td>33426</td><td>MESCHINI ALESSANDRA</td><td>13/01/2027</td><td>10/02/2027</td><td>15/02/2027</td> </tr>
+ <tr><td>33426</td><td>SALVATORE MARTA</td><td>13/01/2027</td><td>30/01/2027</td><td>04/02/2027</td> </tr>
+ <tr><td>33426</td><td>MESCHINI ALESSANDRA</td><td>13/01/2027</td><td>27/01/2027</td><td>01/02/2027</td> </tr>
+ <tr><td>33426</td><td>SALVATORE MARTA</td><td>13/01/2027</td><td>16/01/2027</td><td>21/01/2027</td> </tr>
+ <tr><td>33426</td><td>MESCHINI ALESSANDRA</td><td>13/01/2027</td><td>13/01/2027</td><td>18/01/2027</td> </tr>
+</tbody>
+</table>
+</div>
+  </div>
+</fieldset>
+<fieldset  class="collapsible exam panel panel-default form-wrapper" data-group-type="group-exam" data-exam-id="10620335" data-exam-title="10620335 | STORIA DELLE ARTI APPLICATE" id="bootstrap-panel--16">
+          <legend class="panel-heading">
+      <a href="#bootstrap-panel-16-body" class="panel-title fieldset-legend collapsed" data-toggle="collapse">10620335 | STORIA DELLE ARTI APPLICATE</a>
+    </legend>
+        <div class="panel-body panel-collapse collapse fade collapsed" id="bootstrap-panel-16-body">
+        <div class="table-responsive">
+<table class="exams-table table table-hover table-striped sticky-enabled">
+ <thead><tr><th>Codice corso</th><th>Docente</th><th>Data inizio prenotazione</th><th>Data fine prenotazione</th><th>Data appello</th> </tr></thead>
+<tbody>
+ <tr><td>33426</td><td>MORAWSKI TOMMASO</td><td>31/05/2027</td><td>28/10/2027</td><td>02/11/2027</td> </tr>
+ <tr><td>33426</td><td>MORAWSKI TOMMASO</td><td>31/05/2027</td><td>08/09/2027</td><td>13/09/2027</td> </tr>
+ <tr><td>33426</td><td>MORAWSKI TOMMASO</td><td>31/05/2027</td><td>27/08/2027</td><td>01/09/2027</td> </tr>
+ <tr><td>33426</td><td>MORAWSKI TOMMASO</td><td>31/05/2027</td><td>30/06/2027</td><td>05/07/2027</td> </tr>
+ <tr><td>33426</td><td>MORAWSKI TOMMASO</td><td>31/05/2027</td><td>16/06/2027</td><td>21/06/2027</td> </tr>
+ <tr><td>33426</td><td>MORAWSKI TOMMASO</td><td>31/05/2027</td><td>02/06/2027</td><td>07/06/2027</td> </tr>
+ <tr><td>33426</td><td>MORAWSKI TOMMASO</td><td>13/01/2027</td><td>07/04/2027</td><td>12/04/2027</td> </tr>
+ <tr><td>33426</td><td>MORAWSKI TOMMASO</td><td>13/01/2027</td><td>10/02/2027</td><td>15/02/2027</td> </tr>
+ <tr><td>33426</td><td>MORAWSKI TOMMASO</td><td>13/01/2027</td><td>27/01/2027</td><td>01/02/2027</td> </tr>
+ <tr><td>33426</td><td>MORAWSKI TOMMASO</td><td>13/01/2027</td><td>13/01/2027</td><td>18/01/2027</td> </tr>
+</tbody>
+</table>
+</div>
+  </div>
+</fieldset>
+<fieldset  class="collapsible exam panel panel-default form-wrapper" data-group-type="group-exam" data-exam-id="10589128" data-exam-title="10589128 | DISEGNO E MODELLO" id="bootstrap-panel--17">
+          <legend class="panel-heading">
+      <a href="#bootstrap-panel-17-body" class="panel-title fieldset-legend collapsed" data-toggle="collapse">10589128 | DISEGNO E MODELLO</a>
+    </legend>
+        <div class="panel-body panel-collapse collapse fade collapsed" id="bootstrap-panel-17-body">
+        <div class="table-responsive">
+<table class="exams-table table table-hover table-striped sticky-enabled">
+ <thead><tr><th>Codice corso</th><th>Docente</th><th>Data inizio prenotazione</th><th>Data fine prenotazione</th><th>Data appello</th> </tr></thead>
+<tbody>
+ <tr><td>33426</td><td>VALENTI GRAZIANO MARIO</td><td>31/05/2027</td><td>28/10/2027</td><td>02/11/2027</td> </tr>
+ <tr><td>33426</td><td>CASALE ANDREA</td><td>31/05/2027</td><td>28/10/2027</td><td>02/11/2027</td> </tr>
+ <tr><td>33426</td><td>VALENTI GRAZIANO MARIO</td><td>31/05/2027</td><td>08/09/2027</td><td>13/09/2027</td> </tr>
+ <tr><td>33426</td><td>CASALE ANDREA</td><td>31/05/2027</td><td>08/09/2027</td><td>13/09/2027</td> </tr>
+ <tr><td>33426</td><td>CASALE ANDREA</td><td>31/05/2027</td><td>27/08/2027</td><td>01/09/2027</td> </tr>
+ <tr><td>33426</td><td>VALENTI GRAZIANO MARIO</td><td>31/05/2027</td><td>27/08/2027</td><td>01/09/2027</td> </tr>
+ <tr><td>33426</td><td>CASALE ANDREA</td><td>31/05/2027</td><td>30/06/2027</td><td>05/07/2027</td> </tr>
+ <tr><td>33426</td><td>VALENTI GRAZIANO MARIO</td><td>31/05/2027</td><td>30/06/2027</td><td>05/07/2027</td> </tr>
+ <tr><td>33426</td><td>CASALE ANDREA</td><td>31/05/2027</td><td>16/06/2027</td><td>21/06/2027</td> </tr>
+ <tr><td>33426</td><td>VALENTI GRAZIANO MARIO</td><td>31/05/2027</td><td>16/06/2027</td><td>21/06/2027</td> </tr>
+ <tr><td>33426</td><td>VALENTI GRAZIANO MARIO</td><td>31/05/2027</td><td>02/06/2027</td><td>07/06/2027</td> </tr>
+ <tr><td>33426</td><td>CASALE ANDREA</td><td>31/05/2027</td><td>02/06/2027</td><td>07/06/2027</td> </tr>
+ <tr><td>33426</td><td>CASALE ANDREA</td><td>13/01/2027</td><td>07/04/2027</td><td>12/04/2027</td> </tr>
+ <tr><td>33426</td><td>VALENTI GRAZIANO MARIO</td><td>13/01/2027</td><td>07/04/2027</td><td>12/04/2027</td> </tr>
+ <tr><td>33426</td><td>CASALE ANDREA</td><td>13/01/2027</td><td>10/02/2027</td><td>15/02/2027</td> </tr>
+ <tr><td>33426</td><td>VALENTI GRAZIANO MARIO</td><td>13/01/2027</td><td>10/02/2027</td><td>15/02/2027</td> </tr>
+ <tr><td>33426</td><td>VALENTI GRAZIANO MARIO</td><td>13/01/2027</td><td>27/01/2027</td><td>01/02/2027</td> </tr>
+ <tr><td>33426</td><td>CASALE ANDREA</td><td>13/01/2027</td><td>27/01/2027</td><td>01/02/2027</td> </tr>
+ <tr><td>33426</td><td>VALENTI GRAZIANO MARIO</td><td>13/01/2027</td><td>13/01/2027</td><td>18/01/2027</td> </tr>
+</tbody>
+</table>
+</div>
+  </div>
+</fieldset>
+<fieldset  class="collapsible exam panel panel-default form-wrapper" data-group-type="group-exam" data-exam-id="10620341" data-exam-title="10620341 | PROGETTAZIONE STRUTTURALE E PRINCIPI DI MECCANICA PER IL DESIGN" id="bootstrap-panel--18">
+          <legend class="panel-heading">
+      <a href="#bootstrap-panel-18-body" class="panel-title fieldset-legend collapsed" data-toggle="collapse">10620341 | PROGETTAZIONE STRUTTURALE E PRINCIPI DI MECCANICA PER IL DESIGN</a>
+    </legend>
+        <div class="panel-body panel-collapse collapse fade collapsed" id="bootstrap-panel-18-body">
+        <div class="table-responsive">
+<table class="exams-table table table-hover table-striped sticky-enabled">
+ <thead><tr><th>Codice corso</th><th>Docente</th><th>Data inizio prenotazione</th><th>Data fine prenotazione</th><th>Data appello</th> </tr></thead>
+<tbody>
+ <tr><td>33426</td><td>LOFRANO EGIDIO</td><td>28/10/2027</td><td>31/10/2027</td><td>03/11/2027</td> </tr>
+ <tr><td>33426</td><td>BOSCATO GIOSUÈ</td><td>31/05/2027</td><td>29/10/2027</td><td>03/11/2027</td> </tr>
+ <tr><td>33426</td><td>LOFRANO EGIDIO</td><td>09/09/2027</td><td>12/09/2027</td><td>15/09/2027</td> </tr>
+ <tr><td>33426</td><td>BOSCATO GIOSUÈ</td><td>31/05/2027</td><td>10/09/2027</td><td>15/09/2027</td> </tr>
+ <tr><td>33426</td><td>LOFRANO EGIDIO</td><td>28/08/2027</td><td>31/08/2027</td><td>03/09/2027</td> </tr>
+ <tr><td>33426</td><td>BOSCATO GIOSUÈ</td><td>31/05/2027</td><td>27/08/2027</td><td>01/09/2027</td> </tr>
+ <tr><td>33426</td><td>LOFRANO EGIDIO</td><td>01/07/2027</td><td>04/07/2027</td><td>07/07/2027</td> </tr>
+ <tr><td>33426</td><td>BOSCATO GIOSUÈ</td><td>31/05/2027</td><td>02/07/2027</td><td>07/07/2027</td> </tr>
+ <tr><td>33426</td><td>LOFRANO EGIDIO</td><td>17/06/2027</td><td>20/06/2027</td><td>23/06/2027</td> </tr>
+ <tr><td>33426</td><td>BOSCATO GIOSUÈ</td><td>31/05/2027</td><td>18/06/2027</td><td>23/06/2027</td> </tr>
+ <tr><td>33426</td><td>LOFRANO EGIDIO</td><td>03/06/2027</td><td>06/06/2027</td><td>09/06/2027</td> </tr>
+ <tr><td>33426</td><td>BOSCATO GIOSUÈ</td><td>31/05/2027</td><td>04/06/2027</td><td>09/06/2027</td> </tr>
+ <tr><td>33426</td><td>LOFRANO EGIDIO</td><td>08/04/2027</td><td>11/04/2027</td><td>14/04/2027</td> </tr>
+ <tr><td>33426</td><td>BOSCATO GIOSUÈ</td><td>13/01/2027</td><td>09/04/2027</td><td>14/04/2027</td> </tr>
+ <tr><td>33426</td><td>LOFRANO EGIDIO</td><td>11/02/2027</td><td>14/02/2027</td><td>17/02/2027</td> </tr>
+ <tr><td>33426</td><td>BOSCATO GIOSUÈ</td><td>13/01/2027</td><td>12/02/2027</td><td>17/02/2027</td> </tr>
+ <tr><td>33426</td><td>BOSCATO GIOSUÈ</td><td>13/01/2027</td><td>29/01/2027</td><td>03/02/2027</td> </tr>
+ <tr><td>33426</td><td>LOFRANO EGIDIO</td><td>28/01/2027</td><td>31/01/2027</td><td>03/02/2027</td> </tr>
+ <tr><td>33426</td><td>BOSCATO GIOSUÈ</td><td>13/01/2027</td><td>15/01/2027</td><td>20/01/2027</td> </tr>
+ <tr><td>33426</td><td>LOFRANO EGIDIO</td><td>14/01/2027</td><td>17/01/2027</td><td>20/01/2027</td> </tr>
+</tbody>
+</table>
+</div>
+  </div>
+</fieldset>
+<fieldset  class="collapsible exam panel panel-default form-wrapper" data-group-type="group-exam" data-exam-id="10592780" data-exam-title="10592780 | FONDAMENTI DI DISEGNO" id="bootstrap-panel--19">
+          <legend class="panel-heading">
+      <a href="#bootstrap-panel-19-body" class="panel-title fieldset-legend collapsed" data-toggle="collapse">10592780 | FONDAMENTI DI DISEGNO</a>
+    </legend>
+        <div class="panel-body panel-collapse collapse fade collapsed" id="bootstrap-panel-19-body">
+        <div class="table-responsive">
+<table class="exams-table table table-hover table-striped sticky-enabled">
+ <thead><tr><th>Codice corso</th><th>Docente</th><th>Data inizio prenotazione</th><th>Data fine prenotazione</th><th>Data appello</th> </tr></thead>
+<tbody>
+ <tr><td>33426</td><td>MESCHINI ALESSANDRA</td><td>31/05/2027</td><td>28/10/2027</td><td>02/11/2027</td> </tr>
+ <tr><td>33426</td><td>MESCHINI ALESSANDRA</td><td>31/05/2027</td><td>08/09/2027</td><td>13/09/2027</td> </tr>
+ <tr><td>33426</td><td>MESCHINI ALESSANDRA</td><td>31/05/2027</td><td>27/08/2027</td><td>01/09/2027</td> </tr>
+ <tr><td>33426</td><td>MESCHINI ALESSANDRA</td><td>31/05/2027</td><td>30/06/2027</td><td>05/07/2027</td> </tr>
+ <tr><td>33426</td><td>MESCHINI ALESSANDRA</td><td>31/05/2027</td><td>16/06/2027</td><td>21/06/2027</td> </tr>
+ <tr><td>33426</td><td>MESCHINI ALESSANDRA</td><td>31/05/2027</td><td>02/06/2027</td><td>07/06/2027</td> </tr>
+ <tr><td>33426</td><td>MESCHINI ALESSANDRA</td><td>13/01/2027</td><td>07/04/2027</td><td>12/04/2027</td> </tr>
+ <tr><td>33426</td><td>MESCHINI ALESSANDRA</td><td>13/01/2027</td><td>10/02/2027</td><td>15/02/2027</td> </tr>
+ <tr><td>33426</td><td>MESCHINI ALESSANDRA</td><td>13/01/2027</td><td>27/01/2027</td><td>01/02/2027</td> </tr>
+ <tr><td>33426</td><td>MESCHINI ALESSANDRA</td><td>13/01/2027</td><td>13/01/2027</td><td>18/01/2027</td> </tr>
+</tbody>
+</table>
+</div>
+  </div>
+</fieldset>
+<fieldset  class="collapsible exam panel panel-default form-wrapper" data-group-type="group-exam" data-exam-id="AAF1154" data-exam-title="AAF1154 | ALTRE CONOSCENZE UTILI PER L&#039;INSERIMENTO NEL MONDO DEL LAVORO" id="bootstrap-panel--20">
+          <legend class="panel-heading">
+      <a href="#bootstrap-panel-20-body" class="panel-title fieldset-legend collapsed" data-toggle="collapse">AAF1154 | ALTRE CONOSCENZE UTILI PER L'INSERIMENTO NEL MONDO DEL LAVORO</a>
+    </legend>
+        <div class="panel-body panel-collapse collapse fade collapsed" id="bootstrap-panel-20-body">
+        <div class="table-responsive">
+<table class="exams-table table table-hover table-striped sticky-enabled">
+ <thead><tr><th>Codice corso</th><th>Docente</th><th>Data inizio prenotazione</th><th>Data fine prenotazione</th><th>Data appello</th> </tr></thead>
+<tbody>
+ <tr><td>31807</td><td>LUCIBELLO SABRINA</td><td>31/05/2027</td><td>31/10/2027</td><td>05/11/2027</td> </tr>
+ <tr><td>31807</td><td>LUCIBELLO SABRINA</td><td>31/05/2027</td><td>12/09/2027</td><td>17/09/2027</td> </tr>
+ <tr><td>31807</td><td>LUCIBELLO SABRINA</td><td>31/05/2027</td><td>29/08/2027</td><td>03/09/2027</td> </tr>
+ <tr><td>31807</td><td>LUCIBELLO SABRINA</td><td>31/05/2027</td><td>04/07/2027</td><td>09/07/2027</td> </tr>
+ <tr><td>31807</td><td>LUCIBELLO SABRINA</td><td>31/05/2027</td><td>20/06/2027</td><td>25/06/2027</td> </tr>
+ <tr><td>31807</td><td>LUCIBELLO SABRINA</td><td>31/05/2027</td><td>06/06/2027</td><td>11/06/2027</td> </tr>
+ <tr><td>31807</td><td>LUCIBELLO SABRINA</td><td>13/01/2027</td><td>11/04/2027</td><td>16/04/2027</td> </tr>
+ <tr><td>31807</td><td>LUCIBELLO SABRINA</td><td>13/01/2027</td><td>14/02/2027</td><td>19/02/2027</td> </tr>
+ <tr><td>31807</td><td>LUCIBELLO SABRINA</td><td>13/01/2027</td><td>31/01/2027</td><td>05/02/2027</td> </tr>
+ <tr><td>31807</td><td>LUCIBELLO SABRINA</td><td>13/01/2027</td><td>17/01/2027</td><td>22/01/2027</td> </tr>
+</tbody>
+</table>
+</div>
+  </div>
+</fieldset>
+<fieldset  class="collapsible exam panel panel-default form-wrapper" data-group-type="group-exam" data-exam-id="10589547" data-exam-title="10589547 | LABORATORIO DI DESIGN PER IL PRODOTTO" id="bootstrap-panel--21">
+          <legend class="panel-heading">
+      <a href="#bootstrap-panel-21-body" class="panel-title fieldset-legend collapsed" data-toggle="collapse">10589547 | LABORATORIO DI DESIGN PER IL PRODOTTO</a>
+    </legend>
+        <div class="panel-body panel-collapse collapse fade collapsed" id="bootstrap-panel-21-body">
+        <div class="table-responsive">
+<table class="exams-table table table-hover table-striped sticky-enabled">
+ <thead><tr><th>Codice corso</th><th>Docente</th><th>Data inizio prenotazione</th><th>Data fine prenotazione</th><th>Data appello</th> </tr></thead>
+<tbody>
+ <tr><td>31807</td><td>LUCIBELLO SABRINA</td><td>31/05/2027</td><td>31/10/2027</td><td>05/11/2027</td> </tr>
+ <tr><td>31807</td><td>IMBESI LORENZO</td><td>31/05/2027</td><td>31/10/2027</td><td>05/11/2027</td> </tr>
+ <tr><td>31807</td><td>DI LUCCHIO LOREDANA</td><td>31/05/2027</td><td>28/10/2027</td><td>02/11/2027</td> </tr>
+ <tr><td>31807</td><td>IMBESI LORENZO</td><td>31/05/2027</td><td>12/09/2027</td><td>17/09/2027</td> </tr>
+ <tr><td>31807</td><td>LUCIBELLO SABRINA</td><td>31/05/2027</td><td>12/09/2027</td><td>17/09/2027</td> </tr>
+ <tr><td>31807</td><td>DI LUCCHIO LOREDANA</td><td>31/05/2027</td><td>09/09/2027</td><td>14/09/2027</td> </tr>
+ <tr><td>31807</td><td>IMBESI LORENZO</td><td>31/05/2027</td><td>29/08/2027</td><td>03/09/2027</td> </tr>
+ <tr><td>31807</td><td>LUCIBELLO SABRINA</td><td>31/05/2027</td><td>29/08/2027</td><td>03/09/2027</td> </tr>
+ <tr><td>31807</td><td>DI LUCCHIO LOREDANA</td><td>31/05/2027</td><td>27/08/2027</td><td>01/09/2027</td> </tr>
+ <tr><td>31807</td><td>LUCIBELLO SABRINA</td><td>31/05/2027</td><td>04/07/2027</td><td>09/07/2027</td> </tr>
+ <tr><td>31807</td><td>IMBESI LORENZO</td><td>31/05/2027</td><td>04/07/2027</td><td>09/07/2027</td> </tr>
+ <tr><td>31807</td><td>DI LUCCHIO LOREDANA</td><td>31/05/2027</td><td>01/07/2027</td><td>06/07/2027</td> </tr>
+ <tr><td>31807</td><td>IMBESI LORENZO</td><td>31/05/2027</td><td>20/06/2027</td><td>25/06/2027</td> </tr>
+ <tr><td>31807</td><td>LUCIBELLO SABRINA</td><td>31/05/2027</td><td>20/06/2027</td><td>25/06/2027</td> </tr>
+ <tr><td>31807</td><td>DI LUCCHIO LOREDANA</td><td>31/05/2027</td><td>17/06/2027</td><td>22/06/2027</td> </tr>
+ <tr><td>31807</td><td>IMBESI LORENZO</td><td>31/05/2027</td><td>06/06/2027</td><td>11/06/2027</td> </tr>
+ <tr><td>31807</td><td>LUCIBELLO SABRINA</td><td>31/05/2027</td><td>06/06/2027</td><td>11/06/2027</td> </tr>
+ <tr><td>31807</td><td>DI LUCCHIO LOREDANA</td><td>31/05/2027</td><td>03/06/2027</td><td>08/06/2027</td> </tr>
+ <tr><td>31807</td><td>IMBESI LORENZO</td><td>13/01/2027</td><td>11/04/2027</td><td>16/04/2027</td> </tr>
+ <tr><td>31807</td><td>LUCIBELLO SABRINA</td><td>13/01/2027</td><td>11/04/2027</td><td>16/04/2027</td> </tr>
+ <tr><td>31807</td><td>DI LUCCHIO LOREDANA</td><td>13/01/2027</td><td>08/04/2027</td><td>13/04/2027</td> </tr>
+ <tr><td>31807</td><td>LUCIBELLO SABRINA</td><td>13/01/2027</td><td>14/02/2027</td><td>19/02/2027</td> </tr>
+ <tr><td>31807</td><td>IMBESI LORENZO</td><td>13/01/2027</td><td>14/02/2027</td><td>19/02/2027</td> </tr>
+ <tr><td>31807</td><td>DI LUCCHIO LOREDANA</td><td>13/01/2027</td><td>11/02/2027</td><td>16/02/2027</td> </tr>
+ <tr><td>31807</td><td>IMBESI LORENZO</td><td>13/01/2027</td><td>31/01/2027</td><td>05/02/2027</td> </tr>
+ <tr><td>31807</td><td>LUCIBELLO SABRINA</td><td>13/01/2027</td><td>31/01/2027</td><td>05/02/2027</td> </tr>
+ <tr><td>31807</td><td>DI LUCCHIO LOREDANA</td><td>13/01/2027</td><td>28/01/2027</td><td>02/02/2027</td> </tr>
+ <tr><td>31807</td><td>LUCIBELLO SABRINA</td><td>13/01/2027</td><td>17/01/2027</td><td>22/01/2027</td> </tr>
+ <tr><td>31807</td><td>IMBESI LORENZO</td><td>13/01/2027</td><td>17/01/2027</td><td>22/01/2027</td> </tr>
+ <tr><td>31807</td><td>DI LUCCHIO LOREDANA</td><td>13/01/2027</td><td>14/01/2027</td><td>19/01/2027</td> </tr>
+</tbody>
+</table>
+</div>
+  </div>
+</fieldset>
+<fieldset  class="collapsible exam panel panel-default form-wrapper" data-group-type="group-exam" data-exam-id="10589503" data-exam-title="10589503 | TEORIA E STORIA DELL&#039;ARTE CONTEMPORANEA" id="bootstrap-panel--22">
+          <legend class="panel-heading">
+      <a href="#bootstrap-panel-22-body" class="panel-title fieldset-legend collapsed" data-toggle="collapse">10589503 | TEORIA E STORIA DELL'ARTE CONTEMPORANEA</a>
+    </legend>
+        <div class="panel-body panel-collapse collapse fade collapsed" id="bootstrap-panel-22-body">
+        <div class="table-responsive">
+<table class="exams-table table table-hover table-striped sticky-enabled">
+ <thead><tr><th>Codice corso</th><th>Docente</th><th>Data inizio prenotazione</th><th>Data fine prenotazione</th><th>Data appello</th> </tr></thead>
+<tbody>
+ <tr><td>31807</td><td>MORAWSKI TOMMASO</td><td>31/05/2027</td><td>28/10/2027</td><td>02/11/2027</td> </tr>
+ <tr><td>31807</td><td>MORAWSKI TOMMASO</td><td>31/05/2027</td><td>08/09/2027</td><td>13/09/2027</td> </tr>
+ <tr><td>31807</td><td>MORAWSKI TOMMASO</td><td>31/05/2027</td><td>27/08/2027</td><td>01/09/2027</td> </tr>
+ <tr><td>31807</td><td>MORAWSKI TOMMASO</td><td>31/05/2027</td><td>30/06/2027</td><td>05/07/2027</td> </tr>
+ <tr><td>31807</td><td>MORAWSKI TOMMASO</td><td>31/05/2027</td><td>16/06/2027</td><td>21/06/2027</td> </tr>
+ <tr><td>31807</td><td>MORAWSKI TOMMASO</td><td>31/05/2027</td><td>02/06/2027</td><td>07/06/2027</td> </tr>
+ <tr><td>31807</td><td>MORAWSKI TOMMASO</td><td>13/01/2027</td><td>07/04/2027</td><td>12/04/2027</td> </tr>
+ <tr><td>31807</td><td>MORAWSKI TOMMASO</td><td>13/01/2027</td><td>10/02/2027</td><td>15/02/2027</td> </tr>
+ <tr><td>31807</td><td>MORAWSKI TOMMASO</td><td>13/01/2027</td><td>27/01/2027</td><td>01/02/2027</td> </tr>
+ <tr><td>31807</td><td>MORAWSKI TOMMASO</td><td>13/01/2027</td><td>13/01/2027</td><td>18/01/2027</td> </tr>
+</tbody>
+</table>
+</div>
+  </div>
+</fieldset>
+<fieldset  class="collapsible exam panel panel-default form-wrapper" data-group-type="group-exam" data-exam-id="10589132" data-exam-title="10589132 | MANAGEMENT DELL&#039;INNOVAZIONE" id="bootstrap-panel--23">
+          <legend class="panel-heading">
+      <a href="#bootstrap-panel-23-body" class="panel-title fieldset-legend collapsed" data-toggle="collapse">10589132 | MANAGEMENT DELL'INNOVAZIONE</a>
+    </legend>
+        <div class="panel-body panel-collapse collapse fade collapsed" id="bootstrap-panel-23-body">
+        <div class="table-responsive">
+<table class="exams-table table table-hover table-striped sticky-enabled">
+ <thead><tr><th>Codice corso</th><th>Docente</th><th>Data inizio prenotazione</th><th>Data fine prenotazione</th><th>Data appello</th> </tr></thead>
+<tbody>
+ <tr><td>31807</td><td>CAPALBO CINZIA</td><td>31/05/2027</td><td>30/10/2027</td><td>04/11/2027</td> </tr>
+ <tr><td>31807</td><td>CAPALBO CINZIA</td><td>31/05/2027</td><td>11/09/2027</td><td>16/09/2027</td> </tr>
+ <tr><td>31807</td><td>CAPALBO CINZIA</td><td>31/05/2027</td><td>28/08/2027</td><td>02/09/2027</td> </tr>
+ <tr><td>31807</td><td>CAPALBO CINZIA</td><td>31/05/2027</td><td>03/07/2027</td><td>08/07/2027</td> </tr>
+ <tr><td>31807</td><td>CAPALBO CINZIA</td><td>31/05/2027</td><td>19/06/2027</td><td>24/06/2027</td> </tr>
+ <tr><td>31807</td><td>CAPALBO CINZIA</td><td>31/05/2027</td><td>05/06/2027</td><td>10/06/2027</td> </tr>
+ <tr><td>31807</td><td>CAPALBO CINZIA</td><td>13/01/2027</td><td>10/04/2027</td><td>15/04/2027</td> </tr>
+ <tr><td>31807</td><td>CAPALBO CINZIA</td><td>13/01/2027</td><td>13/02/2027</td><td>18/02/2027</td> </tr>
+ <tr><td>31807</td><td>CAPALBO CINZIA</td><td>13/01/2027</td><td>30/01/2027</td><td>04/02/2027</td> </tr>
+ <tr><td>31807</td><td>CAPALBO CINZIA</td><td>13/01/2027</td><td>16/01/2027</td><td>21/01/2027</td> </tr>
+</tbody>
+</table>
+</div>
+  </div>
+</fieldset>
+<fieldset  class="collapsible exam panel panel-default form-wrapper" data-group-type="group-exam" data-exam-id="10589553" data-exam-title="10589553 | COMUNICAZIONE VISIVA E DESIGN PER L&#039;EXHIBIT E PER LO SPAZIO PUBBLICO" id="bootstrap-panel--24">
+          <legend class="panel-heading">
+      <a href="#bootstrap-panel-24-body" class="panel-title fieldset-legend collapsed" data-toggle="collapse">10589553 | COMUNICAZIONE VISIVA E DESIGN PER L'EXHIBIT E PER LO SPAZIO PUBBLICO</a>
+    </legend>
+        <div class="panel-body panel-collapse collapse fade collapsed" id="bootstrap-panel-24-body">
+        <div class="table-responsive">
+<table class="exams-table table table-hover table-striped sticky-enabled">
+ <thead><tr><th>Codice corso</th><th>Docente</th><th>Data inizio prenotazione</th><th>Data fine prenotazione</th><th>Data appello</th> </tr></thead>
+<tbody>
+ <tr><td>31807</td><td>QUICI FABIO</td><td>31/05/2027</td><td>28/10/2027</td><td>02/11/2027</td> </tr>
+ <tr><td>31807</td><td>EMPLER TOMMASO</td><td>31/05/2027</td><td>28/10/2027</td><td>02/11/2027</td> </tr>
+ <tr><td>31807</td><td>QUICI FABIO</td><td>31/05/2027</td><td>08/09/2027</td><td>13/09/2027</td> </tr>
+ <tr><td>31807</td><td>EMPLER TOMMASO</td><td>31/05/2027</td><td>08/09/2027</td><td>13/09/2027</td> </tr>
+ <tr><td>31807</td><td>EMPLER TOMMASO</td><td>31/05/2027</td><td>27/08/2027</td><td>01/09/2027</td> </tr>
+ <tr><td>31807</td><td>QUICI FABIO</td><td>31/05/2027</td><td>27/08/2027</td><td>01/09/2027</td> </tr>
+ <tr><td>31807</td><td>EMPLER TOMMASO</td><td>31/05/2027</td><td>30/06/2027</td><td>05/07/2027</td> </tr>
+ <tr><td>31807</td><td>QUICI FABIO</td><td>31/05/2027</td><td>30/06/2027</td><td>05/07/2027</td> </tr>
+ <tr><td>31807</td><td>EMPLER TOMMASO</td><td>31/05/2027</td><td>16/06/2027</td><td>21/06/2027</td> </tr>
+ <tr><td>31807</td><td>QUICI FABIO</td><td>31/05/2027</td><td>16/06/2027</td><td>21/06/2027</td> </tr>
+ <tr><td>31807</td><td>QUICI FABIO</td><td>31/05/2027</td><td>02/06/2027</td><td>07/06/2027</td> </tr>
+ <tr><td>31807</td><td>EMPLER TOMMASO</td><td>31/05/2027</td><td>02/06/2027</td><td>07/06/2027</td> </tr>
+ <tr><td>31807</td><td>QUICI FABIO</td><td>13/01/2027</td><td>07/04/2027</td><td>12/04/2027</td> </tr>
+ <tr><td>31807</td><td>EMPLER TOMMASO</td><td>13/01/2027</td><td>07/04/2027</td><td>12/04/2027</td> </tr>
+ <tr><td>31807</td><td>QUICI FABIO</td><td>13/01/2027</td><td>10/02/2027</td><td>15/02/2027</td> </tr>
+ <tr><td>31807</td><td>EMPLER TOMMASO</td><td>13/01/2027</td><td>10/02/2027</td><td>15/02/2027</td> </tr>
+ <tr><td>31807</td><td>QUICI FABIO</td><td>13/01/2027</td><td>27/01/2027</td><td>01/02/2027</td> </tr>
+ <tr><td>31807</td><td>EMPLER TOMMASO</td><td>13/01/2027</td><td>27/01/2027</td><td>01/02/2027</td> </tr>
+ <tr><td>31807</td><td>EMPLER TOMMASO</td><td>13/01/2027</td><td>13/01/2027</td><td>18/01/2027</td> </tr>
+ <tr><td>31807</td><td>QUICI FABIO</td><td>13/01/2027</td><td>13/01/2027</td><td>18/01/2027</td> </tr>
+</tbody>
+</table>
+</div>
+  </div>
+</fieldset>
+<fieldset  class="collapsible exam panel panel-default form-wrapper" data-group-type="group-exam" data-exam-id="10589359" data-exam-title="10589359 | PSICOLOGIA ED ERGONOMIA COGNITIVA" id="bootstrap-panel--25">
+          <legend class="panel-heading">
+      <a href="#bootstrap-panel-25-body" class="panel-title fieldset-legend collapsed" data-toggle="collapse">10589359 | PSICOLOGIA ED ERGONOMIA COGNITIVA</a>
+    </legend>
+        <div class="panel-body panel-collapse collapse fade collapsed" id="bootstrap-panel-25-body">
+        <div class="table-responsive">
+<table class="exams-table table table-hover table-striped sticky-enabled">
+ <thead><tr><th>Codice corso</th><th>Docente</th><th>Data inizio prenotazione</th><th>Data fine prenotazione</th><th>Data appello</th> </tr></thead>
+<tbody>
+ <tr><td>31807</td><td>VILLANI TERESA</td><td>31/05/2027</td><td>31/10/2027</td><td>05/11/2027</td> </tr>
+ <tr><td>31807</td><td>BONAIUTO MARINO</td><td>31/05/2027</td><td>28/10/2027</td><td>02/11/2027</td> </tr>
+ <tr><td>31807</td><td>VILLANI TERESA</td><td>31/05/2027</td><td>12/09/2027</td><td>17/09/2027</td> </tr>
+ <tr><td>31807</td><td>BONAIUTO MARINO</td><td>31/05/2027</td><td>08/09/2027</td><td>13/09/2027</td> </tr>
+ <tr><td>31807</td><td>VILLANI TERESA</td><td>31/05/2027</td><td>29/08/2027</td><td>03/09/2027</td> </tr>
+ <tr><td>31807</td><td>BONAIUTO MARINO</td><td>31/05/2027</td><td>27/08/2027</td><td>01/09/2027</td> </tr>
+ <tr><td>31807</td><td>VILLANI TERESA</td><td>31/05/2027</td><td>04/07/2027</td><td>09/07/2027</td> </tr>
+ <tr><td>31807</td><td>BONAIUTO MARINO</td><td>31/05/2027</td><td>30/06/2027</td><td>05/07/2027</td> </tr>
+ <tr><td>31807</td><td>VILLANI TERESA</td><td>31/05/2027</td><td>20/06/2027</td><td>25/06/2027</td> </tr>
+ <tr><td>31807</td><td>BONAIUTO MARINO</td><td>31/05/2027</td><td>16/06/2027</td><td>21/06/2027</td> </tr>
+ <tr><td>31807</td><td>VILLANI TERESA</td><td>31/05/2027</td><td>06/06/2027</td><td>11/06/2027</td> </tr>
+ <tr><td>31807</td><td>BONAIUTO MARINO</td><td>31/05/2027</td><td>02/06/2027</td><td>07/06/2027</td> </tr>
+ <tr><td>31807</td><td>VILLANI TERESA</td><td>13/01/2027</td><td>11/04/2027</td><td>16/04/2027</td> </tr>
+ <tr><td>31807</td><td>BONAIUTO MARINO</td><td>13/01/2027</td><td>07/04/2027</td><td>12/04/2027</td> </tr>
+ <tr><td>31807</td><td>VILLANI TERESA</td><td>13/01/2027</td><td>14/02/2027</td><td>19/02/2027</td> </tr>
+ <tr><td>31807</td><td>BONAIUTO MARINO</td><td>13/01/2027</td><td>10/02/2027</td><td>15/02/2027</td> </tr>
+ <tr><td>31807</td><td>VILLANI TERESA</td><td>13/01/2027</td><td>31/01/2027</td><td>05/02/2027</td> </tr>
+ <tr><td>31807</td><td>BONAIUTO MARINO</td><td>13/01/2027</td><td>27/01/2027</td><td>01/02/2027</td> </tr>
+ <tr><td>31807</td><td>VILLANI TERESA</td><td>13/01/2027</td><td>17/01/2027</td><td>22/01/2027</td> </tr>
+ <tr><td>31807</td><td>BONAIUTO MARINO</td><td>13/01/2027</td><td>13/01/2027</td><td>18/01/2027</td> </tr>
+</tbody>
+</table>
+</div>
+  </div>
+</fieldset>
+<fieldset  class="collapsible exam panel panel-default form-wrapper" data-group-type="group-exam" data-exam-id="10589548" data-exam-title="10589548 | LABORATORIO DI DESIGN PER LO SPAZIO PUBBLICO" id="bootstrap-panel--26">
+          <legend class="panel-heading">
+      <a href="#bootstrap-panel-26-body" class="panel-title fieldset-legend collapsed" data-toggle="collapse">10589548 | LABORATORIO DI DESIGN PER LO SPAZIO PUBBLICO</a>
+    </legend>
+        <div class="panel-body panel-collapse collapse fade collapsed" id="bootstrap-panel-26-body">
+        <div class="table-responsive">
+<table class="exams-table table table-hover table-striped sticky-enabled">
+ <thead><tr><th>Codice corso</th><th>Docente</th><th>Data inizio prenotazione</th><th>Data fine prenotazione</th><th>Data appello</th> </tr></thead>
+<tbody>
+ <tr><td>31807</td><td>DAL FALCO FEDERICA</td><td>31/05/2027</td><td>29/10/2027</td><td>03/11/2027</td> </tr>
+ <tr><td>31807</td><td>DAL FALCO FEDERICA</td><td>31/05/2027</td><td>10/09/2027</td><td>15/09/2027</td> </tr>
+ <tr><td>31807</td><td>DAL FALCO FEDERICA</td><td>31/05/2027</td><td>27/08/2027</td><td>01/09/2027</td> </tr>
+ <tr><td>31807</td><td>DAL FALCO FEDERICA</td><td>31/05/2027</td><td>02/07/2027</td><td>07/07/2027</td> </tr>
+ <tr><td>31807</td><td>DAL FALCO FEDERICA</td><td>31/05/2027</td><td>18/06/2027</td><td>23/06/2027</td> </tr>
+ <tr><td>31807</td><td>DAL FALCO FEDERICA</td><td>31/05/2027</td><td>04/06/2027</td><td>09/06/2027</td> </tr>
+ <tr><td>31807</td><td>DAL FALCO FEDERICA</td><td>13/01/2027</td><td>09/04/2027</td><td>14/04/2027</td> </tr>
+ <tr><td>31807</td><td>DAL FALCO FEDERICA</td><td>13/01/2027</td><td>12/02/2027</td><td>17/02/2027</td> </tr>
+ <tr><td>31807</td><td>DAL FALCO FEDERICA</td><td>13/01/2027</td><td>29/01/2027</td><td>03/02/2027</td> </tr>
+ <tr><td>31807</td><td>DAL FALCO FEDERICA</td><td>13/01/2027</td><td>15/01/2027</td><td>20/01/2027</td> </tr>
+</tbody>
+</table>
+</div>
+  </div>
+</fieldset>
+<fieldset  class="collapsible exam panel panel-default form-wrapper" data-group-type="group-exam" data-exam-id="10589552" data-exam-title="10589552 | LABORATORIO DI SINTESI FINALE IN DESIGN PER LA COMUNICAZIONE VISIVA" id="bootstrap-panel--27">
+          <legend class="panel-heading">
+      <a href="#bootstrap-panel-27-body" class="panel-title fieldset-legend collapsed" data-toggle="collapse">10589552 | LABORATORIO DI SINTESI FINALE IN DESIGN PER LA COMUNICAZIONE VISIVA</a>
+    </legend>
+        <div class="panel-body panel-collapse collapse fade collapsed" id="bootstrap-panel-27-body">
+        <div class="table-responsive">
+<table class="exams-table table table-hover table-striped sticky-enabled">
+ <thead><tr><th>Codice corso</th><th>Docente</th><th>Data inizio prenotazione</th><th>Data fine prenotazione</th><th>Data appello</th> </tr></thead>
+<tbody>
+ <tr><td>31807</td><td>MARTINO CARLO</td><td>31/05/2027</td><td>29/10/2027</td><td>03/11/2027</td> </tr>
+ <tr><td>31807</td><td>MINESTRONI LAURA</td><td>31/05/2027</td><td>28/10/2027</td><td>02/11/2027</td> </tr>
+ <tr><td>31807</td><td>MARTINO CARLO</td><td>31/05/2027</td><td>10/09/2027</td><td>15/09/2027</td> </tr>
+ <tr><td>31807</td><td>MINESTRONI LAURA</td><td>31/05/2027</td><td>08/09/2027</td><td>13/09/2027</td> </tr>
+ <tr><td>31807</td><td>MINESTRONI LAURA</td><td>31/05/2027</td><td>27/08/2027</td><td>01/09/2027</td> </tr>
+ <tr><td>31807</td><td>MARTINO CARLO</td><td>31/05/2027</td><td>27/08/2027</td><td>01/09/2027</td> </tr>
+ <tr><td>31807</td><td>MARTINO CARLO</td><td>31/05/2027</td><td>02/07/2027</td><td>07/07/2027</td> </tr>
+ <tr><td>31807</td><td>MINESTRONI LAURA</td><td>31/05/2027</td><td>30/06/2027</td><td>05/07/2027</td> </tr>
+ <tr><td>31807</td><td>MARTINO CARLO</td><td>31/05/2027</td><td>18/06/2027</td><td>23/06/2027</td> </tr>
+ <tr><td>31807</td><td>MINESTRONI LAURA</td><td>31/05/2027</td><td>16/06/2027</td><td>21/06/2027</td> </tr>
+ <tr><td>31807</td><td>MARTINO CARLO</td><td>31/05/2027</td><td>04/06/2027</td><td>09/06/2027</td> </tr>
+ <tr><td>31807</td><td>MINESTRONI LAURA</td><td>31/05/2027</td><td>02/06/2027</td><td>07/06/2027</td> </tr>
+ <tr><td>31807</td><td>MARTINO CARLO</td><td>13/01/2027</td><td>09/04/2027</td><td>14/04/2027</td> </tr>
+ <tr><td>31807</td><td>MINESTRONI LAURA</td><td>13/01/2027</td><td>07/04/2027</td><td>12/04/2027</td> </tr>
+ <tr><td>31807</td><td>MARTINO CARLO</td><td>13/01/2027</td><td>12/02/2027</td><td>17/02/2027</td> </tr>
+ <tr><td>31807</td><td>MINESTRONI LAURA</td><td>13/01/2027</td><td>10/02/2027</td><td>15/02/2027</td> </tr>
+ <tr><td>31807</td><td>MARTINO CARLO</td><td>13/01/2027</td><td>29/01/2027</td><td>03/02/2027</td> </tr>
+ <tr><td>31807</td><td>MINESTRONI LAURA</td><td>13/01/2027</td><td>27/01/2027</td><td>01/02/2027</td> </tr>
+ <tr><td>31807</td><td>MARTINO CARLO</td><td>13/01/2027</td><td>15/01/2027</td><td>20/01/2027</td> </tr>
+ <tr><td>31807</td><td>MINESTRONI LAURA</td><td>13/01/2027</td><td>13/01/2027</td><td>18/01/2027</td> </tr>
+</tbody>
+</table>
+</div>
+  </div>
+</fieldset>
+<fieldset  class="collapsible exam panel panel-default form-wrapper" data-group-type="group-exam" data-exam-id="10589549" data-exam-title="10589549 | PROGETTAZIONE STRUTTURALE PER IL DESIGN" id="bootstrap-panel--28">
+          <legend class="panel-heading">
+      <a href="#bootstrap-panel-28-body" class="panel-title fieldset-legend collapsed" data-toggle="collapse">10589549 | PROGETTAZIONE STRUTTURALE PER IL DESIGN</a>
+    </legend>
+        <div class="panel-body panel-collapse collapse fade collapsed" id="bootstrap-panel-28-body">
+        <div class="table-responsive">
+<table class="exams-table table table-hover table-striped sticky-enabled">
+ <thead><tr><th>Codice corso</th><th>Docente</th><th>Data inizio prenotazione</th><th>Data fine prenotazione</th><th>Data appello</th> </tr></thead>
+<tbody>
+ <tr><td>31807</td><td>BERNARDINI DAVIDE</td><td>31/05/2027</td><td>29/10/2027</td><td>03/11/2027</td> </tr>
+ <tr><td>31807</td><td>BOSCATO GIOSUÈ</td><td>31/05/2027</td><td>29/10/2027</td><td>03/11/2027</td> </tr>
+ <tr><td>31807</td><td>LOFRANO EGIDIO</td><td>28/10/2027</td><td>31/10/2027</td><td>03/11/2027</td> </tr>
+ <tr><td>31807</td><td>BERNARDINI DAVIDE</td><td>31/05/2027</td><td>10/09/2027</td><td>15/09/2027</td> </tr>
+ <tr><td>31807</td><td>BOSCATO GIOSUÈ</td><td>31/05/2027</td><td>10/09/2027</td><td>15/09/2027</td> </tr>
+ <tr><td>31807</td><td>LOFRANO EGIDIO</td><td>09/09/2027</td><td>12/09/2027</td><td>15/09/2027</td> </tr>
+ <tr><td>31807</td><td>LOFRANO EGIDIO</td><td>28/08/2027</td><td>31/08/2027</td><td>03/09/2027</td> </tr>
+ <tr><td>31807</td><td>BOSCATO GIOSUÈ</td><td>31/05/2027</td><td>27/08/2027</td><td>01/09/2027</td> </tr>
+ <tr><td>31807</td><td>BERNARDINI DAVIDE</td><td>31/05/2027</td><td>27/08/2027</td><td>01/09/2027</td> </tr>
+ <tr><td>31807</td><td>BOSCATO GIOSUÈ</td><td>31/05/2027</td><td>02/07/2027</td><td>07/07/2027</td> </tr>
+ <tr><td>31807</td><td>BERNARDINI DAVIDE</td><td>31/05/2027</td><td>02/07/2027</td><td>07/07/2027</td> </tr>
+ <tr><td>31807</td><td>LOFRANO EGIDIO</td><td>01/07/2027</td><td>04/07/2027</td><td>07/07/2027</td> </tr>
+ <tr><td>31807</td><td>BERNARDINI DAVIDE</td><td>31/05/2027</td><td>18/06/2027</td><td>23/06/2027</td> </tr>
+ <tr><td>31807</td><td>LOFRANO EGIDIO</td><td>17/06/2027</td><td>20/06/2027</td><td>23/06/2027</td> </tr>
+ <tr><td>31807</td><td>BOSCATO GIOSUÈ</td><td>31/05/2027</td><td>18/06/2027</td><td>23/06/2027</td> </tr>
+ <tr><td>31807</td><td>BERNARDINI DAVIDE</td><td>31/05/2027</td><td>04/06/2027</td><td>09/06/2027</td> </tr>
+ <tr><td>31807</td><td>LOFRANO EGIDIO</td><td>03/06/2027</td><td>06/06/2027</td><td>09/06/2027</td> </tr>
+ <tr><td>31807</td><td>BOSCATO GIOSUÈ</td><td>31/05/2027</td><td>04/06/2027</td><td>09/06/2027</td> </tr>
+ <tr><td>31807</td><td>BOSCATO GIOSUÈ</td><td>13/01/2027</td><td>09/04/2027</td><td>14/04/2027</td> </tr>
+ <tr><td>31807</td><td>LOFRANO EGIDIO</td><td>08/04/2027</td><td>11/04/2027</td><td>14/04/2027</td> </tr>
+ <tr><td>31807</td><td>BERNARDINI DAVIDE</td><td>13/01/2027</td><td>09/04/2027</td><td>14/04/2027</td> </tr>
+ <tr><td>31807</td><td>BERNARDINI DAVIDE</td><td>13/01/2027</td><td>12/02/2027</td><td>17/02/2027</td> </tr>
+ <tr><td>31807</td><td>BOSCATO GIOSUÈ</td><td>13/01/2027</td><td>12/02/2027</td><td>17/02/2027</td> </tr>
+ <tr><td>31807</td><td>LOFRANO EGIDIO</td><td>11/02/2027</td><td>14/02/2027</td><td>17/02/2027</td> </tr>
+ <tr><td>31807</td><td>BERNARDINI DAVIDE</td><td>13/01/2027</td><td>29/01/2027</td><td>03/02/2027</td> </tr>
+ <tr><td>31807</td><td>LOFRANO EGIDIO</td><td>28/01/2027</td><td>31/01/2027</td><td>03/02/2027</td> </tr>
+ <tr><td>31807</td><td>BOSCATO GIOSUÈ</td><td>13/01/2027</td><td>29/01/2027</td><td>03/02/2027</td> </tr>
+ <tr><td>31807</td><td>BERNARDINI DAVIDE</td><td>13/01/2027</td><td>15/01/2027</td><td>20/01/2027</td> </tr>
+ <tr><td>31807</td><td>BOSCATO GIOSUÈ</td><td>13/01/2027</td><td>15/01/2027</td><td>20/01/2027</td> </tr>
+ <tr><td>31807</td><td>LOFRANO EGIDIO</td><td>14/01/2027</td><td>17/01/2027</td><td>20/01/2027</td> </tr>
+</tbody>
+</table>
+</div>
+  </div>
+</fieldset>
+<fieldset  class="collapsible exam panel panel-default form-wrapper" data-group-type="group-exam" data-exam-id="10606565" data-exam-title="10606565 | LABORATORIO DI SINTESI FINALE IN DESIGN PER IL PRODOTTO" id="bootstrap-panel--29">
+          <legend class="panel-heading">
+      <a href="#bootstrap-panel-29-body" class="panel-title fieldset-legend collapsed" data-toggle="collapse">10606565 | LABORATORIO DI SINTESI FINALE IN DESIGN PER IL PRODOTTO</a>
+    </legend>
+        <div class="panel-body panel-collapse collapse fade collapsed" id="bootstrap-panel-29-body">
+        <div class="table-responsive">
+<table class="exams-table table table-hover table-striped sticky-enabled">
+ <thead><tr><th>Codice corso</th><th>Docente</th><th>Data inizio prenotazione</th><th>Data fine prenotazione</th><th>Data appello</th> </tr></thead>
+<tbody>
+ <tr><td>31807</td><td>LUCIBELLO SABRINA</td><td>31/05/2027</td><td>31/10/2027</td><td>05/11/2027</td> </tr>
+ <tr><td>31807</td><td>IMBESI LORENZO</td><td>31/05/2027</td><td>31/10/2027</td><td>05/11/2027</td> </tr>
+ <tr><td>31807</td><td>DI LUCCHIO LOREDANA</td><td>31/05/2027</td><td>28/10/2027</td><td>02/11/2027</td> </tr>
+ <tr><td>31807</td><td>LUCIBELLO SABRINA</td><td>31/05/2027</td><td>12/09/2027</td><td>17/09/2027</td> </tr>
+ <tr><td>31807</td><td>IMBESI LORENZO</td><td>31/05/2027</td><td>12/09/2027</td><td>17/09/2027</td> </tr>
+ <tr><td>31807</td><td>DI LUCCHIO LOREDANA</td><td>31/05/2027</td><td>09/09/2027</td><td>14/09/2027</td> </tr>
+ <tr><td>31807</td><td>IMBESI LORENZO</td><td>31/05/2027</td><td>29/08/2027</td><td>03/09/2027</td> </tr>
+ <tr><td>31807</td><td>LUCIBELLO SABRINA</td><td>31/05/2027</td><td>29/08/2027</td><td>03/09/2027</td> </tr>
+ <tr><td>31807</td><td>DI LUCCHIO LOREDANA</td><td>31/05/2027</td><td>27/08/2027</td><td>01/09/2027</td> </tr>
+ <tr><td>31807</td><td>IMBESI LORENZO</td><td>31/05/2027</td><td>04/07/2027</td><td>09/07/2027</td> </tr>
+ <tr><td>31807</td><td>LUCIBELLO SABRINA</td><td>31/05/2027</td><td>04/07/2027</td><td>09/07/2027</td> </tr>
+ <tr><td>31807</td><td>DI LUCCHIO LOREDANA</td><td>31/05/2027</td><td>01/07/2027</td><td>06/07/2027</td> </tr>
+ <tr><td>31807</td><td>LUCIBELLO SABRINA</td><td>31/05/2027</td><td>20/06/2027</td><td>25/06/2027</td> </tr>
+ <tr><td>31807</td><td>IMBESI LORENZO</td><td>31/05/2027</td><td>20/06/2027</td><td>25/06/2027</td> </tr>
+ <tr><td>31807</td><td>DI LUCCHIO LOREDANA</td><td>31/05/2027</td><td>17/06/2027</td><td>22/06/2027</td> </tr>
+ <tr><td>31807</td><td>IMBESI LORENZO</td><td>31/05/2027</td><td>06/06/2027</td><td>11/06/2027</td> </tr>
+ <tr><td>31807</td><td>LUCIBELLO SABRINA</td><td>31/05/2027</td><td>06/06/2027</td><td>11/06/2027</td> </tr>
+ <tr><td>31807</td><td>DI LUCCHIO LOREDANA</td><td>31/05/2027</td><td>03/06/2027</td><td>08/06/2027</td> </tr>
+ <tr><td>31807</td><td>IMBESI LORENZO</td><td>13/01/2027</td><td>11/04/2027</td><td>16/04/2027</td> </tr>
+ <tr><td>31807</td><td>LUCIBELLO SABRINA</td><td>13/01/2027</td><td>11/04/2027</td><td>16/04/2027</td> </tr>
+ <tr><td>31807</td><td>DI LUCCHIO LOREDANA</td><td>13/01/2027</td><td>08/04/2027</td><td>13/04/2027</td> </tr>
+ <tr><td>31807</td><td>LUCIBELLO SABRINA</td><td>13/01/2027</td><td>14/02/2027</td><td>19/02/2027</td> </tr>
+ <tr><td>31807</td><td>IMBESI LORENZO</td><td>13/01/2027</td><td>14/02/2027</td><td>19/02/2027</td> </tr>
+ <tr><td>31807</td><td>DI LUCCHIO LOREDANA</td><td>13/01/2027</td><td>11/02/2027</td><td>16/02/2027</td> </tr>
+ <tr><td>31807</td><td>LUCIBELLO SABRINA</td><td>13/01/2027</td><td>31/01/2027</td><td>05/02/2027</td> </tr>
+ <tr><td>31807</td><td>IMBESI LORENZO</td><td>13/01/2027</td><td>31/01/2027</td><td>05/02/2027</td> </tr>
+ <tr><td>31807</td><td>DI LUCCHIO LOREDANA</td><td>13/01/2027</td><td>28/01/2027</td><td>02/02/2027</td> </tr>
+ <tr><td>31807</td><td>IMBESI LORENZO</td><td>13/01/2027</td><td>17/01/2027</td><td>22/01/2027</td> </tr>
+ <tr><td>31807</td><td>LUCIBELLO SABRINA</td><td>13/01/2027</td><td>17/01/2027</td><td>22/01/2027</td> </tr>
+ <tr><td>31807</td><td>DI LUCCHIO LOREDANA</td><td>13/01/2027</td><td>14/01/2027</td><td>19/01/2027</td> </tr>
+</tbody>
+</table>
+</div>
+  </div>
+</fieldset>
+<fieldset  class="collapsible exam panel panel-default form-wrapper" data-group-type="group-exam" data-exam-id="AAF1101" data-exam-title="AAF1101 | LINGUA INGLESE" id="bootstrap-panel--30">
+          <legend class="panel-heading">
+      <a href="#bootstrap-panel-30-body" class="panel-title fieldset-legend collapsed" data-toggle="collapse">AAF1101 | LINGUA INGLESE</a>
+    </legend>
+        <div class="panel-body panel-collapse collapse fade collapsed" id="bootstrap-panel-30-body">
+        <div class="table-responsive">
+<table class="exams-table table table-hover table-striped sticky-enabled">
+ <thead><tr><th>Codice corso</th><th>Docente</th><th>Data inizio prenotazione</th><th>Data fine prenotazione</th><th>Data appello</th> </tr></thead>
+<tbody>
+ <tr><td>31807</td><td>LUCIBELLO SABRINA</td><td>31/05/2027</td><td>31/10/2027</td><td>05/11/2027</td> </tr>
+ <tr><td>31807</td><td>LUCIBELLO SABRINA</td><td>31/05/2027</td><td>12/09/2027</td><td>17/09/2027</td> </tr>
+ <tr><td>31807</td><td>LUCIBELLO SABRINA</td><td>31/05/2027</td><td>29/08/2027</td><td>03/09/2027</td> </tr>
+ <tr><td>31807</td><td>LUCIBELLO SABRINA</td><td>31/05/2027</td><td>04/07/2027</td><td>09/07/2027</td> </tr>
+ <tr><td>31807</td><td>LUCIBELLO SABRINA</td><td>31/05/2027</td><td>20/06/2027</td><td>25/06/2027</td> </tr>
+ <tr><td>31807</td><td>LUCIBELLO SABRINA</td><td>31/05/2027</td><td>06/06/2027</td><td>11/06/2027</td> </tr>
+ <tr><td>31807</td><td>LUCIBELLO SABRINA</td><td>13/01/2027</td><td>11/04/2027</td><td>16/04/2027</td> </tr>
+ <tr><td>31807</td><td>LUCIBELLO SABRINA</td><td>13/01/2027</td><td>14/02/2027</td><td>19/02/2027</td> </tr>
+ <tr><td>31807</td><td>LUCIBELLO SABRINA</td><td>13/01/2027</td><td>31/01/2027</td><td>05/02/2027</td> </tr>
+ <tr><td>31807</td><td>LUCIBELLO SABRINA</td><td>13/01/2027</td><td>17/01/2027</td><td>22/01/2027</td> </tr>
+</tbody>
+</table>
+</div>
+  </div>
+</fieldset>
+<fieldset  class="collapsible exam panel panel-default form-wrapper" data-group-type="group-exam" data-exam-id="10600284" data-exam-title="10600284 | MATERIALI E TECNOLOGIE INNOVATIVE" id="bootstrap-panel--31">
+          <legend class="panel-heading">
+      <a href="#bootstrap-panel-31-body" class="panel-title fieldset-legend collapsed" data-toggle="collapse">10600284 | MATERIALI E TECNOLOGIE INNOVATIVE</a>
+    </legend>
+        <div class="panel-body panel-collapse collapse fade collapsed" id="bootstrap-panel-31-body">
+        <div class="table-responsive">
+<table class="exams-table table table-hover table-striped sticky-enabled">
+ <thead><tr><th>Codice corso</th><th>Docente</th><th>Data inizio prenotazione</th><th>Data fine prenotazione</th><th>Data appello</th> </tr></thead>
+<tbody>
+ <tr><td>31807</td><td>BAIANI SERENA</td><td>31/05/2027</td><td>28/10/2027</td><td>02/11/2027</td> </tr>
+ <tr><td>31807</td><td>BAIANI SERENA</td><td>31/05/2027</td><td>08/09/2027</td><td>13/09/2027</td> </tr>
+ <tr><td>31807</td><td>BAIANI SERENA</td><td>31/05/2027</td><td>27/08/2027</td><td>01/09/2027</td> </tr>
+ <tr><td>31807</td><td>BAIANI SERENA</td><td>31/05/2027</td><td>30/06/2027</td><td>05/07/2027</td> </tr>
+ <tr><td>31807</td><td>BAIANI SERENA</td><td>31/05/2027</td><td>16/06/2027</td><td>21/06/2027</td> </tr>
+ <tr><td>31807</td><td>BAIANI SERENA</td><td>31/05/2027</td><td>02/06/2027</td><td>07/06/2027</td> </tr>
+ <tr><td>31807</td><td>BAIANI SERENA</td><td>13/01/2027</td><td>07/04/2027</td><td>12/04/2027</td> </tr>
+ <tr><td>31807</td><td>BAIANI SERENA</td><td>13/01/2027</td><td>10/02/2027</td><td>15/02/2027</td> </tr>
+ <tr><td>31807</td><td>BAIANI SERENA</td><td>13/01/2027</td><td>27/01/2027</td><td>01/02/2027</td> </tr>
+ <tr><td>31807</td><td>BAIANI SERENA</td><td>13/01/2027</td><td>13/01/2027</td><td>18/01/2027</td> </tr>
+</tbody>
+</table>
+</div>
+  </div>
+</fieldset>
+<fieldset  class="collapsible exam panel panel-default form-wrapper" data-group-type="group-exam" data-exam-id="10600268" data-exam-title="10600268 | LABORATORIO DI BASIC DESIGN" id="bootstrap-panel--32">
+          <legend class="panel-heading">
+      <a href="#bootstrap-panel-32-body" class="panel-title fieldset-legend collapsed" data-toggle="collapse">10600268 | LABORATORIO DI BASIC DESIGN</a>
+    </legend>
+        <div class="panel-body panel-collapse collapse fade collapsed" id="bootstrap-panel-32-body">
+        <div class="table-responsive">
+<table class="exams-table table table-hover table-striped sticky-enabled">
+ <thead><tr><th>Codice corso</th><th>Docente</th><th>Data inizio prenotazione</th><th>Data fine prenotazione</th><th>Data appello</th> </tr></thead>
+<tbody>
+ <tr><td>31807</td><td>CACCAMO ALESSIO</td><td>31/05/2027</td><td>29/10/2027</td><td>03/11/2027</td> </tr>
+ <tr><td>31807</td><td>MASELLI VINCENZO</td><td>31/05/2027</td><td>29/10/2027</td><td>03/11/2027</td> </tr>
+ <tr><td>31807</td><td>MASELLI VINCENZO</td><td>31/05/2027</td><td>10/09/2027</td><td>15/09/2027</td> </tr>
+ <tr><td>31807</td><td>CACCAMO ALESSIO</td><td>31/05/2027</td><td>10/09/2027</td><td>15/09/2027</td> </tr>
+ <tr><td>31807</td><td>MASELLI VINCENZO</td><td>31/05/2027</td><td>27/08/2027</td><td>01/09/2027</td> </tr>
+ <tr><td>31807</td><td>CACCAMO ALESSIO</td><td>31/05/2027</td><td>27/08/2027</td><td>01/09/2027</td> </tr>
+ <tr><td>31807</td><td>CACCAMO ALESSIO</td><td>31/05/2027</td><td>02/07/2027</td><td>07/07/2027</td> </tr>
+ <tr><td>31807</td><td>MASELLI VINCENZO</td><td>31/05/2027</td><td>02/07/2027</td><td>07/07/2027</td> </tr>
+ <tr><td>31807</td><td>CACCAMO ALESSIO</td><td>31/05/2027</td><td>18/06/2027</td><td>23/06/2027</td> </tr>
+ <tr><td>31807</td><td>MASELLI VINCENZO</td><td>31/05/2027</td><td>18/06/2027</td><td>23/06/2027</td> </tr>
+ <tr><td>31807</td><td>CACCAMO ALESSIO</td><td>31/05/2027</td><td>04/06/2027</td><td>09/06/2027</td> </tr>
+ <tr><td>31807</td><td>MASELLI VINCENZO</td><td>31/05/2027</td><td>04/06/2027</td><td>09/06/2027</td> </tr>
+ <tr><td>31807</td><td>CACCAMO ALESSIO</td><td>13/01/2027</td><td>09/04/2027</td><td>14/04/2027</td> </tr>
+ <tr><td>31807</td><td>MASELLI VINCENZO</td><td>13/01/2027</td><td>09/04/2027</td><td>14/04/2027</td> </tr>
+ <tr><td>31807</td><td>MASELLI VINCENZO</td><td>13/01/2027</td><td>12/02/2027</td><td>17/02/2027</td> </tr>
+ <tr><td>31807</td><td>CACCAMO ALESSIO</td><td>13/01/2027</td><td>12/02/2027</td><td>17/02/2027</td> </tr>
+ <tr><td>31807</td><td>MASELLI VINCENZO</td><td>13/01/2027</td><td>29/01/2027</td><td>03/02/2027</td> </tr>
+ <tr><td>31807</td><td>CACCAMO ALESSIO</td><td>13/01/2027</td><td>29/01/2027</td><td>03/02/2027</td> </tr>
+ <tr><td>31807</td><td>CACCAMO ALESSIO</td><td>13/01/2027</td><td>15/01/2027</td><td>20/01/2027</td> </tr>
+ <tr><td>31807</td><td>MASELLI VINCENZO</td><td>13/01/2027</td><td>15/01/2027</td><td>20/01/2027</td> </tr>
+</tbody>
+</table>
+</div>
+  </div>
+</fieldset>
+<fieldset  class="collapsible exam panel panel-default form-wrapper" data-group-type="group-exam" data-exam-id="10606454" data-exam-title="10606454 | LABORATORIO DI SINTESI FINALE IN DESIGN PER LEXHIBIT E IL PUBLIC DESIGN" id="bootstrap-panel--33">
+          <legend class="panel-heading">
+      <a href="#bootstrap-panel-33-body" class="panel-title fieldset-legend collapsed" data-toggle="collapse">10606454 | LABORATORIO DI SINTESI FINALE IN DESIGN PER LEXHIBIT E IL PUBLIC DESIGN</a>
+    </legend>
+        <div class="panel-body panel-collapse collapse fade collapsed" id="bootstrap-panel-33-body">
+        <div class="table-responsive">
+<table class="exams-table table table-hover table-striped sticky-enabled">
+ <thead><tr><th>Codice corso</th><th>Docente</th><th>Data inizio prenotazione</th><th>Data fine prenotazione</th><th>Data appello</th> </tr></thead>
+<tbody>
+ <tr><td>31807</td><td>QUICI FABIO</td><td>31/05/2027</td><td>28/10/2027</td><td>02/11/2027</td> </tr>
+ <tr><td>31807</td><td>QUICI FABIO</td><td>31/05/2027</td><td>08/09/2027</td><td>13/09/2027</td> </tr>
+ <tr><td>31807</td><td>QUICI FABIO</td><td>31/05/2027</td><td>27/08/2027</td><td>01/09/2027</td> </tr>
+ <tr><td>31807</td><td>QUICI FABIO</td><td>31/05/2027</td><td>30/06/2027</td><td>05/07/2027</td> </tr>
+ <tr><td>31807</td><td>QUICI FABIO</td><td>31/05/2027</td><td>16/06/2027</td><td>21/06/2027</td> </tr>
+ <tr><td>31807</td><td>QUICI FABIO</td><td>31/05/2027</td><td>02/06/2027</td><td>07/06/2027</td> </tr>
+ <tr><td>31807</td><td>QUICI FABIO</td><td>13/01/2027</td><td>07/04/2027</td><td>12/04/2027</td> </tr>
+ <tr><td>31807</td><td>QUICI FABIO</td><td>13/01/2027</td><td>10/02/2027</td><td>15/02/2027</td> </tr>
+ <tr><td>31807</td><td>QUICI FABIO</td><td>13/01/2027</td><td>27/01/2027</td><td>01/02/2027</td> </tr>
+ <tr><td>31807</td><td>QUICI FABIO</td><td>13/01/2027</td><td>13/01/2027</td><td>18/01/2027</td> </tr>
+</tbody>
+</table>
+</div>
+  </div>
+</fieldset>
+<fieldset  class="collapsible exam panel panel-default form-wrapper" data-group-type="group-exam" data-exam-id="10606566" data-exam-title="10606566 | LABORATORIO DI SINTESI FINALE IN DESIGN PER LA COMUNICAZIONE" id="bootstrap-panel--34">
+          <legend class="panel-heading">
+      <a href="#bootstrap-panel-34-body" class="panel-title fieldset-legend collapsed" data-toggle="collapse">10606566 | LABORATORIO DI SINTESI FINALE IN DESIGN PER LA COMUNICAZIONE</a>
+    </legend>
+        <div class="panel-body panel-collapse collapse fade collapsed" id="bootstrap-panel-34-body">
+        <div class="table-responsive">
+<table class="exams-table table table-hover table-striped sticky-enabled">
+ <thead><tr><th>Codice corso</th><th>Docente</th><th>Data inizio prenotazione</th><th>Data fine prenotazione</th><th>Data appello</th> </tr></thead>
+<tbody>
+ <tr><td>31807</td><td>MARTINO CARLO</td><td>31/05/2027</td><td>29/10/2027</td><td>03/11/2027</td> </tr>
+ <tr><td>31807</td><td>MARTINO CARLO</td><td>31/05/2027</td><td>10/09/2027</td><td>15/09/2027</td> </tr>
+ <tr><td>31807</td><td>MARTINO CARLO</td><td>31/05/2027</td><td>27/08/2027</td><td>01/09/2027</td> </tr>
+ <tr><td>31807</td><td>MARTINO CARLO</td><td>31/05/2027</td><td>02/07/2027</td><td>07/07/2027</td> </tr>
+ <tr><td>31807</td><td>MARTINO CARLO</td><td>31/05/2027</td><td>18/06/2027</td><td>23/06/2027</td> </tr>
+ <tr><td>31807</td><td>MARTINO CARLO</td><td>31/05/2027</td><td>04/06/2027</td><td>09/06/2027</td> </tr>
+ <tr><td>31807</td><td>MARTINO CARLO</td><td>13/01/2027</td><td>09/04/2027</td><td>14/04/2027</td> </tr>
+ <tr><td>31807</td><td>MARTINO CARLO</td><td>13/01/2027</td><td>12/02/2027</td><td>17/02/2027</td> </tr>
+ <tr><td>31807</td><td>MARTINO CARLO</td><td>13/01/2027</td><td>29/01/2027</td><td>03/02/2027</td> </tr>
+ <tr><td>31807</td><td>MARTINO CARLO</td><td>13/01/2027</td><td>15/01/2027</td><td>20/01/2027</td> </tr>
+</tbody>
+</table>
+</div>
+  </div>
+</fieldset>
+<fieldset  class="collapsible exam panel panel-default form-wrapper" data-group-type="group-exam" data-exam-id="10612542" data-exam-title="10612542 | DESIGN DELL&#039;ESPERIENZA" id="bootstrap-panel--35">
+          <legend class="panel-heading">
+      <a href="#bootstrap-panel-35-body" class="panel-title fieldset-legend collapsed" data-toggle="collapse">10612542 | DESIGN DELL'ESPERIENZA</a>
+    </legend>
+        <div class="panel-body panel-collapse collapse fade collapsed" id="bootstrap-panel-35-body">
+        <div class="table-responsive">
+<table class="exams-table table table-hover table-striped sticky-enabled">
+ <thead><tr><th>Codice corso</th><th>Docente</th><th>Data inizio prenotazione</th><th>Data fine prenotazione</th><th>Data appello</th> </tr></thead>
+<tbody>
+ <tr><td>31807</td><td>DI NOCERA FRANCESCO</td><td>31/05/2027</td><td>30/10/2027</td><td>04/11/2027</td> </tr>
+ <tr><td>31807</td><td>DI NOCERA FRANCESCO</td><td>31/05/2027</td><td>11/09/2027</td><td>16/09/2027</td> </tr>
+ <tr><td>31807</td><td>DI NOCERA FRANCESCO</td><td>31/05/2027</td><td>28/08/2027</td><td>02/09/2027</td> </tr>
+ <tr><td>31807</td><td>DI NOCERA FRANCESCO</td><td>31/05/2027</td><td>03/07/2027</td><td>08/07/2027</td> </tr>
+ <tr><td>31807</td><td>DI NOCERA FRANCESCO</td><td>31/05/2027</td><td>19/06/2027</td><td>24/06/2027</td> </tr>
+ <tr><td>31807</td><td>DI NOCERA FRANCESCO</td><td>31/05/2027</td><td>05/06/2027</td><td>10/06/2027</td> </tr>
+ <tr><td>31807</td><td>DI NOCERA FRANCESCO</td><td>13/01/2027</td><td>10/04/2027</td><td>15/04/2027</td> </tr>
+ <tr><td>31807</td><td>DI NOCERA FRANCESCO</td><td>13/01/2027</td><td>13/02/2027</td><td>18/02/2027</td> </tr>
+ <tr><td>31807</td><td>DI NOCERA FRANCESCO</td><td>13/01/2027</td><td>30/01/2027</td><td>04/02/2027</td> </tr>
+ <tr><td>31807</td><td>DI NOCERA FRANCESCO</td><td>13/01/2027</td><td>16/01/2027</td><td>21/01/2027</td> </tr>
+</tbody>
+</table>
+</div>
+  </div>
+</fieldset>
+<fieldset  class="collapsible exam panel panel-default form-wrapper" data-group-type="group-exam" data-exam-id="10606447" data-exam-title="10606447 | SCIENZA E TECNOLOGIA DEI MATERIALI" id="bootstrap-panel--36">
+          <legend class="panel-heading">
+      <a href="#bootstrap-panel-36-body" class="panel-title fieldset-legend collapsed" data-toggle="collapse">10606447 | SCIENZA E TECNOLOGIA DEI MATERIALI</a>
+    </legend>
+        <div class="panel-body panel-collapse collapse fade collapsed" id="bootstrap-panel-36-body">
+        <div class="table-responsive">
+<table class="exams-table table table-hover table-striped sticky-enabled">
+ <thead><tr><th>Codice corso</th><th>Docente</th><th>Data inizio prenotazione</th><th>Data fine prenotazione</th><th>Data appello</th> </tr></thead>
+<tbody>
+ <tr><td>31807</td><td>MARRA FRANCESCO</td><td>31/05/2027</td><td>31/10/2027</td><td>05/11/2027</td> </tr>
+ <tr><td>31807</td><td>MARRA FRANCESCO</td><td>31/05/2027</td><td>12/09/2027</td><td>17/09/2027</td> </tr>
+ <tr><td>31807</td><td>MARRA FRANCESCO</td><td>31/05/2027</td><td>29/08/2027</td><td>03/09/2027</td> </tr>
+ <tr><td>31807</td><td>MARRA FRANCESCO</td><td>31/05/2027</td><td>04/07/2027</td><td>09/07/2027</td> </tr>
+ <tr><td>31807</td><td>MARRA FRANCESCO</td><td>31/05/2027</td><td>20/06/2027</td><td>25/06/2027</td> </tr>
+ <tr><td>31807</td><td>MARRA FRANCESCO</td><td>31/05/2027</td><td>06/06/2027</td><td>11/06/2027</td> </tr>
+ <tr><td>31807</td><td>MARRA FRANCESCO</td><td>13/01/2027</td><td>11/04/2027</td><td>16/04/2027</td> </tr>
+ <tr><td>31807</td><td>MARRA FRANCESCO</td><td>13/01/2027</td><td>14/02/2027</td><td>19/02/2027</td> </tr>
+ <tr><td>31807</td><td>MARRA FRANCESCO</td><td>13/01/2027</td><td>31/01/2027</td><td>05/02/2027</td> </tr>
+ <tr><td>31807</td><td>MARRA FRANCESCO</td><td>13/01/2027</td><td>17/01/2027</td><td>22/01/2027</td> </tr>
+</tbody>
+</table>
+</div>
+  </div>
+</fieldset>
+<fieldset  class="collapsible exam panel panel-default form-wrapper" data-group-type="group-exam" data-exam-id="10606457" data-exam-title="10606457 | DESIGN DEL MULTIMEDIALE" id="bootstrap-panel--37">
+          <legend class="panel-heading">
+      <a href="#bootstrap-panel-37-body" class="panel-title fieldset-legend collapsed" data-toggle="collapse">10606457 | DESIGN DEL MULTIMEDIALE</a>
+    </legend>
+        <div class="panel-body panel-collapse collapse fade collapsed" id="bootstrap-panel-37-body">
+        <div class="table-responsive">
+<table class="exams-table table table-hover table-striped sticky-enabled">
+ <thead><tr><th>Codice corso</th><th>Docente</th><th>Data inizio prenotazione</th><th>Data fine prenotazione</th><th>Data appello</th> </tr></thead>
+<tbody>
+ <tr><td>31807</td><td>RUZZA LUCA</td><td>31/05/2027</td><td>30/10/2027</td><td>04/11/2027</td> </tr>
+ <tr><td>31807</td><td>EMPLER TOMMASO</td><td>31/05/2027</td><td>28/10/2027</td><td>02/11/2027</td> </tr>
+ <tr><td>31807</td><td>RUZZA LUCA</td><td>31/05/2027</td><td>11/09/2027</td><td>16/09/2027</td> </tr>
+ <tr><td>31807</td><td>EMPLER TOMMASO</td><td>31/05/2027</td><td>08/09/2027</td><td>13/09/2027</td> </tr>
+ <tr><td>31807</td><td>RUZZA LUCA</td><td>31/05/2027</td><td>28/08/2027</td><td>02/09/2027</td> </tr>
+ <tr><td>31807</td><td>EMPLER TOMMASO</td><td>31/05/2027</td><td>27/08/2027</td><td>01/09/2027</td> </tr>
+ <tr><td>31807</td><td>RUZZA LUCA</td><td>31/05/2027</td><td>03/07/2027</td><td>08/07/2027</td> </tr>
+ <tr><td>31807</td><td>EMPLER TOMMASO</td><td>31/05/2027</td><td>30/06/2027</td><td>05/07/2027</td> </tr>
+ <tr><td>31807</td><td>RUZZA LUCA</td><td>31/05/2027</td><td>19/06/2027</td><td>24/06/2027</td> </tr>
+ <tr><td>31807</td><td>EMPLER TOMMASO</td><td>31/05/2027</td><td>16/06/2027</td><td>21/06/2027</td> </tr>
+ <tr><td>31807</td><td>RUZZA LUCA</td><td>31/05/2027</td><td>05/06/2027</td><td>10/06/2027</td> </tr>
+ <tr><td>31807</td><td>EMPLER TOMMASO</td><td>31/05/2027</td><td>02/06/2027</td><td>07/06/2027</td> </tr>
+ <tr><td>31807</td><td>RUZZA LUCA</td><td>13/01/2027</td><td>10/04/2027</td><td>15/04/2027</td> </tr>
+ <tr><td>31807</td><td>EMPLER TOMMASO</td><td>13/01/2027</td><td>07/04/2027</td><td>12/04/2027</td> </tr>
+ <tr><td>31807</td><td>RUZZA LUCA</td><td>13/01/2027</td><td>13/02/2027</td><td>18/02/2027</td> </tr>
+ <tr><td>31807</td><td>EMPLER TOMMASO</td><td>13/01/2027</td><td>10/02/2027</td><td>15/02/2027</td> </tr>
+ <tr><td>31807</td><td>RUZZA LUCA</td><td>13/01/2027</td><td>30/01/2027</td><td>04/02/2027</td> </tr>
+ <tr><td>31807</td><td>EMPLER TOMMASO</td><td>13/01/2027</td><td>27/01/2027</td><td>01/02/2027</td> </tr>
+ <tr><td>31807</td><td>RUZZA LUCA</td><td>13/01/2027</td><td>16/01/2027</td><td>21/01/2027</td> </tr>
+ <tr><td>31807</td><td>EMPLER TOMMASO</td><td>13/01/2027</td><td>13/01/2027</td><td>18/01/2027</td> </tr>
+</tbody>
+</table>
+</div>
+  </div>
+</fieldset>
+<fieldset  class="collapsible exam panel panel-default form-wrapper" data-group-type="group-exam" data-exam-id="10589550" data-exam-title="10589550 | LABORATORIO DI SINTESI FINALE IN DESIGN PER IL PRODOTTO" id="bootstrap-panel--38">
+          <legend class="panel-heading">
+      <a href="#bootstrap-panel-38-body" class="panel-title fieldset-legend collapsed" data-toggle="collapse">10589550 | LABORATORIO DI SINTESI FINALE IN DESIGN PER IL PRODOTTO</a>
+    </legend>
+        <div class="panel-body panel-collapse collapse fade collapsed" id="bootstrap-panel-38-body">
+        <div class="table-responsive">
+<table class="exams-table table table-hover table-striped sticky-enabled">
+ <thead><tr><th>Codice corso</th><th>Docente</th><th>Data inizio prenotazione</th><th>Data fine prenotazione</th><th>Data appello</th> </tr></thead>
+<tbody>
+ <tr><td>31807</td><td>IMBESI LORENZO</td><td>31/05/2027</td><td>31/10/2027</td><td>05/11/2027</td> </tr>
+ <tr><td>31807</td><td>IMBESI LORENZO</td><td>31/05/2027</td><td>12/09/2027</td><td>17/09/2027</td> </tr>
+ <tr><td>31807</td><td>IMBESI LORENZO</td><td>31/05/2027</td><td>29/08/2027</td><td>03/09/2027</td> </tr>
+ <tr><td>31807</td><td>IMBESI LORENZO</td><td>31/05/2027</td><td>04/07/2027</td><td>09/07/2027</td> </tr>
+ <tr><td>31807</td><td>IMBESI LORENZO</td><td>31/05/2027</td><td>20/06/2027</td><td>25/06/2027</td> </tr>
+ <tr><td>31807</td><td>IMBESI LORENZO</td><td>31/05/2027</td><td>06/06/2027</td><td>11/06/2027</td> </tr>
+ <tr><td>31807</td><td>IMBESI LORENZO</td><td>13/01/2027</td><td>11/04/2027</td><td>16/04/2027</td> </tr>
+ <tr><td>31807</td><td>IMBESI LORENZO</td><td>13/01/2027</td><td>14/02/2027</td><td>19/02/2027</td> </tr>
+ <tr><td>31807</td><td>IMBESI LORENZO</td><td>13/01/2027</td><td>31/01/2027</td><td>05/02/2027</td> </tr>
+ <tr><td>31807</td><td>IMBESI LORENZO</td><td>13/01/2027</td><td>17/01/2027</td><td>22/01/2027</td> </tr>
+</tbody>
+</table>
+</div>
+  </div>
+</fieldset>
+<fieldset  class="collapsible exam panel panel-default form-wrapper" data-group-type="group-exam" data-exam-id="10606456" data-exam-title="10606456 | DESIGN DELL&#039;ESPERIENZA" id="bootstrap-panel--39">
+          <legend class="panel-heading">
+      <a href="#bootstrap-panel-39-body" class="panel-title fieldset-legend collapsed" data-toggle="collapse">10606456 | DESIGN DELL'ESPERIENZA</a>
+    </legend>
+        <div class="panel-body panel-collapse collapse fade collapsed" id="bootstrap-panel-39-body">
+        <div class="table-responsive">
+<table class="exams-table table table-hover table-striped sticky-enabled">
+ <thead><tr><th>Codice corso</th><th>Docente</th><th>Data inizio prenotazione</th><th>Data fine prenotazione</th><th>Data appello</th> </tr></thead>
+<tbody>
+ <tr><td>31807</td><td>DI NOCERA FRANCESCO</td><td>31/05/2027</td><td>30/10/2027</td><td>04/11/2027</td> </tr>
+ <tr><td>31807</td><td>DI NOCERA FRANCESCO</td><td>31/05/2027</td><td>11/09/2027</td><td>16/09/2027</td> </tr>
+ <tr><td>31807</td><td>DI NOCERA FRANCESCO</td><td>31/05/2027</td><td>28/08/2027</td><td>02/09/2027</td> </tr>
+ <tr><td>31807</td><td>DI NOCERA FRANCESCO</td><td>31/05/2027</td><td>03/07/2027</td><td>08/07/2027</td> </tr>
+ <tr><td>31807</td><td>DI NOCERA FRANCESCO</td><td>31/05/2027</td><td>19/06/2027</td><td>24/06/2027</td> </tr>
+ <tr><td>31807</td><td>DI NOCERA FRANCESCO</td><td>31/05/2027</td><td>05/06/2027</td><td>10/06/2027</td> </tr>
+ <tr><td>31807</td><td>DI NOCERA FRANCESCO</td><td>13/01/2027</td><td>10/04/2027</td><td>15/04/2027</td> </tr>
+ <tr><td>31807</td><td>DI NOCERA FRANCESCO</td><td>13/01/2027</td><td>13/02/2027</td><td>18/02/2027</td> </tr>
+ <tr><td>31807</td><td>DI NOCERA FRANCESCO</td><td>13/01/2027</td><td>30/01/2027</td><td>04/02/2027</td> </tr>
+ <tr><td>31807</td><td>DI NOCERA FRANCESCO</td><td>13/01/2027</td><td>16/01/2027</td><td>21/01/2027</td> </tr>
+</tbody>
+</table>
+</div>
+  </div>
+</fieldset>
+<fieldset  class="collapsible exam panel panel-default form-wrapper" data-group-type="group-exam" data-exam-id="10620337" data-exam-title="10620337 | LABORATORIO DI BASIC DESIGN PER IL PRODOTTO" id="bootstrap-panel--40">
+          <legend class="panel-heading">
+      <a href="#bootstrap-panel-40-body" class="panel-title fieldset-legend collapsed" data-toggle="collapse">10620337 | LABORATORIO DI BASIC DESIGN PER IL PRODOTTO</a>
+    </legend>
+        <div class="panel-body panel-collapse collapse fade collapsed" id="bootstrap-panel-40-body">
+        <div class="table-responsive">
+<table class="exams-table table table-hover table-striped sticky-enabled">
+ <thead><tr><th>Codice corso</th><th>Docente</th><th>Data inizio prenotazione</th><th>Data fine prenotazione</th><th>Data appello</th> </tr></thead>
+<tbody>
+ <tr><td>33426</td><td>D'ELIA LUCA</td><td>29/05/2026</td><td>31/10/2026</td><td>04/11/2026</td> </tr>
+ <tr><td>33426</td><td>ROTONDI CARMEN</td><td>29/05/2026</td><td>31/10/2026</td><td>04/11/2026</td> </tr>
+</tbody>
+</table>
+</div>
+  </div>
+</fieldset>
+<fieldset  class="collapsible exam panel panel-default form-wrapper" data-group-type="group-exam" data-exam-id="10589546" data-exam-title="10589546 | LABORATORIO DI DESIGN PER LA COMUNICAZIONE VISIVA" id="bootstrap-panel--41">
+          <legend class="panel-heading">
+      <a href="#bootstrap-panel-41-body" class="panel-title fieldset-legend collapsed" data-toggle="collapse">10589546 | LABORATORIO DI DESIGN PER LA COMUNICAZIONE VISIVA</a>
+    </legend>
+        <div class="panel-body panel-collapse collapse fade collapsed" id="bootstrap-panel-41-body">
+        <div class="table-responsive">
+<table class="exams-table table table-hover table-striped sticky-enabled">
+ <thead><tr><th>Codice corso</th><th>Docente</th><th>Data inizio prenotazione</th><th>Data fine prenotazione</th><th>Data appello</th> </tr></thead>
+<tbody>
+ <tr><td>31807</td><td>MATTONE ANDREA</td><td>29/05/2026</td><td>31/10/2026</td><td>04/11/2026</td> </tr>
+ <tr><td>31807</td><td>CARLONE GIUSEPPE</td><td>29/05/2026</td><td>31/10/2026</td><td>04/11/2026</td> </tr>
+</tbody>
+</table>
+</div>
+  </div>
+</fieldset>
+<fieldset  class="collapsible exam panel panel-default form-wrapper" data-group-type="group-exam" data-exam-id="10589564" data-exam-title="10589564 | TEORIA E STORIA DEL DESIGN" id="bootstrap-panel--42">
+          <legend class="panel-heading">
+      <a href="#bootstrap-panel-42-body" class="panel-title fieldset-legend collapsed" data-toggle="collapse">10589564 | TEORIA E STORIA DEL DESIGN</a>
+    </legend>
+        <div class="panel-body panel-collapse collapse fade collapsed" id="bootstrap-panel-42-body">
+        <div class="table-responsive">
+<table class="exams-table table table-hover table-striped sticky-enabled">
+ <thead><tr><th>Codice corso</th><th>Docente</th><th>Data inizio prenotazione</th><th>Data fine prenotazione</th><th>Data appello</th> </tr></thead>
+<tbody>
+ <tr><td>31807</td><td>D'UFFIZI RAISSA</td><td>29/05/2026</td><td>01/11/2026</td><td>04/11/2026</td> </tr>
+</tbody>
+</table>
+</div>
+  </div>
+</fieldset>
+    </div>
+  </div>
+</div>
+
+</section>
+  </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+
+<footer class="section section-footer">
+  <div class="container">
+    <div class="region region-footer">
+    <section id="block-cdl-utils-cdl-footer" class="block- block block-cdl-utils clearfix">
+
+      
+  <div class="first-line">© Sapienza Università di Roma - Piazzale Aldo Moro 5, 00185 Roma - (+39) 06 49911 - CF 80209930587 PI 02133771002</div><div class="second-line"><div class="footer-menu"><a href="/area-riservata">Dashboard</a><a href="/archive">Archivio corsi</a></div></div>
+</section>
+  </div>
+  </div>
+</footer>
+
+  <script src="https://corsidilaurea.uniroma1.it/sites/all/themes/contrib/bootstrap/js/bootstrap.js?tlrnfa"></script>
+</body>
+</html>

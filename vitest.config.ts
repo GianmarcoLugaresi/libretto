@@ -6,6 +6,7 @@ export default defineConfig({
     // i moduli di calcolo restano puri e non lo usano.
     environment: 'happy-dom',
     include: ['src/**/*.test.ts', 'pipeline/**/*.test.ts'],
+    testTimeout: 15_000,
     setupFiles: ['test/setup.ts'],
   },
 })

@@ -10,7 +10,10 @@
     "icons": "node scripts/make-icons.mjs",
     "ipa": "npm run build && npx cap sync ios && bash scripts/make-ipa.sh",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "typecheck": "tsc -b --noEmit && tsc -p pipeline/tsconfig.json",
+    "pipeline": "tsx pipeline/src/esegui.ts",
+    "pipeline:secco": "tsx pipeline/src/esegui.ts --secco"
   },
   "dependencies": {
     "@capacitor/app": "^8.1.1",
@@ -26,10 +29,13 @@
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.4",
+    "cheerio": "^1.2.0",
     "fake-indexeddb": "^6.2.5",
     "happy-dom": "^20.14.5",
+    "tsx": "^4.23.15",
     "typescript": "^5.7.2",
     "vite": "^6.0.5",
-    "vitest": "^3.2.7"
+    "vitest": "^3.2.7",
+    "zod": "^4.6.5"
   }
 }

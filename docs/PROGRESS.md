@@ -1,6 +1,6 @@
 # Stato del lavoro
 
-Aggiornato: 22 settembre 2026 · fase corrente: **1 conclusa, in attesa di ok per la 2**
+Aggiornato: 22 settembre 2026 · fase corrente: **2 conclusa, in attesa di ok per la 3**
 
 ---
 
@@ -121,14 +121,98 @@ duplicati (due omonimi non si fondono: si perderebbe un voto).
 
 ---
 
-## Prossima: Fase 2 — Pipeline dati pubblici
+## Fase 2 — Pipeline dati pubblici ✅
 
-In attesa di conferma. Previsto: `pipeline/` in Node+TypeScript con
-cheerio, scraper di indice, piani per coorte e appelli, validazione con
-zod, fixture HTML reali, controlli di plausibilità, workflow schedulato.
-Per gli orari: `CuratedAdapter` (file mantenuti a mano) e `GompAdapter`
-(endpoint JSON su host consentito, solo righe con anno e canale
-dichiarati).
+`pipeline/` in Node + TypeScript, nessuna AI: parser deterministici, lo
+stesso HTML dà sempre lo stesso JSON. Dettagli operativi in
+[`pipeline/README.md`](../pipeline/README.md). 128 test propri, 219 in
+totale con quelli dell'app.
 
-**Serve da te**: nulla per iniziare. Per la Fase 5 (Infostud): URL di
-login, host coinvolti, endpoint e risposte di esempio con dati finti.
+**Cosa c'è**
+
+| File | Cosa fa |
+|---|---|
+| `src/tipi.ts` | Schemi zod, `VERSIONE_SCHEMA = 1`. Ogni file porta `schemaVersion`, `sources`, `fetchedAt` |
+| `src/http.ts` | Crawl-delay per host, ETag, backoff su 429/5xx, host consentiti ed esclusi |
+| `src/cache.ts` | ETag e Last-Modified fra un giro e l'altro, con scadenza a 7 giorni |
+| `src/controlli.ts` | Cosa **non** si pubblica |
+| `src/pubblica.ts` | Scrittura atomica, impronte, ultima versione buona |
+| `src/esegui.ts` | Runner, argomenti, rotazione a fette |
+| `src/parser/` | `indice.ts` (318 corsi), `piano.ts`, `appelli.ts` |
+| `src/orari/` | `curato.ts` (CSV a mano), `gomp.ts` (feed del catalogo) |
+
+**Verificato sul sito vero**, non solo sulle fixture: un giro
+`--solo 33426 --compiti indice,appelli` ha prodotto 318 corsi
+nell'indice e 212 appelli per Design con date e docenti reali.
+
+**Le tre decisioni che contano**
+
+1. *Una coorte è un altro codice corso*, non un parametro. Design 2024/25
+   è `31807`, dal 2025/26 è `33426`. Si leggono dal
+   `<select id="edit-year-course">` e si visita il codice di ciascuna. Il
+   file viene scritto sotto il codice che **la pagina dichiara**, non
+   sotto quello richiesto: dopo un redirect i due divergono, e un file il
+   cui nome contraddice il contenuto è peggio di un file mancante.
+2. *I piani ruotano su sette fette*, gli appelli no. Con Crawl-delay 10
+   gli appelli di tutto il catalogo sono ~53 min e cambiano di continuo:
+   si rifanno ogni notte. I piani cambiano una volta l'anno: `fettaDi()`
+   li distribuisce con uno sha1 del codice, così in una settimana passano
+   tutti una volta e ogni giro sta dentro un job.
+3. *Un file identico non si riscrive.* Cambierebbe solo `fetchedAt`, ma
+   basterebbe a far rimemorizzare a git tutto il catalogo ogni notte.
+   Quindi `fetchedAt` = quando quel contenuto è stato preso,
+   `generatedAt` dell'indice = quando abbiamo guardato.
+
+**La rete di sicurezza.** Uno scraper raramente esplode: più spesso
+restituisce zero righe, o metà. `controlli.ts` confronta il file nuovo
+con quello pubblicato e blocca la scrittura se le voci crollano sotto
+metà, se ci sono codici duplicati o se gli alias formano una catena.
+Blocca anche `index.json`: un indice dimezzato nasconderebbe corsi che
+stanno benissimo. Quando blocca, resta il file di ieri e il job fallisce
+in modo visibile.
+
+**Difetti trovati dai test durante il lavoro**
+
+- Il `gompAdapter` scaricava per conto suo, fuori dal tetto di richieste
+  e dalla cache del runner. Ora l'adattatore riceve il `prendi` del
+  runner: una sola porta verso la rete, una sola politica di cortesia.
+- Un orario CSV con `9:00` veniva rifiutato: la validazione confrontava
+  `fine <= inizio` come stringhe **prima** di normalizzare, e `"11:00"` è
+  minore di `"9:00"` in ordine alfabetico.
+- L'indice veniva scritto senza passare dai controlli. Se ne è accorto il
+  type-check, notando `controllaIndice` importato e mai usato.
+- Il messaggio «indice non cambiato» compariva anche quando era
+  `--limite` a fermare il giro: due cose diverse non devono leggersi
+  uguali nel registro.
+
+### TODO aperti dalla Fase 1
+
+- [ ] Le chiavi `piano:` senza corrispondenza nel piano vero vanno
+  **retrocesse a `man:`**. Ora che la pipeline produce i codici veri si
+  può fare: tocca alla Fase 3, quando l'app leggerà il catalogo.
+- [ ] `libretto:v1` resta su disco come rete di sicurezza. Da rimuovere
+  dopo qualche versione.
+- [x] Il catalogo IndexedDB è pronto ma vuoto → lo riempie la Fase 3
+  leggendo i file della pipeline.
+- [x] `Insegnamento.codice` ora ce l'ha chi lo produce: la pipeline.
+
+### Rimasto da decidere
+
+- **Lo `User-Agent` ha un contatto finto** (`placeholder@example.com` in
+  `http.ts`). Prima di far girare il giro notturno sul serio va messo un
+  indirizzo vero: è la cortesia minima verso chi gestisce il server.
+- **Dove leggerà l'app.** I file vanno sul ramo `data`. Per servirli
+  serve scegliere fra `raw.githubusercontent.com` (CORS aperto, cache 5
+  min) e includerli nel deploy Pages. Decisione della Fase 3.
+
+---
+
+## Prossima: Fase 3 — App multi-corso
+
+Prevista: lettura del catalogo dai file della pipeline nel deposito
+IndexedDB, scelta del corso e della coorte all'onboarding, navigazione
+fra corsi, anni e canali, retrocessione delle chiavi `piano:` orfane.
+
+**Serve da te**: per la Fase 5 (Infostud), i dati di rete raccolti dal
+browser. Come prenderli è spiegato in
+[`docs/INFOSTUD.md`](INFOSTUD.md).

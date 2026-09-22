@@ -1,0 +1,121 @@
+# Aggiorna i dati pubblici del catalogo Sapienza.
+#
+# Gira ogni notte. Gli appelli si rifanno tutti (cambiano spesso), i
+# piani a rotazione su sette fette (cambiano una volta l'anno): così
+# un giro sta dentro il tempo di un job anche con Crawl-delay 10.
+#
+# I file finiscono sul ramo `data`, non su `main`: il codice e i dati
+# hanno ritmi diversi e non devono sporcarsi la storia a vicenda.
+
+name: Dati
+
+on:
+  schedule:
+    # 04:17 UTC: fuori dall'ora tonda, quando i runner sono meno presi
+    # e il sito di Sapienza è scarico.
+    - cron: '17 4 * * *'
+  workflow_dispatch:
+    inputs:
+      compiti:
+        description: 'indice,appelli,piani,orari'
+        default: 'indice,appelli,piani,orari'
+      fetta:
+        description: '«oggi», un numero 0-6, oppure -1 per tutte'
+        default: 'oggi'
+      solo:
+        description: 'Codici corso separati da virgola (vuoto = tutti)'
+        default: ''
+
+permissions:
+  contents: write
+
+# Due giri insieme si pesterebbero i piedi sul ramo data, e
+# raddoppierebbero le richieste verso Sapienza.
+concurrency:
+  group: dati
+  cancel-in-progress: false
+
+jobs:
+  aggiorna:
+    runs-on: ubuntu-latest
+    # Un giro completo con Crawl-delay 10 può durare un'ora abbondante;
+    # oltre le due c'è qualcosa che non va e tanto vale fermarsi.
+    timeout-minutes: 150
+
+    steps:
+      - name: Codice
+        uses: actions/checkout@v4
+
+      - name: Ramo dei dati
+        run: |
+          set -euo pipefail
+          if git ls-remote --exit-code --heads origin data >/dev/null 2>&1; then
+            git clone --depth 1 --branch data "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY" pubblicati
+          else
+            # Prima esecuzione: il ramo non esiste ancora.
+            mkdir -p pubblicati
+            git -C pubblicati init -q
+            git -C pubblicati remote add origin "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY"
+            git -C pubblicati checkout -q -b data
+          fi
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # La cache degli ETag fa sì che una pagina non cambiata costi un
+      # 304 invece di una pagina intera. Se si perde non è un guasto:
+      # il giro dopo riscarica e basta.
+      - name: Cache degli ETag
+        uses: actions/cache@v4
+        with:
+          path: pipeline/.cache
+          key: etag-${{ github.run_id }}
+          restore-keys: etag-
+
+      - name: Giro
+        id: giro
+        run: |
+          npx tsx pipeline/src/esegui.ts \
+            --radice pubblicati/v1 \
+            --compiti "${{ inputs.compiti || 'indice,appelli,piani,orari' }}" \
+            --fetta "${{ inputs.fetta || 'oggi' }}" \
+            ${{ inputs.solo && format('--solo {0}', inputs.solo) || '' }} \
+            2>&1 | tee giro.log
+        continue-on-error: true
+
+      # I dati si pubblicano anche quando qualcosa è andato storto: i
+      # file buoni sono buoni comunque, e quelli sospetti il
+      # pubblicatore non li ha nemmeno scritti.
+      - name: Pubblica
+        run: |
+          set -euo pipefail
+          cd pubblicati
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          if git diff --cached --quiet; then
+            echo 'niente di cambiato'
+            exit 0
+          fi
+          git commit -q -m "Dati $(date -u +%Y-%m-%d)"
+          git push -q "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" HEAD:data
+
+      - name: Registro
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: giro-${{ github.run_id }}
+          path: giro.log
+          retention-days: 14
+
+      # Il fallimento arriva in fondo, non a metà: prima si pubblica
+      # quello che si è salvato, poi si dice che qualcosa non va.
+      - name: Esito
+        if: steps.giro.outcome == 'failure'
+        run: |
+          echo '::error::Il giro ha segnalato problemi. Il registro è negli artifact.'
+          exit 1

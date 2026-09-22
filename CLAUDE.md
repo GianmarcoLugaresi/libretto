@@ -48,6 +48,24 @@ sessione.
   sono dello studente; il catalogo aggiorna solo i dati pubblici.
 - **Dati dello studente prima di tutto.** Qualunque migrazione conserva
   invece di scartare; se qualcosa non si capisce si tiene e si segnala.
+- **Meglio un dato di ieri che un dato falso oggi.** Uno scraper raramente
+  esplode: più spesso restituisce zero righe, o metà. `pipeline/src/controlli.ts`
+  confronta col file già pubblicato e **blocca** la scrittura quando le voci
+  crollano. Resta la versione buona e il job fallisce in modo visibile.
+- **Il nome di un file segue il dato, non la richiesta.** Un piano si scrive
+  sotto il codice corso che la *pagina dichiara*, non sotto quello che
+  abbiamo chiesto: dopo un redirect i due divergono, e un file il cui nome
+  contraddice il contenuto è peggio di un file mancante.
+- **Una sola porta verso la rete.** Tutto passa da `pipeline/src/http.ts` e
+  dal `prendi` del runner, che impongono crawl-delay, cache e tetto di
+  richieste. Un modulo che scarica per conto suo aggira la cortesia senza
+  che nessuno se ne accorga — è già successo col `gompAdapter`.
+- **Si redige per lista di ciò che si tiene**, non di ciò che si toglie
+  (`pipeline/src/strumenti/har.ts`). Un campo mai visto deve essere redatto,
+  non tenuto per sbaglio: davanti all'ignoto si sbaglia verso la prudenza.
+- **Niente caratteri di controllo o combinanti grezzi nel sorgente**: si
+  scrivono con gli escape (`new RegExp('[\\u0300-\\u036f]', 'g')`).
+  Nel codice sono invisibili e si perdono nei passaggi.
 
 ## Convenzioni
 
@@ -61,8 +79,11 @@ sessione.
 ```bash
 npm run dev        # sviluppo (Vite, --host per il telefono in Wi-Fi)
 npm run build      # tsc -b && vite build
-npm test           # vitest run
+npm test           # vitest run (app + pipeline)
 npm run test:watch # vitest in ascolto
+npm run typecheck  # tsc dell'app e della pipeline
+npm run pipeline       # giro dei dati pubblici (vedi pipeline/README.md)
+npm run pipeline:secco # stima il costo di un giro senza fare richieste
 npm run ipa        # build + sync iOS + IPA per AltStore
 npx cap sync ios   # porta la build web nel progetto iOS
 npx cap open ios   # apre Xcode

@@ -6,3 +6,11 @@ tsconfig.tsbuildinfo
 graphify-out/
 release/
 ios/App/build-ipa/
+
+# Cache degli ETag della pipeline: si rigenera da sé
+pipeline/.cache/
+
+# Catture di rete: un HAR contiene cookie e token di sessione.
+# Non deve finire qui nemmeno per sbaglio, nemmeno anonimizzato
+# per errore: le fixture anonime si aggiungono a mano con -f.
+*.har
