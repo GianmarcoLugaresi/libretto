@@ -451,3 +451,13 @@ Profilo: `/phoenixws/studente/{matricola}`, senza risorsa in coda.
 - Come si scrive la lode, e se i tipi sono quelli di ioStudKit o di
   openstud.
 - L'indirizzo da cui parte il login con SPID.
+
+---
+
+## Stato dell'implementazione (23 settembre 2026)
+
+La sincronizzazione è scritta e provata fino a dove si può senza un
+accesso vero: col provider di prova nel browser e col plugin nativo sul
+simulatore, contro un Infostud finto. Dettagli in `docs/PROGRESS.md`,
+Fase 5. Il giro vero su Infostud si fa dall'app sul telefono; con la
+carriera vuota di oggi deve rispondere «Nessuna novità».

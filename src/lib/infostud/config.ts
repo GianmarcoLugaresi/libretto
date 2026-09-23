@@ -40,14 +40,15 @@ export const CONFIG_INFOSTUD: ConfigInfostud = {
 /** Per provare il flusso vero sul simulatore senza toccare Infostud:
  *  l'Infostud finto del server di sviluppo (vite.config.ts), con un
  *  fornitore SPID finto su 127.0.0.1, dove lo script non deve girare.
- *  Si attiva solo con VITE_INFOSTUD_PROVA=1 al momento della build. */
-export const CONFIG_PROVA: ConfigInfostud = {
-  ...CONFIG_INFOSTUD,
-  loginUrl: 'http://localhost:5174/infostud-finto/',
-  hostConsentiti: ['localhost'],
-  timeoutMs: 2 * 60_000,
-}
+ *  Si attiva solo con VITE_INFOSTUD_PROVA=1 al momento della build; senza,
+ *  il ramo sparisce dal pacchetto e in produzione non ne resta traccia. */
+export const IN_PROVA = import.meta.env.VITE_INFOSTUD_PROVA === '1'
 
-export const IN_PROVA = !!import.meta.env?.VITE_INFOSTUD_PROVA
-
-export const CONFIG_ATTIVA: ConfigInfostud = IN_PROVA ? CONFIG_PROVA : CONFIG_INFOSTUD
+export const CONFIG_ATTIVA: ConfigInfostud = import.meta.env.VITE_INFOSTUD_PROVA === '1'
+  ? {
+      ...CONFIG_INFOSTUD,
+      loginUrl: 'http://localhost:5174/infostud-finto/',
+      hostConsentiti: ['localhost'],
+      timeoutMs: 2 * 60_000,
+    }
+  : CONFIG_INFOSTUD

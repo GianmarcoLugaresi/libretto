@@ -1,6 +1,6 @@
 # Stato del lavoro
 
-Aggiornato: 23 settembre 2026 · fase corrente: **3 conclusa, in attesa di ok per la 4**
+Aggiornato: 23 settembre 2026 · fase corrente: **5 conclusa (fatta prima della 4, su tua richiesta)**
 
 ---
 
@@ -291,12 +291,86 @@ rete».
 
 ---
 
+## Fase 5 — Sync Infostud ✅
+
+Fatta prima della 4, su richiesta: i commit restano locali finché non
+c'è anche Infostud. 339 test.
+
+**Come funziona**
+
+1. Profilo → «Aggiorna da Infostud» (solo nell'app per iPhone: il browser
+   non può incorporare il login di un altro sito).
+2. Spiegazione, col testo del prompt: SPID o CIE sulle pagine ufficiali,
+   l'app non vede né salva le credenziali, i dati restano sul telefono.
+3. Una WKWebView con archivio **non persistente** apre Infostud. In alto
+   si vede sempre il dominio. Lo script dell'app gira solo a pagina
+   caricata su `www.studenti.uniroma1.it`, mai sulle pagine SPID/CIE.
+4. Dopo l'accesso la pagina chiama da sé `/phoenixws/studente/<matricola>/…
+   ?ingresso=<sessione>` (visto sulle catture). Lo script ne ricava il
+   prefisso, chiede `esamiall` e `prenotazioni`, e all'app passa **solo**
+   `esito` e `ritorno`: matricola, sessione e `output` restano nella pagina.
+5. La WebView si chiude dopo aver svuotato l'archivio; mapper e merge; il
+   riepilogo («2 nuovi esami, 1 da collegare…»).
+
+**Dove sta cosa**
+
+| File | Cosa fa |
+|---|---|
+| `src/lib/infostud/mapper.ts` | Busta e campi; si ferma su tutto ciò che non torna |
+| `src/lib/infostud/unisci.ts` | Merge con le regole del prompt, collegamento a mano |
+| `src/lib/infostud/provider.ts` | Interfaccia, errori, `MockInfostudProvider` con scenari |
+| `src/lib/infostud/webview.ts` | `WebViewInfostudProvider`, lato JS del plugin |
+| `src/lib/infostud/script.ts` | Lo script nella pagina, provato come testo |
+| `src/lib/infostud/config.ts` | `infostud.config`: cosa è visto e cosa da confermare |
+| `plugins/infostud-webview/` | Plugin Capacitor locale in Swift |
+| `src/components/SchedaInfostud.tsx`, `DaCollegare.tsx` | Il flusso e il collegamento a mano |
+
+Schema v3: arriva l'area `infostud`, separata da ciò che scrive lo
+studente. `esameDi` è l'unico punto che decide l'esito effettivo: il voto
+ufficiale vince nelle statistiche, l'inserimento a mano resta com'era.
+
+**Verificato**
+
+- *Nel browser*, col provider di prova: flusso completo, riepilogo,
+  collegamento di un esame fuori piano, statistiche coi voti ufficiali
+  (media ponderata 27,75 = (12×28 + 6×30 + 6×25) / 24).
+- *Sul simulatore iPhone*, col plugin vero contro un Infostud finto del
+  server di sviluppo (con un finto SPID su un altro host): tutto il giro,
+  due volte. La seconda dice solo «1 da collegare, 1 prenotazione».
+- *Sul disco del simulatore*, cercando in UTF-8 e UTF-16 con un controllo
+  positivo: nessun cookie della sessione (nemmeno uno persistente per un
+  anno), niente storage della pagina, né sessione né matricola. Né durante
+  né dopo. È il criterio della fase.
+
+**Cosa resta da confermare sul vero**
+
+- La pagina da cui parte il login (`config.ts`: `/phoenix/`). Se l'accesso
+  comincia altrove, lo studente ci arriva navigando nella WebView.
+- La forma di un esame vero e la lode: gli array di Giamma sono vuoti. Il
+  mapper accetta le varianti delle fonti di terzi e, su un voto che non sa
+  leggere, lo mostra com'è e chiede di controllare invece di indovinare.
+
+### Come provarlo
+
+- *Col provider di prova* (browser): `npm run dev`, Profilo → «Prova con
+  dati finti», con cinque scenari fra cui gli errori.
+- *Col plugin nativo sul simulatore*: server di sviluppo sulla porta 5174
+  (`npx vite --port 5174 --host`), poi
+  `VITE_INFOSTUD_PROVA=1 npm run build && npx cap sync ios`, e l'app dal
+  simulatore. Ricordarsi di rifare la build normale dopo.
+- *Sul vero*: `npm run ipa`, e sul telefono Profilo → «Aggiorna da
+  Infostud». Con la carriera vuota di oggi il risultato atteso è «Nessuna
+  novità»; un errore dice cosa sistemare.
+
+---
+
 ## Prossima: Fase 4 — Carriera manuale e statistiche
+
 
 Da `PROMPT_MYSAPIENZA.md`: piano con stato e avanzamento dei gruppi
 opzionali (es. 6/12 CFU), inserimento manuale completo, statistiche coi
 casi limite testati (idoneità, lode configurabile, base di laurea),
 simulatore e obiettivo.
 
-**Serve da te**: l'ok per il primo giro completo della pipeline, e se il
-documento su Infostud può restare pubblico (vedi Fase 5).
+**Serve da te**: l'ok per il primo giro completo della pipeline e per il
+push; una prova vera di «Aggiorna da Infostud» sul telefono.

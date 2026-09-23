@@ -72,6 +72,14 @@ sessione.
 - **Dati pubblici: l'app legge dal telefono, la rete solo aggiorna.** La
   sincronizzazione non blocca mai la UI e senza rete non mostra errori
   invadenti, solo «aggiornato il…».
+- **Il record ufficiale non sovrascrive mai quello scritto a mano.** Sta
+  nell'area `infostud`; `esameDi` è l'unico punto che decide quale vale.
+- **Dalla pagina di Infostud all'app passano solo `esito` e `ritorno`.**
+  Matricola, sessione (`ingresso`) e `output` (che è la sessione rimandata
+  indietro) restano nella WebView e muoiono con lei.
+- **Una verifica di assenza vale solo con un controllo positivo.** Cercare
+  «nessuna traccia» su disco senza prima trovare qualcosa che deve esserci
+  non prova niente: WebKit salva lo storage in UTF-16.
 - **Niente caratteri di controllo o combinanti grezzi nel sorgente**: si
   scrivono con gli escape (`new RegExp('[\\u0300-\\u036f]', 'g')`).
   Nel codice sono invisibili e si perdono nei passaggi.
