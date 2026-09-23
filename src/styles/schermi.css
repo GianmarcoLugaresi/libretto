@@ -473,7 +473,14 @@
 
 /* ---------------- Poster generativo ---------------- */
 
-.poster { position: absolute; inset: 0; overflow: hidden; background: #060607; }
+/* L'altezza dell'eroe non è un numero intero di pixel: sull'ultima
+   riga gli strati sotto il velo (foto, luci) trasparivano come una
+   riga colorata. Il poster sfuma nella pagina, che ha lo stesso nero. */
+.poster {
+  position: absolute; inset: 0; overflow: hidden; background: #060607;
+  -webkit-mask-image: linear-gradient(to top, transparent 0, #000 12px);
+  mask-image: linear-gradient(to top, transparent 0, #000 12px);
+}
 .poster-luci { position: absolute; inset: -10%; }
 .poster-sigla {
   position: absolute;

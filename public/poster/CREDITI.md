@@ -1,13 +1,12 @@
 # Immagini dei poster
 
-Tutte in pubblico dominio o CC0, da Wikimedia Commons. Ridimensionate e compresse per l'app.
+Tutte in pubblico dominio o CC0, da Wikimedia Commons. Ridimensionate e compresse per l'app; alle stampe e alle scansioni sono stati tolti i margini della carta, le didascalie e i bordi.
 
 - `durer-melencolia.jpg` — Albrecht Dürer - Melencolia I - Google Art Project (465009).jpg — Public domain — Albrecht Dürer — https://commons.wikimedia.org/?curid=21977779
 - `geometria-medievale.jpg` — Woman teaching geometry.jpg — Public domain — Attributed to Meliacin Master — https://commons.wikimedia.org/?curid=468726
 - `piranesi-carceri.jpg` — Giovanni Battista Piranesi - Carceri Series, Plate XIV - Google Art Project.jpg — Public domain — Giovanni Battista Piranesi — https://commons.wikimedia.org/?curid=21907967
 - `leonardo-vitruviano.jpg` — Da Vinci Vitruve Luc Viatour.jpg — Public domain — Leonardo da Vinci — https://commons.wikimedia.org/?curid=2738140
 - `leonardo-anatomia.jpg` — Leonardo da Vinci - RCIN 912617, The anatomy of the leg, and other studies c.1485-8.jpg — Public domain — Leonardo da Vinci — https://commons.wikimedia.org/?curid=93226240
-- `mucha-gismonda.jpg` — Alphonse Mucha - Poster for Victorien Sardou's Gismonda starring Sarah Bernhardt - Original.jpg — Public domain — Alphonse Mucha — https://commons.wikimedia.org/?curid=92177462
 - `morris-tulip-willow.jpg` — Morris Tulip and Willow design 1873.jpg — Public domain — William Morris — https://commons.wikimedia.org/?curid=2445091
 - `lissitzky-cuneo-rosso.jpg` — Beat the Whites with the Red Wedge.jpg — Public domain — El Lissitzky — https://commons.wikimedia.org/?curid=122361807
 - `kandinsky-composizione-8.jpg` — Wassily Kandinsky Composition VIII.jpg — Public domain — Wassily Kandinsky — https://commons.wikimedia.org/?curid=77963326

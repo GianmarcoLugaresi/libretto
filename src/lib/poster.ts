@@ -4,6 +4,13 @@
    CREDITI.md), scelte per tema; due o tre per tema, a rotazione
    giornaliera. L'insegnamento può sovrascriverle con un'immagine
    propria (campo `immagine`).
+
+   I file contengono solo l'opera: margini della carta, didascalie e
+   bordi della scansione sono tagliati via, perché il poster riempie
+   il riquadro fino ai bordi e lì si vedrebbero come bande chiare.
+   E devono essere abbastanza grandi per lo schermo del telefono: il
+   lato che riempie il riquadro (393×460 punti) deve avere almeno un
+   pixel per punto, o l'opera si vede sfocata.
    ============================================================ */
 
 const P = (n: string) => `${import.meta.env.BASE_URL}poster/${n}.jpg`
@@ -11,8 +18,8 @@ const P = (n: string) => `${import.meta.env.BASE_URL}poster/${n}.jpg`
 const TEMI: Record<string, string[]> = {
   matematica:  ['durer-melencolia', 'geometria-medievale', 'leonardo-codice-atlantico'],
   disegno:     ['piranesi-carceri', 'leonardo-vitruviano', 'leonardo-anatomia'],
-  arti:        ['mucha-gismonda', 'morris-tulip-willow', 'piranesi-piazza-del-popolo'],
-  grafica:     ['lissitzky-cuneo-rosso', 'kandinsky-composizione-8', 'mucha-gismonda'],
+  arti:        ['morris-tulip-willow', 'piranesi-piazza-del-popolo', 'durer-melencolia'],
+  grafica:     ['lissitzky-cuneo-rosso', 'kandinsky-composizione-8', 'mondrian-composizione-1921'],
   prodotto:    ['perriand-poltrona', 'ford-catena-1913', 'blossfeldt-acanthus'],
   spazio:      ['bauhaus-dessau', 'piranesi-piazza-del-popolo', 'piranesi-colosseo'],
   forma:       ['bauhaus-maestri-1926', 'kandinsky-composizione-8', 'bauhaus-dessau', 'mondrian-composizione-1921'],
@@ -46,10 +53,9 @@ export const FUOCHI: Record<string, string> = {
   'leonardo-vitruviano':        '50% 10%',  // la figura e il cerchio, non il testo
   'lissitzky-cuneo-rosso':      '45% 30%',  // il cuneo che entra nel cerchio
   'marey-bicicletta':           '20% 30%',
-  'mucha-gismonda':             '50% 15%',
   'muybridge-salto':            '0% 30%',   // due colonne di fotogrammi intere
   'piranesi-colosseo':          '8% 30%',   // la curva che si allontana
-  'piranesi-piazza-del-popolo': '42% 30%',  // le due chiese con l'obelisco in mezzo
+  'piranesi-piazza-del-popolo': '38% 30%',  // le due chiese intere, l'obelisco in mezzo
 }
 
 /** Il taglio per un'immagine del poster; per le altre (anche quelle
