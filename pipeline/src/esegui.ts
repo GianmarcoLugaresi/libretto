@@ -114,8 +114,16 @@ export function fettaDi(codice: string): number {
   return h.readUInt32BE(0) % FETTE
 }
 
+/** I corsi chiesti con --solo, o tutti. Gli appelli si fermano qui:
+ *  cambiano di continuo e si rifanno ogni notte per tutti. */
+export function richiesti(corsi: Corso[], o: Opzioni): Corso[] {
+  return o.solo.length ? corsi.filter(c => o.solo.includes(c.codice)) : corsi
+}
+
+/** I corsi di oggi per piani e orari: la fetta si applica solo a
+ *  loro, che cambiano una volta l'anno. */
 export function selezione(corsi: Corso[], o: Opzioni): Corso[] {
-  const scelti = o.solo.length ? corsi.filter(c => o.solo.includes(c.codice)) : corsi
+  const scelti = richiesti(corsi, o)
   return o.fetta < 0 ? scelti : scelti.filter(c => fettaDi(c.codice) === o.fetta)
 }
 
@@ -168,17 +176,18 @@ export async function esegui(o: Opzioni): Promise<Diario> {
   }
   registra(d, `indice: ${corsi.length} corsi`)
 
+  const tutti = richiesti(corsi, o)
   const scelti = selezione(corsi, o)
-  registra(d, `selezione: ${scelti.length} corsi (fetta ${o.fetta < 0 ? 'tutte' : o.fetta})`)
+  registra(d, `selezione: ${tutti.length} corsi per gli appelli, ${scelti.length} per piani e orari (fetta ${o.fetta < 0 ? 'tutte' : o.fetta})`)
   if (o.secco) {
-    const costo = stima(scelti.length, o.compiti)
+    const costo = stima(scelti.length, o.compiti, tutti.length)
     registra(d, `giro a secco: ~${costo.richieste} richieste, ~${Math.round(costo.minuti)} minuti`)
     return d
   }
 
   /* --- Appelli --- */
   if (o.compiti.includes('appelli')) {
-    for (const c of scelti) {
+    for (const c of tutti) {
       const url = `${BASE}/it/course/${c.codice}/attendance/exams`
       try {
         const h = await prendi(url)
@@ -292,9 +301,9 @@ function annota(d: Diario, dove: string, err: unknown) {
 }
 
 /** Stima del costo di un giro, per decidere se ci sta in un job. */
-export function stima(corsi: number, compiti: Compito[]): { richieste: number; minuti: number } {
+export function stima(corsi: number, compiti: Compito[], perAppelli = corsi): { richieste: number; minuti: number } {
   let richieste = 1
-  if (compiti.includes('appelli')) richieste += corsi
+  if (compiti.includes('appelli')) richieste += perAppelli
   if (compiti.includes('piani')) richieste += Math.round(corsi * 1.8) // ~1,8 coorti per corso
   if (compiti.includes('orari')) richieste += corsi * 5 // 5 mesi di feed
   return { richieste, minuti: (richieste * 10) / 60 }

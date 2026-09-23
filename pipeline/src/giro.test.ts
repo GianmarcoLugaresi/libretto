@@ -7,7 +7,7 @@ import { readFile, mkdtemp } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
-import { esegui, predefinite, type Opzioni } from './esegui'
+import { FETTE, esegui, fettaDi, predefinite, type Opzioni } from './esegui'
 import { azzeraRitmo } from './http'
 
 const qui = dirname(fileURLToPath(import.meta.url))
@@ -140,5 +140,12 @@ describe('un giro completo su Design', () => {
     }))
     expect(d.errori.some(e => e.includes('appelli'))).toBe(true)
     expect((await leggi('courses/33426/2026/plan.json')).insegnamenti.length).toBeGreaterThan(15)
+  })
+
+  it('con una fetta che esclude Design, i suoi appelli escono lo stesso', async () => {
+    const altra = (fettaDi('33426') + 1) % FETTE
+    await esegui(opzioni({ fetta: altra }))
+    expect((await leggi('courses/33426/exams.json')).appelli.length).toBeGreaterThan(0)
+    await expect(leggi('courses/33426/2026/plan.json')).rejects.toThrow()
   })
 })

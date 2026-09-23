@@ -141,7 +141,20 @@ function mesi(dal: string, al: string): [string, string][] {
   return out
 }
 
-export function gompAdapter(): TimetableAdapter {
+/** Il semestre da chiedere al feed, ricavato dalla data e non dal
+ *  solo anno solare: a marzo «quest'anno da settembre» vorrebbe dire
+ *  l'autunno successivo, non il semestre in corso.
+ *  Da agosto a dicembre il primo semestre (settembre-gennaio), da
+ *  gennaio a luglio il secondo (febbraio-giugno): a gennaio il primo
+ *  sta finendo e il secondo è quello da pianificare. */
+export function periodoDiLezione(oggi: Date): { dal: string; al: string; semestre: 1 | 2 } {
+  const y = oggi.getFullYear()
+  return oggi.getMonth() >= 7
+    ? { dal: `${y}-09-01`, al: `${y + 1}-01-01`, semestre: 1 }
+    : { dal: `${y}-02-01`, al: `${y}-06-01`, semestre: 2 }
+}
+
+export function gompAdapter(oggi: () => Date = () => new Date()): TimetableAdapter {
   return {
     id: 'gomp-catalogo',
     facolta: '*',
@@ -149,8 +162,9 @@ export function gompAdapter(): TimetableAdapter {
     supports: () => true,   // il feed esiste per ogni corso del catalogo
     async fetch(codiceCorso, o: OpzioniAdattatore = {}) {
       const prendi = o.prendi ?? (async (url: string) => (await scarica(url)).corpo)
-      const dal = o.dal ?? `${new Date().getFullYear()}-09-01`
-      const al = o.al ?? `${new Date().getFullYear() + 1}-02-01`
+      const periodo = periodoDiLezione(oggi())
+      const dal = o.dal ?? periodo.dal
+      const al = o.al ?? periodo.al
       const eventi: EventoGomp[] = []
       const sources: string[] = []
 
@@ -165,7 +179,10 @@ export function gompAdapter(): TimetableAdapter {
       }
 
       const esito = aggrega(eventi)
-      return { ...esito, sources }
+      // Il semestre lo dice il periodo chiesto, se non lo ha già detto
+      // il feed; con un periodo scelto a mano non si presume niente.
+      const semestre = esito.semestre ?? (o.dal || o.al ? undefined : periodo.semestre)
+      return { ...esito, semestre, sources }
     },
   }
 }

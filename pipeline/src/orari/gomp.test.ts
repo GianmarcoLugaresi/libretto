@@ -102,3 +102,25 @@ describe('adattatore', () => {
     expect(a.id).toBe('gomp-catalogo')
   })
 })
+
+describe('periodo da chiedere al feed', () => {
+  it('in autunno, il primo semestre: settembre-gennaio', async () => {
+    const { periodoDiLezione } = await import('./gomp')
+    expect(periodoDiLezione(new Date(2026, 8, 22))).toEqual({ dal: '2026-09-01', al: '2027-01-01', semestre: 1 })
+  })
+
+  it('a marzo, il secondo semestre di quest\'anno, non l\'autunno successivo', async () => {
+    const { periodoDiLezione } = await import('./gomp')
+    expect(periodoDiLezione(new Date(2027, 2, 10))).toEqual({ dal: '2027-02-01', al: '2027-06-01', semestre: 2 })
+  })
+
+  it('a gennaio si guarda già al secondo semestre', async () => {
+    const { periodoDiLezione } = await import('./gomp')
+    expect(periodoDiLezione(new Date(2027, 0, 15)).semestre).toBe(2)
+  })
+
+  it('ad agosto si prepara il primo semestre del nuovo anno', async () => {
+    const { periodoDiLezione } = await import('./gomp')
+    expect(periodoDiLezione(new Date(2027, 7, 20)).dal).toBe('2027-09-01')
+  })
+})

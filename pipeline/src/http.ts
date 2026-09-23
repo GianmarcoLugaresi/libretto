@@ -13,8 +13,10 @@
 
 import { setTimeout as attendi } from 'node:timers/promises'
 
+/** Il contatto è la pagina delle issue del repository: un canale vero
+ *  e pubblico, che non espone l'indirizzo di nessuno. */
 export const UA =
-  'MySapienzaBot/0.1 (progetto studentesco non ufficiale; +https://github.com/GianmarcoLugaresi/libretto; contatto: placeholder@example.com)'
+  'MySapienzaBot/0.1 (progetto studentesco non ufficiale; +https://github.com/GianmarcoLugaresi/libretto; contatto: https://github.com/GianmarcoLugaresi/libretto/issues)'
 
 /** Host da cui è consentito leggere, con la loro attesa minima. */
 export const HOST_CONSENTITI: Record<string, number> = {

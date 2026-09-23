@@ -1,11 +1,19 @@
-# Pubblica l'app su GitHub Pages a ogni push su main.
+# Pubblica l'app su GitHub Pages, con accanto i dati pubblici.
 # La build gira qui, quindi non serve versionare dist/.
+#
+# Si ripubblica in due casi: un push su main (cambia l'app) e la fine
+# del giro notturno (cambiano i dati). I dati stanno sul ramo `data`
+# e finiscono in dist/data/, così app e dati stanno sullo stesso
+# dominio e la versione web non ha problemi di CORS.
 
 name: Pubblica
 
 on:
   push:
     branches: [main]
+  workflow_run:
+    workflows: [Dati]
+    types: [completed]
   workflow_dispatch:
 
 permissions:
@@ -23,6 +31,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main
 
       - uses: actions/setup-node@v4
         with:
@@ -31,6 +41,21 @@ jobs:
 
       - run: npm ci
       - run: npm run build
+
+      # Anche un giro fallito lascia sul ramo i file buoni: il
+      # pubblicatore non scrive quelli sospetti. Se il ramo non esiste
+      # ancora si pubblica l'app da sola, e l'app lo dice.
+      - name: Dati pubblici
+        run: |
+          set -euo pipefail
+          if git ls-remote --exit-code --heads origin data >/dev/null 2>&1; then
+            git clone --depth 1 --branch data "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY" /tmp/dati
+            mkdir -p dist/data
+            cp -R /tmp/dati/v1 dist/data/v1
+            echo "dati: $(find dist/data -name '*.json' | wc -l) file"
+          else
+            echo 'ramo data assente: pubblico solo l’app'
+          fi
 
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3

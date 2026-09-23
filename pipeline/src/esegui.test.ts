@@ -87,3 +87,24 @@ describe('stima del costo', () => {
     expect(stima(318, ['appelli', 'piani', 'orari']).minuti).toBeGreaterThan(120)
   })
 })
+
+describe('la fetta non tocca gli appelli', () => {
+  it('con una fetta, gli appelli restano su tutti i corsi chiesti', async () => {
+    const { richiesti } = await import('./esegui')
+    const corsi = Array.from({ length: 50 }, (_, i) => corso(String(30000 + i)))
+    const o = { ...predefinite, fetta: 3 }
+    expect(richiesti(corsi, o)).toHaveLength(50)
+    expect(selezione(corsi, o).length).toBeLessThan(50)
+  })
+
+  it('--solo vale anche per gli appelli', async () => {
+    const { richiesti } = await import('./esegui')
+    const corsi = [corso('a'), corso('b')]
+    expect(richiesti(corsi, { ...predefinite, solo: ['b'], fetta: 0 }).map(c => c.codice)).toEqual(['b'])
+  })
+
+  it('la stima conta gli appelli su tutti e i piani sulla fetta', () => {
+    const conFetta = stima(46, ['appelli', 'piani'], 318)
+    expect(conFetta.richieste).toBe(1 + 318 + Math.round(46 * 1.8))
+  })
+})
