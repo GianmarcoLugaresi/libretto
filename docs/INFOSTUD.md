@@ -378,20 +378,76 @@ e `pdSApprovato` (il piano di studi è approvato?).
   ancora visto.
 - Lo stesso campo può essere `[]` in una risposta e `null` in un'altra
   (`sessioniErasmus`): vanno trattati allo stesso modo.
-- `output` è un UUID identico in tutte le risposte della stessa sessione.
-  Se coincide con `ingresso`, il server rimanda indietro la credenziale:
-  lo script nella WebView deve passare all'app **solo** `esito` e
-  `ritorno`, mai la risposta intera.
+- `output` **è** la credenziale: coincide con `ingresso` (verificato il
+  23/09 sulla cattura), e il driver di Studenti Roma prende il token
+  proprio da lì dopo il login. Lo script nella WebView passa all'app
+  **solo** `esito` e `ritorno`, mai la risposta intera.
+
+### Come fanno le altre app
+
+Letto sul codice il 23/09/2026. Nessun codice è stato copiato: se ne
+ricavano solo nomi e tipi dei campi.
+
+| Progetto | Accesso | Dati da | Ultimo aggiornamento |
+|---|---|---|---|
+| [openstud_driver](https://github.com/leosarra/openstud_driver) (Java, GPL-3.0) | matricola + password | `/phoenixws` | 2023 |
+| [sapienza_driver](https://github.com/edoardogin/sapienza_driver) di Studenti Roma (Dart, senza licenza) | matricola + password, con la chiave dell'app Android ufficiale | `/phxdroidws` | gennaio 2025 |
+| [ioStudKit](https://github.com/IoStud/ioStudKit) (Swift, MIT) | matricola + password, via LDAP | `/phoenixws` | settembre 2025 |
+
+**Nessuno usa SPID.** È la strada che `PROMPT_MYSAPIENZA.md` esclude, per
+due motivi: l'app dovrebbe maneggiare la password, che apre l'intero
+account; e un accesso con password che scavalca SPID può essere chiuso
+da un giorno all'altro. Il driver di Studenti Roma non salva niente: né
+dati né sessione, per questo chiede l'accesso a ogni uso.
+
+L'ultima colonna conta: `/phoenixws` è **lo stesso servizio** che usa il
+sito, ed è quello che hai catturato tu. Le forme che seguono vengono da
+lì.
+
+### Forma di un record, di seconda mano
+
+Da ioStudKit (tipi Swift dichiarati) e openstud_driver. **Non sono
+verificate sulle risposte vere**: servono a scrivere un mapper che
+tollera le varianti, non a sostituire la verifica.
+
+`esamiall` → `ritorno.esami[]`:
+
+| Campo | Tipo | Note |
+|---|---|---|
+| `codiceInsegnamento` | stringa | la chiave di aggancio |
+| `descrizione` | stringa | nome dell'insegnamento |
+| `cfu` | numero | intero per openstud, decimale per ioStudKit |
+| `ssd` | stringa | |
+| `data` | stringa | `gg/mm/aaaa`; openstud la gestisce anche vuota o `null` |
+| `annoAcca` | numero o stringa | le due fonti non concordano |
+| `esito.valoreNominale` | stringa | il voto come testo |
+| `esito.valoreNonNominale` | numero o `null` | `null` per le idoneità |
+| `certificato`, `superamento` | booleani | solo openstud |
+
+Come si scrive la **lode** non lo dice nessuna delle tre fonti. Va
+visto su un esame vero.
+
+`insegnamentisostenibili` → `ritorno.esami[]`: `codiceInsegnamento`,
+`codiceModuloDidattico`, `codiceCorsoInsegnamento`, `descrizione`, `cfu`,
+`ssd`.
+
+`prenotazioni` → `ritorno.appelli[]`: `codAppe`, `codIdenVerb`,
+`codCorsoStud`, `descCorsoStud`, `descrizione`, `crediti`, `canale`,
+`docente`, `facolta`, `annoAcca`, `note`, e come facoltativi `dataAppe`,
+`numeroPrenotazione`, `dataprenotazione`, `dataInizioPrenotazione`,
+`dataFinePrenotazione`.
+
+Profilo: `/phoenixws/studente/{matricola}`, senza risorsa in coda.
 
 **Cosa manca**
 
-- La forma di un esame e di una prenotazione. Per ora gli array sono
-  vuoti: la carriera a Sapienza è appena cominciata, e un mapper scritto
-  contro `[]` non sa niente. Si saprà dopo il primo esame verbalizzato;
-  fino ad allora la Fase 5 lavora sul mock.
+- La conferma sul vero delle forme qui sopra. I tuoi array sono ancora
+  vuoti: la carriera a Sapienza è appena cominciata. Si verifica dopo il
+  primo esame verbalizzato; fino ad allora la Fase 5 lavora su un mock
+  costruito su queste forme, e il mapper accetta le varianti note.
 - `insegnamentisostenibili`: dirà se i codici di Infostud sono gli stessi
   del catalogo (Disegno e modello è `10589128` negli appelli pubblici).
   L'aggancio fra le due fonti dipende da questo.
-- Se `output` e `ingresso` coincidono.
-- L'indirizzo da cui parte il login, e la chiamata del profilo (la vista
-  è `datiStudente/jarvis.html`).
+- Come si scrive la lode, e se i tipi sono quelli di ioStudKit o di
+  openstud.
+- L'indirizzo da cui parte il login con SPID.
