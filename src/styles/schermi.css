@@ -66,11 +66,23 @@
 .onb-dot { width: 22px; height: 4px; border-radius: 99px; background: var(--surface-3); transition: background var(--dur-2) var(--ease); }
 .onb-dot[data-on="true"] { background: var(--cta); }
 
+/* Centrato quando c'è posto, e quando non c'è parte dall'alto e
+   scorre. Con justify-content: center un passo più alto dello schermo
+   (sul telefono, tolte tacca e barra home) usciva da tutti e due i
+   lati: il titolo sopra i trattini, il riepilogo sotto il bottone. I
+   margini automatici invece si azzerano quando manca spazio. */
 .onb-body {
   flex: 1; display: flex; flex-direction: column;
-  justify-content: center; align-items: flex-start;
+  justify-content: flex-start; align-items: flex-start;
   gap: var(--s-3); min-height: 0; padding-block: var(--s-5);
+  overflow-y: auto; -webkit-overflow-scrolling: touch;
+  /* Sfuma solo dentro il margine: se tutto ci sta non si vede, se
+     c'è altro da scorrere il bordo non taglia di netto. */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 var(--s-5), #000 calc(100% - var(--s-5)), transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 var(--s-5), #000 calc(100% - var(--s-5)), transparent 100%);
 }
+.onb-body:not(.onb-body-lista) > :first-child { margin-top: auto; }
+.onb-body:not(.onb-body-lista) > :last-child { margin-bottom: auto; }
 .onb-body-lista { justify-content: flex-start; padding-top: var(--s-6); }
 
 .onb-mark {
