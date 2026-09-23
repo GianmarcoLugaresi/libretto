@@ -198,9 +198,8 @@ in modo visibile.
 
 ### Rimasto da decidere
 
-- **Lo `User-Agent` ha un contatto finto** (`placeholder@example.com` in
-  `http.ts`). Prima di far girare il giro notturno sul serio va messo un
-  indirizzo vero: è la cortesia minima verso chi gestisce il server.
+- ~~Lo `User-Agent` ha un contatto finto~~ → risolto in Fase 3: il contatto
+  è la pagina delle issue del repository.
 - **Dove leggerà l'app.** I file vanno sul ramo `data`. Per servirli
   serve scegliere fra `raw.githubusercontent.com` (CORS aperto, cache 5
   min) e includerli nel deploy Pages. Decisione della Fase 3.

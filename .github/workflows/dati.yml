@@ -38,9 +38,10 @@ concurrency:
 jobs:
   aggiorna:
     runs-on: ubuntu-latest
-    # Un giro completo con Crawl-delay 10 può durare un'ora abbondante;
-    # oltre le due c'è qualcosa che non va e tanto vale fermarsi.
-    timeout-minutes: 150
+    # Una notte normale dura un'ora e mezza. Il primo giro completo (tutte
+    # le fette, tutte le coorti) circa tre: il margine serve a lui, perché
+    # il job pubblica solo alla fine e un giro interrotto andrebbe perso.
+    timeout-minutes: 330
 
     steps:
       - name: Codice
