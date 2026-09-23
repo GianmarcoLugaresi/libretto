@@ -57,14 +57,21 @@ function infostudFinto(): Plugin {
             `<a class="b" href="http://127.0.0.1:${porta}/infostud-finto/spid">Entra con SPID</a>`))
         }
         if (url.pathname === '/spid') {
+          res.setHeader('set-cookie', 'spidFinto=utente-di-prova; Path=/; HttpOnly')
           return html(pagina('SPID finto', `<h2>Fornitore SPID (finto)</h2><p class="n">Qui lo script dell'app non deve girare.</p>` +
             `<label>Utente<input style="display:block;width:100%;font:inherit;margin:6px 0 16px" value="prova"></label>` +
             `<a class="b" href="http://localhost:${porta}/infostud-finto/home">Autorizza</a>`))
         }
         if (url.pathname === '/home') {
           // Come la pagina vera: dopo l'accesso chiede da sé i suoi dati.
+          // Lascia anche cookie e storage di sessione, per poter
+          // verificare che a fine sincronizzazione non ne resti traccia.
+          res.setHeader('set-cookie', [
+            `sessioneFinta=${SESSIONE}; Path=/; HttpOnly`,
+            'preferenzaFinta=1; Path=/; Max-Age=31536000',
+          ])
           return html(pagina('Infostud finto', `<h2>Benvenuto (finto)</h2><p class="n">La pagina ha chiesto i suoi dati.</p>` +
-            `<script>setTimeout(function(){var x=new XMLHttpRequest();x.open('GET','/infostud-finto/phoenixws/studente/1234567/insegnamentisostenibili?cacheBuster='+Date.now()+'&ingresso=${SESSIONE}');x.send()},600)</script>`))
+            `<script>localStorage.setItem('tracciaFinta','da-non-ritrovare');setTimeout(function(){var x=new XMLHttpRequest();x.open('GET','/infostud-finto/phoenixws/studente/1234567/insegnamentisostenibili?cacheBuster='+Date.now()+'&ingresso=${SESSIONE}');x.send()},600)</script>`))
         }
         const m = /^\/phoenixws\/studente\/\d+\/([a-z]+)$/.exec(url.pathname)
         if (m) {

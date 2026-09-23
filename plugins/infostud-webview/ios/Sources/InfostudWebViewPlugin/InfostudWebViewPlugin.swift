@@ -162,6 +162,9 @@ final class SessioneInfostud: UIViewController, WKNavigationDelegate, WKUIDelega
 
     func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
         mostraDominio(webView.url)
+        // Il suggerimento parla di Infostud: sulle pagine del fornitore
+        // di identità confonderebbe.
+        if let host = webView.url?.host, !consentiti.contains(host) { avviso.isHidden = true }
     }
 
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
