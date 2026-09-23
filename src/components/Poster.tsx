@@ -8,8 +8,9 @@
    tinta: lo stesso corso ha sempre lo stesso poster.
    ============================================================ */
 
-import { useLayoutEffect, useRef, useState } from 'react'
+import { useLayoutEffect, useRef, useState, type CSSProperties } from 'react'
 import { TINTE } from '../lib/types'
+import { fuocoDi } from '../lib/poster'
 
 export function Poster({ tinta, sigla, immagine }: {
   tinta: number | null
@@ -34,6 +35,7 @@ export function Poster({ tinta, sigla, immagine }: {
     const el = foto.current
     if (immagine && el && el.complete && el.naturalWidth > 0) setCaricata(immagine)
   }, [immagine])
+  const fuoco = immagine ? fuocoDi(immagine) : undefined
   const h = tinta == null ? 0 : TINTE[i % TINTE.length].h
   const sat = tinta == null ? '0%' : '88%'
 
@@ -53,6 +55,7 @@ export function Poster({ tinta, sigla, immagine }: {
             key={immagine} ref={foto}
             className="poster-foto" src={immagine} alt="" decoding="async" loading="eager"
             data-ok={fotoOk}
+            style={fuoco ? { '--fuoco': fuoco } as CSSProperties : undefined}
             onLoad={() => setCaricata(immagine)} onError={() => setCaricata(null)}
           />
           {/* Gradazione: il colore del corso "tinge" la foto conservando

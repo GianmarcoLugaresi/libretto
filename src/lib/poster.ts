@@ -26,6 +26,39 @@ const TEMI: Record<string, string[]> = {
   libero:      ['piranesi-piazza-del-popolo', 'blossfeldt-acanthus', 'haeckel-discomedusae', 'piranesi-colosseo'],
 }
 
+/** Dove cade il taglio. Il riquadro dell'eroe è più alto che largo:
+ *  di un'opera orizzontale si vede circa metà della larghezza, di una
+ *  verticale quasi tutta l'altezza. Scelti guardando le opere nel
+ *  riquadro vero, perché i bordi cadano sul vuoto e non a metà di una
+ *  chiesa o di una figura. Le assenti vanno bene col taglio di default
+ *  (`center 30%`, in schermi.css). La seconda coordinata conta sulle
+ *  opere verticali e, su schermi larghi, anche sulle orizzontali. */
+export const FUOCHI: Record<string, string> = {
+  'bauhaus-dessau':             '30% 30%',  // torre con la scritta e la vetrata
+  'bauhaus-maestri-1926':       '50% 15%',  // le teste, non le gambe
+  'eniac-1946':                 '30% 30%',  // l'operatore davanti ai pannelli
+  'ford-catena-1913':           '40% 30%',
+  'ford-linea-1913':            '10% 30%',  // il telaio intero, ruote comprese
+  'houston-eidophor':           '50% 20%',  // lo schermo con l'allunaggio
+  'kandinsky-composizione-8':   '0% 30%',   // il cerchio grande, intero
+  'leonardo-anatomia':          '30% 30%',
+  'leonardo-codice-atlantico':  '30% 30%',
+  'leonardo-vitruviano':        '50% 10%',  // la figura e il cerchio, non il testo
+  'lissitzky-cuneo-rosso':      '45% 30%',  // il cuneo che entra nel cerchio
+  'marey-bicicletta':           '20% 30%',
+  'mucha-gismonda':             '50% 15%',
+  'muybridge-salto':            '0% 30%',   // due colonne di fotogrammi intere
+  'piranesi-colosseo':          '8% 30%',   // la curva che si allontana
+  'piranesi-piazza-del-popolo': '42% 30%',  // le due chiese con l'obelisco in mezzo
+}
+
+/** Il taglio per un'immagine del poster; per le altre (anche quelle
+ *  scelte dallo studente) decide il default del CSS. */
+export function fuocoDi(url: string): string | undefined {
+  const m = /\/poster\/([a-z0-9-]+)\.jpg$/.exec(url)
+  return m ? FUOCHI[m[1]] : undefined
+}
+
 /** Dal nome dell'insegnamento al tema. Il primo che combacia vince,
  *  quindi le voci più specifiche stanno in alto. */
 const REGOLE: [RegExp, string][] = [
