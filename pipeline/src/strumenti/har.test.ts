@@ -200,3 +200,35 @@ describe('i numeri redatti conservano la forma', () => {
     expect(out.a.matricola).not.toBe(out.c.matricola)
   })
 })
+
+describe('la busta vera di Infostud', () => {
+  // La forma è quella delle risposte di /phoenixws/ viste il
+  // 23/09/2026; i valori sono finti.
+  const busta = {
+    esito: { flagEsito: 0, id: 0, nota: 'Prenotazioni recuperate con successo.', ritorno: null },
+    output: '11111111-2222-4333-8444-555555555555',
+    ritorno: { appelli: [] },
+    sessioniErasmus: null,
+    pdSApprovato: false,
+  }
+
+  it('toglie output, che potrebbe essere la sessione rimandata indietro', () => {
+    expect(JSON.stringify(anonimizzaValore(busta, 'radice', rapportoVuoto()))).not.toContain('11111111-2222')
+  })
+
+  it('tiene la struttura: esito, ritorno, i null e i booleani', () => {
+    const out = anonimizzaValore(busta, 'radice', rapportoVuoto()) as typeof busta
+    expect(out.esito.flagEsito).toBe(0)
+    expect(out.ritorno).toEqual({ appelli: [] })
+    expect(out.sessioniErasmus).toBeNull()
+    expect(out.pdSApprovato).toBe(false)
+  })
+
+  it('un UUID non passa nemmeno sotto una chiave che di solito si tiene', () => {
+    const out = JSON.stringify(anonimizzaValore(
+      { id: '11111111-2222-4333-8444-555555555555', uuid: 'AAAAAAAA-BBBB-4CCC-8DDD-EEEEEEEEEEEE' },
+      'radice', rapportoVuoto(),
+    ))
+    expect(out).not.toMatch(/11111111-2222|AAAAAAAA-BBBB/)
+  })
+})

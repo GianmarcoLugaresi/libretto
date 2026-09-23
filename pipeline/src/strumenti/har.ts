@@ -60,6 +60,11 @@ const VELENI: [RegExp, string][] = [
   [/\b[A-Z]{6}\d{2}[A-Z]\d{2}[A-Z]\d{3}[A-Z]\b/g, '«codice-fiscale»'],
   [/[\w.+-]+@[\w-]+\.[\w.]{2,}/g, '«email»'],
   [/\b(?:\+39[\s.-]?)?3\d{2}[\s.-]?\d{6,7}\b/g, '«telefono»'],
+  // Su Infostud la credenziale è un UUID (il parametro `ingresso`) e
+  // le risposte ne rimandano indietro uno in `output`. Nessun UUID
+  // serve al mapper, che aggancia per codice: si tolgono ovunque,
+  // anche sotto chiavi che di solito si tengono come `id`.
+  [/\b[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\b/gi, '«uuid»'],
   [/\b[A-Za-z0-9+/=_-]{40,}\b/g, '«stringa-lunga»'],
 ]
 

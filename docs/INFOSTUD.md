@@ -222,9 +222,11 @@ Nel dettaglio:
   tipo si conserva: se un voto era `null` resta `null`, se era una
   stringa resta una stringa, e la lode resta com'era. Mi serve per
   scrivere un mapper che regge tutti i casi.
-- **JWT, codici fiscali, email, numeri di cellulare, stringhe lunghe**:
-  cercati e tolti anche se compaiono in mezzo a un testo qualsiasi,
-  perché a volte i token viaggiano in posti strani.
+- **JWT, UUID, codici fiscali, email, numeri di cellulare, stringhe
+  lunghe**: cercati e tolti anche se compaiono in mezzo a un testo
+  qualsiasi, perché a volte i token viaggiano in posti strani. I UUID
+  spariscono ovunque, anche sotto chiavi come `id`: su Infostud la
+  credenziale è proprio un UUID.
 - **valori nella query e identificatori nel percorso**: sostituiti, ma
   i *nomi* dei parametri restano, perché è quella la struttura
   dell'endpoint.
@@ -313,3 +315,83 @@ schermate, senza girare per il sito.
 **Non te la senti di fare questa cosa.** Va benissimo. L'app funziona
 completamente senza Infostud: la Fase 5 salta e resta l'inserimento a
 mano, che è comunque la strada che ogni utente deve poter usare.
+
+---
+
+## Cosa sappiamo già
+
+Dalle prime catture, 22 e 23 settembre 2026. I valori veri (matricola,
+`ingresso`, cookie) qui non ci sono e non devono esserci: al loro posto
+stanno i segnaposto.
+
+**Host:** `www.studenti.uniroma1.it`. Il frontend è un'app AngularJS,
+servita da nginx con Undertow dietro.
+
+**Tre famiglie di indirizzi**, di cui una sola porta dati:
+
+| Percorso | Cosa contiene |
+|---|---|
+| `/phoenixws/studente/{matricola}/{risorsa}` | **i dati**, in JSON |
+| `/phoenix/views/…/*.html` | template di Angular: interfaccia, niente dati |
+| `/phoenix/i18n/it/*.json` | etichette dell'interfaccia |
+
+Ogni chiamata ai dati porta due parametri: `cacheBuster` (millisecondi,
+serve solo a scavalcare la cache) e `ingresso` (un UUID).
+
+**Autenticazione: probabilmente `ingresso`, non un cookie.** L'unico
+cookie inviato è `bics`, che ha il formato di un cookie di persistenza
+di un bilanciatore F5: codifica un indirizzo interno e una porta, non
+un'identità. Non c'è `Authorization`. Resta da escludere un cookie
+`HttpOnly` non mostrato: si controlla dalla scheda *Cookie*
+dell'inspector.
+
+**La busta comune.** Tutte le risposte viste hanno questa forma:
+
+```json
+{
+  "esito": { "flagEsito": 0, "id": 0, "nota": "…", "ritorno": null },
+  "output": "«uuid»",
+  "ritorno": { … }
+}
+```
+
+I dati stanno nel `ritorno` esterno; quello dentro `esito` è sempre
+stato `null`.
+
+| Risorsa | Dentro `ritorno` | Visto finora |
+|---|---|---|
+| `esamiall` | `esami` | array vuoto |
+| `esami` | `esami` | array vuoto |
+| `prenotazioni` | `appelli` | array vuoto |
+| `insegnamentisostenibili` | ? | non ancora (l'unica non vuota: 649 byte) |
+| `disabilita` | ? | non ancora |
+
+`esami` ed `esamiall` hanno anche, accanto alla busta, `sessioniErasmus`
+e `pdSApprovato` (il piano di studi è approvato?).
+
+**Regole per il mapper che si possono già fissare**
+
+- `flagEsito` diverso da `0` vuol dire fallimento, e allora non si tocca
+  niente in locale. Che `0` sia il successo non è dichiarato: lo dice il
+  fatto che `prenotazioni` risponde `flagEsito: 0` con la nota
+  «Prenotazioni recuperate con successo». Un errore vero non l'abbiamo
+  ancora visto.
+- Lo stesso campo può essere `[]` in una risposta e `null` in un'altra
+  (`sessioniErasmus`): vanno trattati allo stesso modo.
+- `output` è un UUID identico in tutte le risposte della stessa sessione.
+  Se coincide con `ingresso`, il server rimanda indietro la credenziale:
+  lo script nella WebView deve passare all'app **solo** `esito` e
+  `ritorno`, mai la risposta intera.
+
+**Cosa manca**
+
+- La forma di un esame e di una prenotazione. Per ora gli array sono
+  vuoti: la carriera a Sapienza è appena cominciata, e un mapper scritto
+  contro `[]` non sa niente. Si saprà dopo il primo esame verbalizzato;
+  fino ad allora la Fase 5 lavora sul mock.
+- `insegnamentisostenibili`: dirà se i codici di Infostud sono gli stessi
+  del catalogo (Disegno e modello è `10589128` negli appelli pubblici).
+  L'aggancio fra le due fonti dipende da questo.
+- Se `output` e `ingresso` coincidono.
+- L'indirizzo da cui parte il login, e la chiamata del profilo (la vista
+  è `datiStudente/jarvis.html`).
