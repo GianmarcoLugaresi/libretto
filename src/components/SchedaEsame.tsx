@@ -152,6 +152,9 @@ export function SchedaEsame({ ins, chiudi, apriModifica }: {
         </div>
       </div>
 
+      {/* Esame ufficiale, da Infostud */}
+      {s.infostud.esami[ins.id] && <Ufficiale id={ins.id} />}
+
       {/* Stato */}
       <div className="field" style={{ marginTop: 20 }}>
         <span className="field-label">Stato</span>
@@ -309,5 +312,60 @@ export function SchedaEsame({ ins, chiudi, apriModifica }: {
         </button>
       )}
     </Foglio>
+  )
+}
+
+/** L'esame come lo registra Infostud. Il foglio sotto continua a
+ *  modificare l'inserimento a mano, che resta; nelle statistiche vale
+ *  questo. */
+function Ufficiale({ id }: { id: string }) {
+  const { s, d, avviso } = useApp()
+  const u = s.infostud.esami[id]
+  const manuale = s.esami[id]
+  if (!u) return null
+  const voto = u.idoneita ? 'Idoneo' : u.voto != null ? `${u.voto}${u.lode ? ' e lode' : ''}` : null
+  const manualeDiverso = manuale && (manuale.stato === 'superato' || manuale.stato === 'idoneo')
+    && (manuale.voto !== u.voto || !!manuale.lode !== u.lode)
+
+  return (
+    <div className="card card-pad stack" style={{ gap: 6, marginTop: 16 }}>
+      <div className="row" style={{ gap: 8 }}>
+        <Icona nome="check" size={15} peso={2.6} style={{ color: 'var(--pass)' }} />
+        <span className="callout strong">Registrato su Infostud</span>
+      </div>
+      <span className="foot num">
+        {voto ?? 'Voto da controllare'}
+        {u.data && ` · ${fmtData(u.data, 'medio')}`}
+        {` · ${u.cfu} CFU`}
+      </span>
+      {!voto && u.votoTesto && (
+        <span className="foot" style={{ color: 'var(--accent)', lineHeight: 1.5 }}>
+          Infostud scrive «{u.votoTesto}», che non so leggere come voto: controllalo
+          e, se serve, scrivilo qui sotto. Finché non è chiaro non entra nella media.
+        </span>
+      )}
+      {manualeDiverso && (
+        <span className="foot dimmer" style={{ lineHeight: 1.5 }}>
+          Quello che avevi scritto a mano ({manuale.stato === 'idoneo' ? 'idoneo' : `${manuale.voto}${manuale.lode ? ' e lode' : ''}`})
+          resta, ma nelle statistiche vale il voto ufficiale.
+        </span>
+      )}
+      {u.nonPiuPresente && (
+        <div className="stack" style={{ gap: 8, marginTop: 4 }}>
+          <span className="foot" style={{ color: 'var(--accent)', lineHeight: 1.5 }}>
+            All’ultima sincronizzazione Infostud non lo elencava più. Non l’ho
+            tolto: decidi tu.
+          </span>
+          <div className="row" style={{ gap: 8 }}>
+            <button className="btn btn-secondary btn-sm" onClick={() => { d({ t: 'infostud.tieni', insegnamentoId: id }); avviso('Tenuto') }}>
+              Tienilo
+            </button>
+            <button className="btn btn-ghost btn-sm" onClick={() => { d({ t: 'infostud.togli', insegnamentoId: id }); avviso('Tolto il voto ufficiale') }}>
+              Togli il voto ufficiale
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
   )
 }

@@ -10,8 +10,25 @@ export function insegnamento(s: Stato, id: string): Insegnamento | undefined {
   return s.insegnamenti.find(i => i.id === id)
 }
 
+/** L'esito di un insegnamento come lo vede l'app: quello registrato su
+ *  Infostud se c'è, altrimenti quello scritto a mano. Tutte le
+ *  statistiche passano da qui, così il record ufficiale vince ovunque
+ *  senza toccare l'inserimento manuale, che resta com'era.
+ *  Un record che Infostud non elenca più continua a valere finché lo
+ *  studente non decide: cambiare la media in silenzio sarebbe peggio. */
 export function esameDi(s: Stato, id: string): Esame {
-  return s.esami[id] ?? { insegnamentoId: id, stato: 'da_sostenere' }
+  const manuale = s.esami[id] ?? { insegnamentoId: id, stato: 'da_sostenere' as const }
+  const u = s.infostud?.esami[id]
+  if (!u) return manuale
+  return {
+    ...manuale,
+    stato: u.idoneita ? 'idoneo' : 'superato',
+    voto: u.idoneita ? undefined : u.voto,
+    lode: u.lode,
+    data: u.data ?? manuale.data,
+    appelloId: undefined,
+    ufficiale: true,
+  }
 }
 
 export interface LezioneRisolta {

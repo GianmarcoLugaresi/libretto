@@ -61,6 +61,9 @@ export interface Esame {
    *  da Bologna, che porta crediti ma non voto). */
   escludiDaMedia?: boolean
   tentativi?: { data: string; esito: 'respinto' | 'ritirato'; voto?: number }[]
+  /** Solo in lettura, mai salvato: l'esito viene da Infostud e non da
+   *  quello che hai scritto a mano (vedi esameDi). */
+  ufficiale?: boolean
 }
 
 export type TipoProva = 'scritto' | 'orale' | 'scritto_orale' | 'pratico' | 'parziale'
@@ -155,6 +158,51 @@ export interface StatoSync {
   etag?: Record<string, string>
 }
 
+/* ---------------- Infostud ---------------- */
+
+/** Un esame come lo registra Infostud. Arriva solo dalla
+ *  sincronizzazione, e la sincronizzazione tocca solo questo: voti,
+ *  note e prenotazioni scritti a mano restano dove sono. */
+export interface RecordUfficiale {
+  codice: string
+  nome: string
+  cfu: number
+  voto?: number
+  lode: boolean
+  idoneita: boolean
+  /** Data di verbalizzazione (ISO) */
+  data?: string
+  annoAccademico?: string
+  /** Il voto com'è scritto su Infostud quando non è un numero che si
+   *  sappia leggere: si mostra così e si chiede di controllare */
+  votoTesto?: string
+  fetchedAt: string
+  /** All'ultima sincronizzazione Infostud non l'ha più elencato. Non
+   *  si cancella da solo: decide lo studente. */
+  nonPiuPresente?: boolean
+}
+
+export interface PrenotazioneUfficiale {
+  nome: string
+  /** Data dell'appello (ISO) */
+  data?: string
+  docente?: string
+  numero?: number
+  /** Insegnamento del libretto, se il nome lo aggancia */
+  insegnamentoId?: string
+  fetchedAt: string
+}
+
+export interface StatoInfostud {
+  /** insegnamentoId → esame ufficiale */
+  esami: Record<string, RecordUfficiale>
+  /** Esami ufficiali che non si agganciano da soli a un insegnamento
+   *  del libretto: li collega lo studente */
+  daCollegare: { record: RecordUfficiale; candidati: string[] }[]
+  /** Fotografia delle prenotazioni all'ultima sincronizzazione */
+  prenotazioni: PrenotazioneUfficiale[]
+}
+
 /** Radice dello stato persistito.
  *  `esami` è indicizzato per chiave stabile dell'insegnamento
  *  (vedi chiavi.ts): è quella che regge gli aggiornamenti del
@@ -168,6 +216,8 @@ export interface Stato {
   appelli: Appello[]
   lezioni: Lezione[]
   sync: StatoSync
+  /** Ciò che arriva da Infostud, separato da ciò che scrivi tu */
+  infostud: StatoInfostud
   /** Prima apertura non ancora conclusa */
   onboarding: boolean
 }

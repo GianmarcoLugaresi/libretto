@@ -16,7 +16,7 @@
 
 import type { Stato, StatoSync } from './types'
 
-export const VERSIONE_SCHEMA = 2
+export const VERSIONE_SCHEMA = 3
 const CHIAVE_CARRIERA = 'mysapienza:carriera'
 /** Lo schema v1 stava tutto qui: serve solo più a migrare. */
 export const CHIAVE_V1 = 'libretto:v1'

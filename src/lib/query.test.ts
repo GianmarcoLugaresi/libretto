@@ -36,6 +36,7 @@ function stato(p: {
     appelli: p.appelli ?? [],
     lezioni: p.lezioni ?? [],
     sync: {},
+    infostud: { esami: {}, daCollegare: [], prenotazioni: [] },
     onboarding: false,
   }
 }

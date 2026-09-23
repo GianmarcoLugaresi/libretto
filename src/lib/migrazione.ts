@@ -14,7 +14,9 @@
 
 import type { Carriera, StatoSync } from './deposito'
 import { VERSIONE_SCHEMA } from './deposito'
-import type { Appello, Esame, Impostazioni, Insegnamento, Lezione, Profilo } from './types'
+import type {
+  Appello, Esame, Impostazioni, Insegnamento, Lezione, Profilo, RecordUfficiale, StatoInfostud,
+} from './types'
 import { chiaveDaPiano, chiaveManuale } from './chiavi'
 import { statoIniziale } from './seed'
 
@@ -39,6 +41,10 @@ export function migra(grezzo: unknown, casuale: () => string): EsitoMigrazione {
 
   if (versione < 2) {
     d = da1a2(d, casuale, note) as unknown as Record<string, unknown>
+    passaggi++
+  }
+  if (versione < 3) {
+    d = da2a3(d)
     passaggi++
   }
 
@@ -115,6 +121,34 @@ function da1a2(v1: Record<string, unknown>, casuale: () => string, note: string[
   }
 }
 
+/* ---------------- v2 → v3 ---------------- */
+
+/** Arriva l'area di Infostud, vuota: niente di quello che c'era si
+ *  sposta o cambia. */
+function da2a3(v2: Record<string, unknown>): Record<string, unknown> {
+  return { ...v2, versione: 3, infostud: infostudVuoto() }
+}
+
+function infostudVuoto(): StatoInfostud {
+  return { esami: {}, daCollegare: [], prenotazioni: [] }
+}
+
+/** Un'area Infostud letta dal disco: si tiene quello che ha la forma
+ *  giusta, il resto si scarta (sono dati che la prossima
+ *  sincronizzazione riporta comunque). */
+function infostudLetto(x: unknown, noti: Set<string>): StatoInfostud {
+  const v = (x ?? {}) as Partial<StatoInfostud>
+  const esami: Record<string, RecordUfficiale> = {}
+  for (const [k, r] of Object.entries(v.esami ?? {})) {
+    if (noti.has(k) && r && typeof r.codice === 'string') esami[k] = r
+  }
+  return {
+    esami,
+    daCollegare: Array.isArray(v.daCollegare) ? v.daCollegare.filter(x => x?.record?.codice) : [],
+    prenotazioni: Array.isArray(v.prenotazioni) ? v.prenotazioni : [],
+  }
+}
+
 /* ---------------- Completamento e difese ---------------- */
 
 export function carrieraVuota(): Carriera {
@@ -147,6 +181,7 @@ function completa(d: Record<string, unknown>, note: string[]): Carriera {
     appelli: (Array.isArray(d.appelli) ? (d.appelli as Appello[]) : []).filter(a => a && noti.has(a.insegnamentoId)),
     lezioni: (Array.isArray(d.lezioni) ? (d.lezioni as Lezione[]) : []).filter(l => l && noti.has(l.insegnamentoId)),
     sync: (d.sync as StatoSync) ?? {},
+    infostud: infostudLetto(d.infostud, noti),
     onboarding: d.onboarding === true,
   }
 }

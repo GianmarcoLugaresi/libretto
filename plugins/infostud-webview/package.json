@@ -1,0 +1,10 @@
+{
+  "name": "mysapienza-infostud-webview",
+  "version": "0.1.0",
+  "private": true,
+  "description": "WebView con sessione usa-e-getta per la sincronizzazione Infostud di MySapienza",
+  "main": "index.js",
+  "files": ["ios/Sources", "Package.swift", "index.js"],
+  "capacitor": { "ios": { "src": "ios" } },
+  "peerDependencies": { "@capacitor/core": ">=8" }
+}

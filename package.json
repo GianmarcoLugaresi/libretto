@@ -22,6 +22,7 @@
     "@capacitor/ios": "^8.5.2",
     "@capacitor/local-notifications": "^8.3.1",
     "@capacitor/splash-screen": "^8.0.2",
+    "mysapienza-infostud-webview": "file:plugins/infostud-webview",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "zod": "^4.6.5"

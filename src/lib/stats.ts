@@ -7,6 +7,7 @@
 
 import type { Stato, Insegnamento, Esame, Impostazioni } from './types'
 import { giorniTra, oggi, type ISO } from './date'
+import { esameDi } from './query'
 
 export interface VoceCarriera {
   ins: Insegnamento
@@ -52,8 +53,7 @@ export function riepilogo(s: Stato): Riepilogo {
   let votoMax: number | null = null, votoMin: number | null = null
 
   for (const ins of s.insegnamenti) {
-    const e = s.esami[ins.id]
-    if (!e) continue
+    const e = esameDi(s, ins.id)
     if (portaCfu(e)) {
       cfuAcquisiti += ins.cfu
       esamiSuperati++
@@ -112,8 +112,7 @@ export interface PuntoAndamento {
 export function andamento(s: Stato): PuntoAndamento[] {
   const voci: { data: ISO; voto: number; cfu: number; nome: string; lode: boolean }[] = []
   for (const ins of s.insegnamenti) {
-    const e = s.esami[ins.id]
-    if (!e) continue
+    const e = esameDi(s, ins.id)
     const v = votoEffettivo(e, s.impostazioni)
     if (v == null || !e.data) continue
     voci.push({ data: e.data, voto: v, cfu: ins.cfu, nome: ins.nome, lode: !!e.lode })
@@ -133,8 +132,8 @@ export function andamento(s: Stato): PuntoAndamento[] {
 export function distribuzione(s: Stato): { voto: number; conta: number }[] {
   const mappa = new Map<number, number>()
   for (const ins of s.insegnamenti) {
-    const e = s.esami[ins.id]
-    if (!e || e.stato !== 'superato' || e.voto == null || e.escludiDaMedia) continue
+    const e = esameDi(s, ins.id)
+    if (e.stato !== 'superato' || e.voto == null || e.escludiDaMedia) continue
     mappa.set(e.voto, (mappa.get(e.voto) ?? 0) + 1)
   }
   return Array.from({ length: 13 }, (_, i) => 18 + i)
@@ -148,8 +147,8 @@ export function cfuPerAnno(s: Stato): { anno: number; fatti: number; totali: num
   for (const ins of s.insegnamenti) {
     const r = mappa.get(ins.anno) ?? { fatti: 0, totali: 0 }
     r.totali += ins.cfu
-    const e = s.esami[ins.id]
-    if (e && portaCfu(e)) r.fatti += ins.cfu
+    const e = esameDi(s, ins.id)
+    if (portaCfu(e)) r.fatti += ins.cfu
     mappa.set(ins.anno, r)
   }
   return Array.from(mappa.entries())
@@ -175,8 +174,8 @@ export function cfuResiduiInMedia(s: Stato): number {
   let n = 0
   for (const ins of s.insegnamenti) {
     if (ins.tipo === 'tirocinio' || ins.tipo === 'prova_finale' || ins.tipo === 'lingua' || ins.tipo === 'idoneita') continue
-    const e = s.esami[ins.id]
-    if (e && (e.stato === 'superato' || e.stato === 'idoneo')) continue
+    const e = esameDi(s, ins.id)
+    if (e.stato === 'superato' || e.stato === 'idoneo') continue
     n += ins.cfu
   }
   return n

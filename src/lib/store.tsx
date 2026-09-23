@@ -7,8 +7,9 @@
 import { createContext, useContext, useEffect, useMemo, useReducer, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 import type {
-  Stato, Profilo, Impostazioni, Insegnamento, Esame, Appello, Lezione, StatoSync,
+  Stato, Profilo, Impostazioni, Insegnamento, Esame, Appello, Lezione, StatoSync, StatoInfostud,
 } from './types'
+import { collega, togliUfficiale } from './infostud/unisci'
 import { depositoCarriera, VERSIONE_SCHEMA } from './deposito'
 import { migra } from './migrazione'
 import { NOME_APP } from './app'
@@ -38,6 +39,13 @@ type Azione =
   | { t: 'lezione.set'; id: string; v: Partial<Lezione> }
   | { t: 'lezione.del'; id: string }
   | { t: 'sync'; v: Partial<StatoSync> }
+  /** Il risultato di una sincronizzazione Infostud: tocca solo l'area
+   *  infostud e la data dell'ultima sincronizzazione */
+  | { t: 'infostud.sync'; infostud: StatoInfostud; quando: string }
+  | { t: 'infostud.collega'; codice: string; insegnamentoId: string }
+  | { t: 'infostud.nuovo'; codice: string; ins: Insegnamento }
+  | { t: 'infostud.tieni'; insegnamentoId: string }
+  | { t: 'infostud.togli'; insegnamentoId: string }
   | { t: 'onboarding.fine' }
 
 function esameBase(id: string): Esame {
@@ -71,8 +79,11 @@ function riduci(s: Stato, a: Azione): Stato {
     case 'ins.del': {
       const esami = { ...s.esami }
       delete esami[a.id]
+      const ufficiali = { ...s.infostud.esami }
+      delete ufficiali[a.id]
       return {
         ...s,
+        infostud: { ...s.infostud, esami: ufficiali },
         insegnamenti: s.insegnamenti.filter(i => i.id !== a.id),
         esami,
         // Un insegnamento cancellato si porta via appelli e lezioni,
@@ -119,6 +130,28 @@ function riduci(s: Stato, a: Azione): Stato {
 
     case 'sync':
       return { ...s, sync: { ...s.sync, ...a.v } }
+
+    case 'infostud.sync':
+      return { ...s, infostud: a.infostud, sync: { ...s.sync, infostudIl: a.quando } }
+
+    case 'infostud.collega':
+      return collega(s, a.codice, a.insegnamentoId)
+
+    case 'infostud.nuovo': {
+      if (s.insegnamenti.some(i => i.id === a.ins.id)) return collega(s, a.codice, a.ins.id)
+      const conIns = { ...s, insegnamenti: [...s.insegnamenti, a.ins], esami: { ...s.esami, [a.ins.id]: esameBase(a.ins.id) } }
+      return collega(conIns, a.codice, a.ins.id)
+    }
+
+    case 'infostud.tieni': {
+      const r = s.infostud.esami[a.insegnamentoId]
+      if (!r) return s
+      const { nonPiuPresente: _, ...resto } = r
+      return { ...s, infostud: { ...s.infostud, esami: { ...s.infostud.esami, [a.insegnamentoId]: resto } } }
+    }
+
+    case 'infostud.togli':
+      return togliUfficiale(s, a.insegnamentoId)
 
     case 'onboarding.fine':
       return { ...s, onboarding: false }

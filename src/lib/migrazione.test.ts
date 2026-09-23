@@ -40,7 +40,8 @@ function v1(extra: Record<string, unknown> = {}) {
 describe('v1 → v2', () => {
   it('non perde nulla: voti, note, prenotazioni, appelli, lezioni', () => {
     const { carriera, passaggi } = migra(v1(), casuale)
-    expect(passaggi).toBe(1)
+    // v1 → v2 → v3
+    expect(passaggi).toBe(2)
     expect(carriera.versione).toBe(VERSIONE_SCHEMA)
     expect(carriera.insegnamenti).toHaveLength(2)
     expect(Object.keys(carriera.esami)).toHaveLength(2)
@@ -166,5 +167,38 @@ describe('difese', () => {
     expect(c.versione).toBe(VERSIONE_SCHEMA)
     expect(c.impostazioni.valoreLode).toBe(30)
     expect(c.sync).toEqual({})
+  })
+})
+
+describe('v2 → v3: arriva l\'area di Infostud', () => {
+  const v2 = () => ({
+    versione: 2,
+    profilo: { nome: 'Prova', corsoDiLaurea: 'Design', tipo: 'triennale', cfuTotali: 180, immatricolazione: 2026, annoCorrente: 1, durataAnni: 3 },
+    impostazioni: { valoreLode: 30, puntiTesi: 0, tema: 'scuro', preavvisoGiorni: 7 },
+    insegnamenti: [{ id: 'cat:10589128', nome: 'Disegno e modello', cfu: 9, anno: 2, semestre: 1, tipo: 'obbligatorio', tinta: 0 }],
+    esami: { 'cat:10589128': { insegnamentoId: 'cat:10589128', stato: 'superato', voto: 27, data: '2027-01-20', note: 'mia' } },
+    appelli: [], lezioni: [], sync: { pubblicaIl: '2026-09-23T10:00:00Z' }, onboarding: false,
+  })
+
+  it('aggiunge l\'area vuota e non tocca niente del resto', () => {
+    const { carriera, passaggi } = migra(v2(), casuale)
+    expect(passaggi).toBe(1)
+    expect(carriera.versione).toBe(3)
+    expect(carriera.infostud).toEqual({ esami: {}, daCollegare: [], prenotazioni: [] })
+    expect(carriera.esami['cat:10589128']).toMatchObject({ stato: 'superato', voto: 27, note: 'mia' })
+    expect(carriera.sync.pubblicaIl).toBe('2026-09-23T10:00:00Z')
+  })
+
+  it('una v3 non si rimigra', () => {
+    const una = migra(v2(), casuale).carriera
+    expect(migra(una, casuale).passaggi).toBe(0)
+  })
+
+  it('un record ufficiale di un insegnamento sparito si scarta, gli altri restano', () => {
+    const una = migra(v2(), casuale).carriera
+    const r = { codice: '10589128', nome: 'DISEGNO E MODELLO', cfu: 9, lode: false, idoneita: false, fetchedAt: '2027-01-21T10:00:00Z' }
+    const conDati = { ...una, infostud: { esami: { 'cat:10589128': r, 'cat:sparito': { ...r, codice: 'x' } }, daCollegare: [], prenotazioni: [] } }
+    const due = migra(conDati, casuale).carriera
+    expect(Object.keys(due.infostud.esami)).toEqual(['cat:10589128'])
   })
 })

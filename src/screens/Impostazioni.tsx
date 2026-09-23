@@ -7,6 +7,11 @@ import { normalizza } from '../lib/chiavi'
 import { DISCLAIMER, NOME_APP, PRIVACY_BREVE } from '../lib/app'
 import { fmtIstante } from '../lib/date'
 import { plurale } from '../lib/testo'
+import { SchedaInfostud } from '../components/SchedaInfostud'
+import { DaCollegare } from '../components/DaCollegare'
+import { MockInfostudProvider, type InfostudProvider, type Scenario } from '../lib/infostud/provider'
+import { WebViewInfostudProvider, webviewDisponibile } from '../lib/infostud/webview'
+import { IN_PROVA } from '../lib/infostud/config'
 import { Icona } from '../components/Icona'
 import { Campo, Riga, Schermo, Segmentato, Selezione, Sezione } from '../components/ui'
 import { riepilogo } from '../lib/stats'
@@ -54,6 +59,8 @@ export function Impostazioni({ chiudi, apriEsplora }: { chiudi: () => void; apri
           />
         </div>
       </Sezione>
+
+      <SezioneInfostud />
 
       <DatiPubblici />
 
@@ -419,6 +426,73 @@ function DatiPubblici() {
           </div>
         </div>
       )}
+    </Sezione>
+  )
+}
+
+/* ---------------- Infostud ---------------- */
+
+function SezioneInfostud() {
+  const { s } = useApp()
+  const [provider, setProvider] = useState<InfostudProvider | null>(null)
+  const [scenario, setScenario] = useState<Scenario>('esami')
+  const nativo = webviewDisponibile()
+  const ufficiali = Object.values(s.infostud.esami)
+  const sparite = ufficiali.filter(u => u.nonPiuPresente).length
+
+  return (
+    <Sezione titolo="Infostud">
+      <div className="card card-pad stack" style={{ gap: 8 }}>
+        <span className="callout strong">Esami verbalizzati</span>
+        <span className="foot dim num">
+          {s.sync.infostudIl ? `Ultima sincronizzazione il ${fmtIstante(s.sync.infostudIl)}` : 'Mai sincronizzato'}
+          {ufficiali.length > 0 && ` · ${plurale(ufficiali.length, 'esame ufficiale', 'esami ufficiali')}`}
+          {sparite > 0 && ` · ${sparite} non più su Infostud`}
+        </span>
+        <span className="foot dimmer" style={{ lineHeight: 1.5 }}>
+          Accedi con SPID o CIE solo quando vuoi aggiornare, di solito dopo un
+          esame. Il resto del tempo i dati restano sul telefono e non serve
+          nessun accesso.
+        </span>
+        {nativo ? (
+          <button className="btn btn-primary btn-sm" style={{ alignSelf: 'flex-start', marginTop: 4 }}
+            onClick={() => setProvider(new WebViewInfostudProvider())}>
+            Aggiorna da Infostud
+          </button>
+        ) : (
+          <span className="foot dim" style={{ lineHeight: 1.5 }}>
+            Si fa dall’app per iPhone: il browser non può aprire l’accesso di
+            Infostud né leggerne i dati. Qui puoi continuare a mano.
+          </span>
+        )}
+        {IN_PROVA && (
+          <span className="caption" style={{ color: 'var(--plan)' }}>
+            Build di prova: l’accesso va sull’Infostud finto del server di sviluppo.
+          </span>
+        )}
+        {import.meta.env.DEV && (
+          <div className="stack" style={{ gap: 8, marginTop: 6 }}>
+            <span className="field-label" style={{ margin: 0 }}>Solo in sviluppo: provider di prova</span>
+            <Selezione valore={scenario} cambia={v => setScenario(v as Scenario)} opzioni={[
+              { v: 'esami', l: 'Quattro esami finti' },
+              { v: 'vuoto', l: 'Carriera vuota' },
+              { v: 'accesso-fallito', l: 'Accesso non riuscito' },
+              { v: 'irraggiungibile', l: 'Infostud irraggiungibile' },
+              { v: 'formato-cambiato', l: 'Formato cambiato' },
+            ]} />
+            <button className="btn btn-secondary btn-sm" style={{ alignSelf: 'flex-start' }}
+              onClick={() => setProvider(new MockInfostudProvider(scenario))}>
+              Prova con dati finti
+            </button>
+          </div>
+        )}
+      </div>
+
+      {s.infostud.daCollegare.length > 0 && (
+        <div className="card card-pad" style={{ marginTop: 12 }}><DaCollegare /></div>
+      )}
+
+      {provider && <SchedaInfostud aperto provider={provider} chiudi={() => setProvider(null)} />}
     </Sezione>
   )
 }

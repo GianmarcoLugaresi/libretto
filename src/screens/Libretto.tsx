@@ -157,6 +157,7 @@ function RigaEsame({ ins, onClick }: { ins: Insegnamento; onClick: () => void })
   if (ins.tipo === 'a_scelta' || ins.tipo === 'tirocinio' || ins.tipo === 'prova_finale' || ins.tipo === 'lingua' || ins.tipo === 'idoneita') {
     meta.push(LABEL_TIPO[ins.tipo])
   }
+  if (e.ufficiale) meta.push('Infostud')
 
   return (
     <button className="list-row is-tappable" onClick={onClick} style={tinta(ins.tinta)}>

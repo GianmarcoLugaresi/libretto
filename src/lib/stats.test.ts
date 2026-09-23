@@ -40,6 +40,7 @@ function stato(voci: { ins: Insegnamento; esame?: Partial<Esame> }[], cfuTotali 
     appelli: [],
     lezioni: [],
     sync: {},
+    infostud: { esami: {}, daCollegare: [], prenotazioni: [] },
     onboarding: false,
   }
 }
