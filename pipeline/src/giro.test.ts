@@ -148,4 +148,10 @@ describe('un giro completo su Design', () => {
     expect((await leggi('courses/33426/exams.json')).appelli.length).toBeGreaterThan(0)
     await expect(leggi('courses/33426/2026/plan.json')).rejects.toThrow()
   })
+
+  it('gli appelli delle coorti vecchie non si buttano: ognuno col suo codice corso', async () => {
+    await esegui(opzioni({ compiti: ['indice', 'appelli'] }))
+    const codici = new Set((await leggi('courses/33426/exams.json')).appelli.map((a: { codiceCorso?: string }) => a.codiceCorso))
+    expect([...codici].sort()).toEqual(['31807', '33426'])
+  })
 })

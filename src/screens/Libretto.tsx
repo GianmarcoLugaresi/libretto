@@ -154,7 +154,7 @@ function RigaEsame({ ins, onClick }: { ins: Insegnamento; onClick: () => void })
 
   const periodo = ins.semestre === 0 ? 'annuale' : ins.semestre === 1 ? 'I sem' : 'II sem'
   const meta = [`${ins.cfu} CFU`, periodo]
-  if (ins.tipo === 'a_scelta' || ins.tipo === 'tirocinio' || ins.tipo === 'prova_finale' || ins.tipo === 'lingua') {
+  if (ins.tipo === 'a_scelta' || ins.tipo === 'tirocinio' || ins.tipo === 'prova_finale' || ins.tipo === 'lingua' || ins.tipo === 'idoneita') {
     meta.push(LABEL_TIPO[ins.tipo])
   }
 

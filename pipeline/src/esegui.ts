@@ -19,7 +19,7 @@ import { createHash } from 'node:crypto'
 import { Cache } from './cache'
 import { controllaAppelli, controllaIndice, controllaPiano } from './controlli'
 import { HostNonConsentito, scarica } from './http'
-import { appelliPubblicabili, estraiAppelli, soloCoorte } from './parser/appelli'
+import { appelliPubblicabili, estraiAppelli } from './parser/appelli'
 import { estraiIndice } from './parser/indice'
 import { estraiPiano, pianoPubblicabile } from './parser/piano'
 import { curatedAdapter } from './orari/curato'
@@ -192,10 +192,12 @@ export async function esegui(o: Opzioni): Promise<Diario> {
       try {
         const h = await prendi(url)
         if (!h) continue
-        const e = estraiAppelli(h)
-        const dati = appelliPubblicabili(
-          { ...e, appelli: soloCoorte(e.appelli, c.codice) }, c.codice, url,
-        )
+        // Tutte le righe, con il loro codice corso: la pagina di un corso
+        // elenca anche gli appelli delle coorti vecchie (Design: 252
+        // righe di 31807 accanto alle 212 di 33426). Filtrarle qui
+        // lascerebbe quegli studenti senza appelli; filtra l'app, che
+        // sa di che coorte è lo studente.
+        const dati = appelliPubblicabili(estraiAppelli(h), c.codice, url)
         await pub.scrivi(percorsi.appelli(c.codice), dati, Appelli, controllaAppelli)
       } catch (err) { annota(d, `appelli ${c.codice}`, err) }
     }

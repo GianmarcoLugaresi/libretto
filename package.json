@@ -23,7 +23,8 @@
     "@capacitor/local-notifications": "^8.3.1",
     "@capacitor/splash-screen": "^8.0.2",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "zod": "^4.6.5"
   },
   "devDependencies": {
     "@types/react": "^18.3.12",
@@ -35,7 +36,6 @@
     "tsx": "^4.23.15",
     "typescript": "^5.7.2",
     "vite": "^6.0.5",
-    "vitest": "^3.2.7",
-    "zod": "^4.6.5"
+    "vitest": "^3.2.7"
   }
 }

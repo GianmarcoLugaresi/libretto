@@ -27,6 +27,9 @@ export interface SlotOrario {
   edificio?: string
   /** Modulo tenuto in questa fascia, se l'insegnamento ne ha più d'uno */
   modulo?: string
+  /** Date in cui questa fascia non si tiene, quando la fonte le dà una
+   *  per una invece che come giorni di sospensione comuni */
+  saltate?: string[]
 }
 
 /** Un modo di seguire un insegnamento: il canale (A-Li / Lo-Z) o,

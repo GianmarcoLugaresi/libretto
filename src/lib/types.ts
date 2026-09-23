@@ -15,6 +15,8 @@ export type TipoInsegnamento =
   | 'tirocinio'
   | 'lingua'
   | 'prova_finale'
+  /** Attività senza voto che il catalogo dichiara come tale (AAF) */
+  | 'idoneita'
 
 /** Un insegnamento del piano di studi. */
 export interface Insegnamento {
@@ -183,6 +185,7 @@ export const LABEL_TIPO: Record<TipoInsegnamento, string> = {
   tirocinio: 'Tirocinio',
   lingua: 'Lingua',
   prova_finale: 'Prova finale',
+  idoneita: 'Idoneità',
 }
 
 export const LABEL_PROVA: Record<TipoProva, string> = {

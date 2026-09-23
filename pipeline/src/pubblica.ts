@@ -185,14 +185,9 @@ export class Pubblicatore {
 
 /* ---------------- Percorsi ---------------- */
 
-export const percorsi = {
-  indice: () => 'index.json',
-  piano: (codice: string, coorte: number) => `courses/${codice}/${coorte}/plan.json`,
-  appelli: (codice: string) => `courses/${codice}/exams.json`,
-  orario: (codice: string, coorte: number) => `courses/${codice}/${coorte}/timetable.json`,
-  programma: (codice: string, insegnamento: string, canale?: string) =>
-    `courses/${codice}/syllabi/${insegnamento}${canale ? `-${canale}` : ''}.json`,
-}
+// I percorsi stanno con gli schemi: sono il contratto con l'app, che
+// li importa da lì senza tirarsi dietro node:fs.
+export { percorsi } from './tipi'
 
 export function stampaRapporto(r: Rapporto): string {
   const testa = `${r.scritti.length} file scritti, ${r.scritti.filter(s => s.invariato).length} invariati, ${r.bloccati.length} bloccati`
