@@ -29,7 +29,12 @@ async function finto(url: string | URL | Request): Promise<Response> {
   chiamate.push(u)
   if (u.endsWith('/it')) return risposta(await fixture('catalogo-indice.html'))
   if (u.includes('/33426/attendance/exams')) return risposta(await fixture('design-appelli.html'))
-  if (u.includes('/attendance/lessons-plan')) return risposta(await fixture('design-piano.html'))
+  if (u.includes('/attendance/lessons-plan')) {
+    // Il sito risponde per coorte: la pagina nuda è la più recente.
+    if (u.includes('year=2025&code=33426')) return risposta(await fixture('design-piano-2025.html'))
+    if (u.includes('year=2024&code=31807')) return risposta(await fixture('design-piano-2024.html'))
+    return risposta(await fixture('design-piano.html'))
+  }
   if (u.includes('/timetable-data/')) {
     // Il feed risponde per mese: un mese pieno, gli altri vuoti.
     const corpo = u.includes('start=2026-10') ? await fixture('design-orario-2026-10.json') : '{"events":[]}'
@@ -95,9 +100,32 @@ describe('un giro completo su Design', () => {
     expect(design.coorti.map((k: { codiceCorso: string }) => k.codiceCorso)).toContain('31807')
   })
 
-  it('visita anche il codice corso delle coorti vecchie', async () => {
+  it('pubblica un piano per ogni coorte, ognuno sotto il suo codice', async () => {
+    const d = await esegui(opzioni({ compiti: ['indice', 'piani'] }))
+    expect(d.errori).toEqual([])
+    expect((await leggi('courses/33426/2026/plan.json')).insegnamenti).toHaveLength(27)
+    expect((await leggi('courses/33426/2025/plan.json')).insegnamenti).toHaveLength(26)
+    expect((await leggi('courses/31807/2024/plan.json')).insegnamenti).toHaveLength(25)
+  })
+
+  it('la pagina nuda di un codice vecchio non si visita: mostra un piano vuoto', async () => {
     await esegui(opzioni({ compiti: ['piani'] }))
-    expect(chiamate.some(u => u.includes('/course/31807/attendance/lessons-plan'))).toBe(true)
+    expect(chiamate.some(u => /\/course\/31807\/attendance\/lessons-plan$/.test(u))).toBe(false)
+    expect(chiamate.some(u => u.includes('?year=2024&code=31807'))).toBe(true)
+  })
+
+  it('se il sito ignora la coorte chiesta, quel piano non si pubblica', async () => {
+    const d = await esegui(opzioni({
+      compiti: ['indice', 'piani'],
+      fetchImpl: (async (u: string | URL | Request) => {
+        const s = String(u)
+        // Ogni coorte risponde con la pagina di sempre
+        if (s.includes('lessons-plan')) return risposta(await fixture('design-piano.html'))
+        return finto(u)
+      }) as unknown as typeof fetch,
+    }))
+    expect(d.righe.join('\n')).toMatch(/coorte 2025: la pagina risponde con 33426\/2026, non pubblicato/)
+    await expect(leggi('courses/33426/2025/plan.json')).rejects.toThrow()
   })
 
   it('il secondo giro non riscarica: gli etag bastano', async () => {

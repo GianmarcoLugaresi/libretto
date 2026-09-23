@@ -127,6 +127,15 @@ export function selezione(corsi: Corso[], o: Opzioni): Corso[] {
   return o.fetta < 0 ? scelti : scelti.filter(c => fettaDi(c.codice) === o.fetta)
 }
 
+/** La pagina del piano di una coorte. È l'indirizzo a cui rimanda il
+ *  form «Seleziona l'anno di riferimento» della pagina del corso. */
+export function urlCoorte(codiceCorso: string, k: { anno: number; codiceCorso: string }): string {
+  return `${BASE}/it/course/${codiceCorso}/attendance/lessons-plan?year=${k.anno}&code=${k.codiceCorso}`
+}
+
+/** Pagine di piano per corso: una per coorte. Design ne ha tre. */
+export const PAGINE_PER_CORSO = 2.5
+
 /* ---------------- Giro ---------------- */
 
 export interface Diario {
@@ -205,38 +214,45 @@ export async function esegui(o: Opzioni): Promise<Diario> {
 
   /* --- Piani --- */
   if (o.compiti.includes('piani')) {
-    // Le coorti vecchie hanno un codice corso diverso (Design:
-    // 31807 per 2024/25, 33426 dal 2025/26): la pagina di ciascuna
-    // sta sul proprio codice, non su un parametro inventato.
-    const daVisitare = scelti.map(c => c.codice)
-    const visti = new Set<string>()
+    // La pagina del corso mostra il piano della coorte più recente e
+    // l'elenco di tutte le coorti. Le altre si aprono con
+    // ?year=<anno>&code=<codice della coorte>: è l'indirizzo a cui il
+    // sito stesso rimanda dopo il form di scelta. La pagina «nuda» di
+    // un codice vecchio (Design 2024 è 31807) invece mostra un piano
+    // vuoto intestato all'anno in corso: non si visita.
     const coortiPerCorso = new Map<string, Corso['coorti']>()
-
-    while (daVisitare.length) {
-      const codice = daVisitare.shift()!
-      if (visti.has(codice)) continue
-      visti.add(codice)
-      const url = `${BASE}/it/course/${codice}/attendance/lessons-plan`
+    let pagine = 0
+    for (const c of scelti) {
+      const base = `${BASE}/it/course/${c.codice}/attendance/lessons-plan`
       try {
-        const h = await prendi(url)
+        const h = await prendi(base)
         if (!h) continue
-        const e = estraiPiano(h, codice)
+        pagine++
+        const e = estraiPiano(h, c.codice)
         // Il percorso segue il codice che la pagina dichiara, non
-        // quello che abbiamo chiesto: dopo un redirect i due
-        // divergono, e un file il cui nome contraddice il contenuto
-        // è peggio di un file mancante.
-        visti.add(e.codiceCorso)
-        await pub.scrivi(percorsi.piano(e.codiceCorso, e.coorte), pianoPubblicabile(e, url), Piano, controllaPiano)
-        coortiPerCorso.set(e.codiceCorso, e.coorti)
-        // Le altre coorti si visitano solo partendo da un corso
-        // scelto, altrimenti da una coorte vecchia si risalirebbe a
-        // tutto il catalogo.
-        if (scelti.some(c => c.codice === codice)) {
-          for (const k of e.coorti) {
-            if (!visti.has(k.codiceCorso)) daVisitare.push(k.codiceCorso)
-          }
+        // quello che abbiamo chiesto: un file il cui nome contraddice
+        // il contenuto è peggio di un file mancante.
+        await pub.scrivi(percorsi.piano(e.codiceCorso, e.coorte), pianoPubblicabile(e, base), Piano, controllaPiano)
+        coortiPerCorso.set(c.codice, e.coorti)
+
+        for (const k of e.coorti) {
+          if (k.anno === e.coorte && k.codiceCorso === e.codiceCorso) continue
+          const url = urlCoorte(c.codice, k)
+          try {
+            const hk = await prendi(url)
+            if (!hk) continue
+            pagine++
+            const ek = estraiPiano(hk, k.codiceCorso)
+            // Se il sito ignorasse i parametri e rimandasse il piano di
+            // sempre, finirebbe pubblicato sotto l'anno sbagliato.
+            if (ek.coorte !== k.anno || ek.codiceCorso !== k.codiceCorso) {
+              registra(d, `piano ${c.codice} coorte ${k.anno}: la pagina risponde con ${ek.codiceCorso}/${ek.coorte}, non pubblicato`)
+              continue
+            }
+            await pub.scrivi(percorsi.piano(ek.codiceCorso, ek.coorte), pianoPubblicabile(ek, url), Piano, controllaPiano)
+          } catch (err) { annota(d, `piano ${c.codice} coorte ${k.anno}`, err) }
         }
-      } catch (err) { annota(d, `piano ${codice}`, err) }
+      } catch (err) { annota(d, `piano ${c.codice}`, err) }
     }
     // Le coorti scoperte finiscono nell'indice: è lì che l'app
     // guarda per sapere quali anni può aprire.
@@ -244,7 +260,7 @@ export async function esegui(o: Opzioni): Promise<Diario> {
       const k = coortiPerCorso.get(c.codice)
       if (k?.length) c.coorti = k
     }
-    registra(d, `piani: ${visti.size} pagine visitate`)
+    registra(d, `piani: ${pagine} pagine visitate`)
   }
 
   /* --- Orari --- */
@@ -306,7 +322,7 @@ function annota(d: Diario, dove: string, err: unknown) {
 export function stima(corsi: number, compiti: Compito[], perAppelli = corsi): { richieste: number; minuti: number } {
   let richieste = 1
   if (compiti.includes('appelli')) richieste += perAppelli
-  if (compiti.includes('piani')) richieste += Math.round(corsi * 1.8) // ~1,8 coorti per corso
+  if (compiti.includes('piani')) richieste += Math.round(corsi * PAGINE_PER_CORSO)
   if (compiti.includes('orari')) richieste += corsi * 5 // 5 mesi di feed
   return { richieste, minuti: (richieste * 10) / 60 }
 }

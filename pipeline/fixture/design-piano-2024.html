@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="it" dir="ltr">
+<head>
+  <link rel="profile" href="http://www.w3.org/1999/xhtml/vocab" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Generator" content="Drupal 7 (http://drupal.org)" />
+<link rel="shortcut icon" href="https://corsidilaurea.uniroma1.it/sites/all/themes/custom/cdl/favicon.ico" type="image/vnd.microsoft.icon" />
+  <title>Design | Course catalogue</title>
+  <style>
+@import url("https://corsidilaurea.uniroma1.it/modules/system/system.base.css?tlswzj");
+</style>
+<style>
+@import url("https://corsidilaurea.uniroma1.it/sites/all/modules/custom/cdl_backend/css/backend.css?tlswzj");
+@import url("https://corsidilaurea.uniroma1.it/sites/all/modules/custom/cdl_course_home/css/course_home.css?tlswzj");
+@import url("https://corsidilaurea.uniroma1.it/sites/all/modules/custom/cdl_lessons/css/lessons.css?tlswzj");
+@import url("https://corsidilaurea.uniroma1.it/modules/field/theme/field.css?tlswzj");
+@import url("https://corsidilaurea.uniroma1.it/modules/node/node.css?tlswzj");
+@import url("https://corsidilaurea.uniroma1.it/sites/all/modules/contrib/views/css/views.css?tlswzj");
+@import url("https://corsidilaurea.uniroma1.it/sites/all/modules/contrib/ckeditor/css/ckeditor.css?tlswzj");
+</style>
+<style>
+@import url("https://corsidilaurea.uniroma1.it/sites/all/modules/contrib/ctools/css/ctools.css?tlswzj");
+@import url("https://corsidilaurea.uniroma1.it/modules/locale/locale.css?tlswzj");
+</style>
+<link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.css" media="all" />
+<link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@unicorn-fail/drupal-bootstrap-styles@0.0.2/dist/3.3.1/7.x-3.x/drupal-bootstrap.css" media="all" />
+<style>
+@import url("https://corsidilaurea.uniroma1.it/sites/all/themes/custom/cdl/libraries/fontawesome/css/fontawesome.min.css?tlswzj");
+@import url("https://corsidilaurea.uniroma1.it/sites/all/themes/custom/cdl/css/styles.css?tlswzj");
+</style>
+  <!-- HTML5 element support for IE6-8 -->
+  <!--[if lt IE 9]>
+    <script src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <script src="https://corsidilaurea.uniroma1.it/sites/all/modules/contrib/jquery_update/replace/jquery/2.2/jquery.min.js?v=2.2.4"></script>
+<script src="https://corsidilaurea.uniroma1.it/misc/jquery-extend-3.4.0.js?v=2.2.4"></script>
+<script src="https://corsidilaurea.uniroma1.it/misc/jquery-html-prefilter-3.5.0-backport.js?v=2.2.4"></script>
+<script src="https://corsidilaurea.uniroma1.it/misc/jquery.once.js?v=1.2"></script>
+<script src="https://corsidilaurea.uniroma1.it/misc/drupal.js?tlswzj"></script>
+<script src="https://corsidilaurea.uniroma1.it/sites/all/modules/contrib/jquery_update/js/jquery_browser.js?v=0.0.1"></script>
+<script src="https://corsidilaurea.uniroma1.it/misc/form-single-submit.js?v=7.103.6+7.103.1:drupal"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.js"></script>
+<script src="https://corsidilaurea.uniroma1.it/sites/all/modules/contrib/admin_menu/admin_devel/admin_devel.js?tlswzj"></script>
+<script src="https://corsidilaurea.uniroma1.it/sites/all/modules/custom/cdl_backend/js/backend.js?tlswzj"></script>
+<script src="https://corsidilaurea.uniroma1.it/sites/all/modules/custom/cdl_course_attendance/js/timetable.js?tlswzj"></script>
+<script src="https://corsidilaurea.uniroma1.it/sites/all/modules/custom/cdl_course_contacts/js/contacts.js?tlswzj"></script>
+<script src="https://corsidilaurea.uniroma1.it/sites/all/modules/custom/cdl_course_home/js/course_home.js?tlswzj"></script>
+<script src="https://corsidilaurea.uniroma1.it/sites/all/modules/custom/cdl_homepage/js/base.js?tlswzj"></script>
+<script src="https://corsidilaurea.uniroma1.it/sites/all/modules/contrib/entityreference/js/entityreference.js?tlswzj"></script>
+<script src="https://corsidilaurea.uniroma1.it/sites/default/files/languages/it_IAIsrAD3YrRJDGneU8nrs0AJ8zDbwyvNlpVkqqsjZoQ.js?tlswzj"></script>
+<script src="https://corsidilaurea.uniroma1.it/misc/tableheader.js?tlswzj"></script>
+<script src="https://corsidilaurea.uniroma1.it/sites/all/themes/custom/cdl/libraries/fontawesome/js/fontawesome.min.js?tlswzj"></script>
+<script src="https://corsidilaurea.uniroma1.it/sites/all/themes/custom/cdl/libraries/fontawesome/js/solid.min.js?tlswzj"></script>
+<script src="https://corsidilaurea.uniroma1.it/sites/all/themes/custom/cdl/libraries/js/css3-mediaqueries.js?tlswzj"></script>
+<script src="https://corsidilaurea.uniroma1.it/sites/all/themes/custom/cdl/libraries/js/html5shiv.min.js?tlswzj"></script>
+<script src="https://corsidilaurea.uniroma1.it/sites/all/themes/custom/cdl/libraries/js/jquery.matchHeight-min.js?tlswzj"></script>
+<script src="https://corsidilaurea.uniroma1.it/sites/all/themes/custom/cdl/libraries/js/modernizr.min.js?tlswzj"></script>
+<script src="https://corsidilaurea.uniroma1.it/sites/all/themes/custom/cdl/libraries/js/respond.js?tlswzj"></script>
+<script src="https://corsidilaurea.uniroma1.it/sites/all/themes/custom/cdl/js/components/cdl_accordion.js?tlswzj"></script>
+<script src="https://corsidilaurea.uniroma1.it/sites/all/themes/custom/cdl/js/components/cdl_video.js?tlswzj"></script>
+<script src="https://corsidilaurea.uniroma1.it/sites/all/themes/custom/cdl/js/components/cdl_lessons.js?tlswzj"></script>
+<script src="https://corsidilaurea.uniroma1.it/sites/all/themes/custom/cdl/js/scripts.js?tlswzj"></script>
+<script>jQuery.extend(Drupal.settings, {"basePath":"\/","pathPrefix":"it\/","setHasJsCookie":0,"ajaxPageState":{"theme":"cdl","theme_token":"uwgASYVSxbkZPtLUPhL3rUxXs-qOnGLh1d5Au2Kpbvs","js":{"sites\/all\/themes\/contrib\/bootstrap\/js\/bootstrap.js":1,"sites\/all\/modules\/contrib\/jquery_update\/replace\/jquery\/2.2\/jquery.min.js":1,"misc\/jquery-extend-3.4.0.js":1,"misc\/jquery-html-prefilter-3.5.0-backport.js":1,"misc\/jquery.once.js":1,"misc\/drupal.js":1,"sites\/all\/modules\/contrib\/jquery_update\/js\/jquery_browser.js":1,"misc\/form-single-submit.js":1,"https:\/\/cdn.jsdelivr.net\/npm\/bootstrap@3.4.1\/dist\/js\/bootstrap.js":1,"sites\/all\/modules\/contrib\/admin_menu\/admin_devel\/admin_devel.js":1,"sites\/all\/modules\/custom\/cdl_backend\/js\/backend.js":1,"sites\/all\/modules\/custom\/cdl_course_attendance\/js\/timetable.js":1,"sites\/all\/modules\/custom\/cdl_course_contacts\/js\/contacts.js":1,"sites\/all\/modules\/custom\/cdl_course_home\/js\/course_home.js":1,"sites\/all\/modules\/custom\/cdl_homepage\/js\/base.js":1,"sites\/all\/modules\/contrib\/entityreference\/js\/entityreference.js":1,"public:\/\/languages\/it_IAIsrAD3YrRJDGneU8nrs0AJ8zDbwyvNlpVkqqsjZoQ.js":1,"misc\/tableheader.js":1,"sites\/all\/themes\/custom\/cdl\/libraries\/fontawesome\/js\/fontawesome.min.js":1,"sites\/all\/themes\/custom\/cdl\/libraries\/fontawesome\/js\/solid.min.js":1,"sites\/all\/themes\/custom\/cdl\/libraries\/js\/css3-mediaqueries.js":1,"sites\/all\/themes\/custom\/cdl\/libraries\/js\/html5shiv.min.js":1,"sites\/all\/themes\/custom\/cdl\/libraries\/js\/jquery.matchHeight-min.js":1,"sites\/all\/themes\/custom\/cdl\/libraries\/js\/modernizr.min.js":1,"sites\/all\/themes\/custom\/cdl\/libraries\/js\/respond.js":1,"sites\/all\/themes\/custom\/cdl\/js\/components\/cdl_accordion.js":1,"sites\/all\/themes\/custom\/cdl\/js\/components\/cdl_video.js":1,"sites\/all\/themes\/custom\/cdl\/js\/components\/cdl_lessons.js":1,"sites\/all\/themes\/custom\/cdl\/js\/scripts.js":1},"css":{"modules\/system\/system.base.css":1,"sites\/all\/modules\/custom\/cdl_backend\/css\/backend.css":1,"sites\/all\/modules\/custom\/cdl_course_home\/css\/course_home.css":1,"sites\/all\/modules\/custom\/cdl_lessons\/css\/lessons.css":1,"modules\/field\/theme\/field.css":1,"modules\/node\/node.css":1,"sites\/all\/modules\/contrib\/views\/css\/views.css":1,"sites\/all\/modules\/contrib\/ckeditor\/css\/ckeditor.css":1,"sites\/all\/modules\/contrib\/ctools\/css\/ctools.css":1,"modules\/locale\/locale.css":1,"https:\/\/cdn.jsdelivr.net\/npm\/bootstrap@3.4.1\/dist\/css\/bootstrap.css":1,"https:\/\/cdn.jsdelivr.net\/npm\/@unicorn-fail\/drupal-bootstrap-styles@0.0.2\/dist\/3.3.1\/7.x-3.x\/drupal-bootstrap.css":1,"sites\/all\/themes\/custom\/cdl\/libraries\/fontawesome\/cs\/fontawesome.min.css":1,"sites\/all\/themes\/custom\/cdl\/libraries\/fontawesome\/css\/fontawesome.min.css":1,"sites\/all\/themes\/custom\/cdl\/css\/styles.css":1}},"urlIsAjaxTrusted":{"\/it\/course\/33426\/attendance\/lessons-plan?code=31807\u0026year=2024":true},"bootstrap":{"anchorsFix":"0","anchorsSmoothScrolling":"0","formHasError":1,"popoverEnabled":1,"popoverOptions":{"animation":1,"html":0,"placement":"right","selector":"","trigger":"click","triggerAutoclose":1,"title":"","content":"","delay":0,"container":"body"},"tooltipEnabled":1,"tooltipOptions":{"animation":1,"html":0,"placement":"auto left","selector":"","trigger":"focus hover","delay":0,"container":"body"}}});</script>
+</head>
+<body class="navbar-is-fixed-top html not-front not-logged-in no-sidebars page-course page-course- page-course-33426 page-course-attendance page-course-attendance-lessons-plan">
+  <div class="cdl-overlay-div"></div>
+  <div id="skip-link">
+    <a href="#main-content" role="link" aria-label="Skip to main content" class="element-invisible element-focusable">Skip to main content</a>
+  </div>
+    <header id="navbar" role="banner" class="section navbar navbar-fixed-top navbar-default">
+  <div class="container">
+
+      <div class="navbar-brand">
+              <a href="https://www.uniroma1.it/" class="site-logo">
+          <img class="logo pull-left" src="https://corsidilaurea.uniroma1.it/sites/all/themes/custom/cdl/logo.png" alt="Uniroma 1" />
+        </a>
+      
+              <div class="site-name">
+          <a title="Torna alla Home Page" href="/"><h2>Catalogo dei corsi di studio</h2></a>
+        </div>
+            </div>
+
+            <button class="main-menu-open">
+        <img src="/sites/all/themes/custom/cdl/images/hamburgher.svg" />
+      </button>
+      
+                <div class="region region-header">
+    <section id="block-locale-language-content" class="block- block block-locale clearfix">
+
+      
+  <ul class="language-switcher-locale-url"><li class="it first active"><a href="/it/course/33426/attendance/lessons-plan" class="language-link active" xml:lang="it">IT</a></li>
+<li class="en last"><a href="/en/course/33426/attendance/lessons-plan" class="language-link" xml:lang="en">EN</a></li>
+</ul>
+</section>
+  </div>
+
+        </div>
+</header>
+
+<div class="main-menu-overlay">
+  <div class="container">
+    <div class="main-menu-header">
+      <button class="main-menu-search"></button>
+      <button class="main-menu-close"></button>
+    </div>
+
+    <div class="main-menu-container">
+      <ul class="menu nav"><li class="first leaf"><a href="/it/course/33426">Il corso</a></li>
+<li class="leaf"><a href="/it/course/33426/apply">Iscriversi</a></li>
+<li class="leaf"><a href="/it/course/33426/attendance">Frequentare</a></li>
+<li class="leaf"><a href="/it/course/33426/contacts">Contattaci</a></li>
+<li class="last leaf"><a href="/it/course/33426/sapienza-for-you">Sapienza per te</a></li>
+</ul>      <div class="main-menu-logo">
+        <img src="/sites/all/themes/custom/cdl/logo_bianco.png" />
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+<section id="page-title" class="section">
+  <div class="container">
+        <div class="main-menu-corso">
+      <ul class="menu nav"><li class="first leaf"><a href="/it/course/33426">Il corso</a></li>
+<li class="leaf"><a href="/it/course/33426/apply">Iscriversi</a></li>
+<li class="leaf"><a href="/it/course/33426/attendance">Frequentare</a></li>
+<li class="leaf"><a href="/it/course/33426/contacts">Contattaci</a></li>
+<li class="last leaf"><a href="/it/course/33426/sapienza-for-you">Sapienza per te</a></li>
+</ul>    </div>
+        <h1>
+              <a href="/it/course/33426">Design</a>
+          </h1>
+      </div>
+</section>
+
+<section id="breadcrumb" class="section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <ol class="breadcrumb"><li><a href="/it">Catalogo</a></li>
+<li><a href="/it/course/33426"> Corso</a></li>
+<li><a href="/it/course/33426/attendance">Frequentare</a></li>
+<li>Insegnamenti</li>
+</ol>      </div>
+    </div>
+  </div>
+</section>
+<section id="breadcrumb" class="section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="panel-group" id="announcement-accordion"><h3><a href="https://corsidilaurea.uniroma1.it/it/course/33426/announcements" target="_blank"><span class="glyphicon glyphicon-bullhorn" aria-hidden="true"></span> Avvisi in evidenza</a></h3>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+           <a data-toggle="collapse" data-parent="#announcement-accordion" href="#announcement-9054">
+            <h4 class="panel-title">22/09/2026 - Esito valutazioni anni successivi al primo a.a 2026-2027
+            </h4>
+          </a>
+          </div>
+          <div id="announcement-9054" class="panel-collapse collapse">
+            <div class="panel-body"><p>Nell'allegato sono riportati gli esiti della valutazione per anni successivi al primo per il corso di laurea in Design per l'a.a. 2026-2027</p>
+
+              <div class="panel-attachments">
+              <ul class="document-list"><li><a href="https://corsidilaurea.uniroma1.it/sites/default/files/avvisi/esiti_valutazione_domande_anni_successivi_al_primo_design_2026-2027.pdf" class="document-icon pdf"></a> <span class="file-type">(PDF)</span></li>
+</ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+           <a data-toggle="collapse" data-parent="#announcement-accordion" href="#announcement-8980">
+            <h4 class="panel-title">17/09/2026 - Pubblicazione delle graduatorie corrette 
+            </h4>
+          </a>
+          </div>
+          <div id="announcement-8980" class="panel-collapse collapse">
+            <div class="panel-body"><p>Pubblicate le graduatorie corrette approvate con D.R. n. 1916 del 17 settembre 2026.<br />
+Il pagamento della prima rata dei contributi per chi vince un posto in graduatoria deve essere effettuato <strong>entro il 22 settembre 2026.</strong><br />
+Consulta la graduatoria nella sezione iscriversi</p>
+
+              <div class="panel-attachments">
+              
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+           <a data-toggle="collapse" data-parent="#announcement-accordion" href="#announcement-8303">
+            <h4 class="panel-title">21/07/2026 - Avviso posti disponibili per anni successivi a.a. 2026-2027 cdl Design
+            </h4>
+          </a>
+          </div>
+          <div id="announcement-8303" class="panel-collapse collapse">
+            <div class="panel-body"><p><strong>Avviso posti disponibili per anni successivi a.a. 2026-2027 cdl Design</strong></p>
+<p>Avviso posti disponibili per anni successivi a.a. 2026-2027 cdl Design Per l’anno accademico 2026/2027 sono disponibili i seguenti posti per l’iscrizione agli anni successivi al primo per il corso di laurea in Design L-4:</p>
+<p>       A.A.              Anno di corso                  n° Posti disponibili<br />
+2025-2026                 2°                                         0<br />
+2024-2025                 3°                                        25</p>
+<p>Al fine di una verifica dei CFU effettivamente convalidabili, gli interessati, tassativamente entro le ore 14:00 del giorno 10 settembre 2026, dovranno inviare apposita domanda a mezzo e-mail<br />
+contestualmente (con un unico invio) sia all’indirizzo di posta elettronica dedicato all’ammissione sia all’indirizzo di posta elettronica della Segreteria studenti:</p>
+<p><a href="mailto:sabrina.lucibello@uniroma1.it">sabrina.lucibello@uniroma1.it</a><br />
+<a href="mailto:segrstudenti.architettura@uniroma1.it">segrstudenti.architettura@uniroma1.it</a></p>
+<p>L’e-mail dovrà indicare nell’oggetto la seguente dicitura “Valutazione anni successivi al primo in Design”, mentre nella e-mail dovranno essere riportate le seguenti informazioni ed allegati:</p>
+<p>- la domanda, redatta secondo il fac-simile allegato, “domanda_anni_successivi_cds_design.pdf” (Allegati ITA), completa dei dati richiesti e salvata in formato PDF;<br />
+- il certificato o autocertificazione degli esami sostenuti;<br />
+- i programmi dettagliati redatti su carta intestata dell’Università di provenienza di tutti gli esami sostenuti;<br />
+- copia fronte retro di un documento di identità in corso di validità, in formato PDF.</p>
+<p><strong>Gli esiti delle valutazioni delle richieste di ammissione saranno pubblicati entro il giorno 22 settembre 2026.</strong><br />
+ </p>
+
+              <div class="panel-attachments">
+              <ul class="document-list"><li><a href="https://corsidilaurea.uniroma1.it/sites/default/files/avvisi/domanda_anni_successivi_cds_design_0.pdf" class="document-icon pdf"></a> <span class="file-type">(PDF)</span></li>
+</ul>
+              </div>
+            </div>
+          </div>
+        </div></div>      </div>
+    </div>
+  </div>
+</section>
+<section class="section section-highlighted">
+  <div class="container">
+                    <div class="region region-help alert alert-info messages info">
+    <span class="icon glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+<section id="block-block-2" class="block-avviso-per-dati-mancanti block block-block clearfix">
+
+      
+  <p><strong>I contenuti del catalogo per l'a.a. 2026-2027 sono in corso di aggiornamento</strong></p>
+
+</section>
+  </div>
+          </div>
+</section>
+
+<section class="section section-tabs">
+  <div class="container">
+      </div>
+</section>
+
+<main role="main" class="section section-content">
+  <span id="main-content" tabindex="-1"></span>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+          <div class="region region-content">
+    <section id="block-system-main" class="block- block block-system clearfix">
+
+      
+  <div class='mt-2 cdl-lessons-view'>
+    <div class='row form-container'>
+    <div class='col-md-12'>
+            <form action="/it/course/33426/attendance/lessons-plan?code=31807&amp;year=2024" method="post" id="cdl-lessons-form" accept-charset="UTF-8"><div><input type="hidden" name="course_code" value="31807" />
+<div class="form-item form-item-year-course form-type-select form-group"> <label class="control-label" for="edit-year-course">Seleziona l’anno di riferimento</label>
+<select class="form-control form-select" id="edit-year-course" name="year_course"><option value="2026-33426">2026/2027 - Design: 33426</option><option value="2025-33426">2025/2026 - Design: 33426</option><option value="2024-31807" selected="selected">2024/2025 - Design: 31807</option></select></div><button type="submit" id="edit-submit" name="op" value="Vai" class="btn btn-default form-submit">Vai</button>
+<input type="hidden" name="form_build_id" value="form-mxYGSdSnzjjsQKbvnCY8sBwSS4IJqTD9tZ_QWdY5FOs" />
+<input type="hidden" name="form_id" value="cdl_lessons_form" />
+</div></form>    </div>
+  </div>
+  <div class='row content-container'>
+    <div class='col-md-12'>
+      <div class="mt-1">Questa funzione ti consente di visualizzare gli insegnamenti, i programmi e i docenti degli anni precedenti, in base al tuo percorso formativo</div><div class="mt-1"><a href="/it/archive/" target="_blank">Visita l&#039;archivio per trovare i dati relativi ad anni di iscrizione precedenti</a></div><h3>Modalità di erogazione: N/D</h3><h3>Curricula per l'anno 2024 - Design <span>(31807)</span></h3><fieldset  class="collapsible curriculum panel panel-default form-wrapper" data-group-type="group-curriculum" data-curriculum-id="7bdfbd6c-3829-404e-989d-097009ce63f0" id="bootstrap-panel">
+          <legend class="panel-heading">
+      <span class="panel-title fieldset-legend">Curriculum unico</span>
+    </legend>
+        <div class="panel-body" id="bootstrap-panel-body">
+        <div class="table-responsive">
+<table class="table table-hover table-striped sticky-enabled">
+ <thead><tr><th>Insegnamento [SSD]  [Lingua] </th><th>Anno</th><th>Semestre</th><th>CFU</th> </tr></thead>
+<tbody>
+ <tr data-activity-id="5d340a90-a2e7-41df-905f-2826078dbb2d" class="activity"><td><span class="activity-code">1026553</span> | <span class="activity-name"><a href="/it/course/33426/attendance/lesson/7bdfbd6c-3829-404e-989d-097009ce63f0/1/1/5d340a90-a2e7-41df-905f-2826078dbb2d?code=31807&amp;year=2024">ISTITUZIONI DI MATEMATICA</a></span> <strong class="text-nowrap">[MAT/05] [ITA]</strong></td><td>1º</td><td>1º</td><td>6</td> </tr>
+ <tr data-group-id="da29f0a8-587a-4d5b-98fe-fa13624ce66c" class="group activity"><td><span title="Questo insegnamento contiene dei moduli" class="icon glyphicon glyphicon-th-list" aria-hidden="true">&nbsp;</span><i class="icon chevron"></i><span class="activity-code">10592780</span> | <span class="activity-name">FONDAMENTI DI DISEGNO</span> <strong class="text-nowrap">[ICAR/17] [ITA]</strong></td><td>1º</td><td>1º</td><td>12</td> </tr>
+ <tr data-activity-id="a73e2a6a-7993-4b95-be7f-742e3bf4bd47" class="activity child" data-parent-id="da29f0a8-587a-4d5b-98fe-fa13624ce66c"><td><span class="activity-name"><a href="/it/course/33426/attendance/lesson/7bdfbd6c-3829-404e-989d-097009ce63f0/1/1/da29f0a8-587a-4d5b-98fe-fa13624ce66c/a73e2a6a-7993-4b95-be7f-742e3bf4bd47?code=31807&amp;year=2024">GEOMETRIA DESCRITTIVA</a></span> <strong class="text-nowrap">[ICAR/17] [ITA]</strong></td><td>1º</td><td>1º</td><td>6</td> </tr>
+ <tr data-activity-id="16e29de4-93ae-4f51-a588-68977c29f6b6" class="activity child" data-parent-id="da29f0a8-587a-4d5b-98fe-fa13624ce66c"><td><span class="activity-name"><a href="/it/course/33426/attendance/lesson/7bdfbd6c-3829-404e-989d-097009ce63f0/1/1/da29f0a8-587a-4d5b-98fe-fa13624ce66c/16e29de4-93ae-4f51-a588-68977c29f6b6?code=31807&amp;year=2024">DISEGNO DIGITALE</a></span> <strong class="text-nowrap">[ICAR/17] [ITA]</strong></td><td>1º</td><td>1º</td><td>6</td> </tr>
+ <tr data-group-id="0a479f45-075f-47d1-807d-0e8cd6737c87" class="group activity"><td><span title="Questo insegnamento contiene dei moduli" class="icon glyphicon glyphicon-th-list" aria-hidden="true">&nbsp;</span><i class="icon chevron"></i><span class="activity-code">10606447</span> | <span class="activity-name">SCIENZA E TECNOLOGIA DEI MATERIALI</span> <strong class="text-nowrap">[ING-IND/22] [ITA]</strong></td><td>1º</td><td>1º</td><td>9</td> </tr>
+ <tr data-activity-id="98a8866d-fa11-4d66-bcb2-4cf09f28309b" class="activity child" data-parent-id="0a479f45-075f-47d1-807d-0e8cd6737c87"><td><span class="activity-name"><a href="/it/course/33426/attendance/lesson/7bdfbd6c-3829-404e-989d-097009ce63f0/1/1/0a479f45-075f-47d1-807d-0e8cd6737c87/98a8866d-fa11-4d66-bcb2-4cf09f28309b?code=31807&amp;year=2024">SISTEMI DI LAVORAZIONE </a></span> <strong class="text-nowrap">[ING-IND/22] [ITA]</strong></td><td>1º</td><td>1º</td><td>3</td> </tr>
+ <tr data-activity-id="d96acd19-d1ad-4362-8c2f-8ea6850b21ea" class="activity child" data-parent-id="0a479f45-075f-47d1-807d-0e8cd6737c87"><td><span class="activity-name"><a href="/it/course/33426/attendance/lesson/7bdfbd6c-3829-404e-989d-097009ce63f0/1/1/0a479f45-075f-47d1-807d-0e8cd6737c87/d96acd19-d1ad-4362-8c2f-8ea6850b21ea?code=31807&amp;year=2024">PROPRIETA&#039; MATERIALI </a></span> <strong class="text-nowrap">[ING-IND/22] [ITA]</strong></td><td>1º</td><td>1º</td><td>6</td> </tr>
+ <tr data-activity-id="a00f18c7-23dd-4ff2-a237-5c109cb40a95" class="activity"><td><span class="activity-code">10589503</span> | <span class="activity-name"><a href="/it/course/33426/attendance/lesson/7bdfbd6c-3829-404e-989d-097009ce63f0/1/1/a00f18c7-23dd-4ff2-a237-5c109cb40a95?code=31807&amp;year=2024">TEORIA E STORIA DELL&#039;ARTE CONTEMPORANEA</a></span> <strong class="text-nowrap">[L-ART/03] [ITA]</strong></td><td>1º</td><td>1º</td><td>6</td> </tr>
+ <tr data-group-id="5dd57457-5c89-40c0-b76f-5e174dffba5a" class="group activity"><td><span title="Questo insegnamento contiene dei moduli" class="icon glyphicon glyphicon-th-list" aria-hidden="true">&nbsp;</span><i class="icon chevron"></i><span class="activity-code">10600268</span> | <span class="activity-name">LABORATORIO DI BASIC DESIGN</span> <strong class="text-nowrap">[ICAR/13] [ITA]</strong></td><td>1º</td><td>2º</td><td>12</td> </tr>
+ <tr data-activity-id="9d3488c6-fb43-4209-89ad-952c6682071b" class="activity child" data-parent-id="5dd57457-5c89-40c0-b76f-5e174dffba5a"><td><span class="activity-name"><a href="/it/course/33426/attendance/lesson/7bdfbd6c-3829-404e-989d-097009ce63f0/1/2/5dd57457-5c89-40c0-b76f-5e174dffba5a/9d3488c6-fb43-4209-89ad-952c6682071b?code=31807&amp;year=2024">BASIC DESIGN 2D</a></span> <strong class="text-nowrap">[ICAR/13] [ITA]</strong></td><td>1º</td><td>2º</td><td>6</td> </tr>
+ <tr data-activity-id="3fe63bb3-729f-44ac-a242-8812307dffa1" class="activity child" data-parent-id="5dd57457-5c89-40c0-b76f-5e174dffba5a"><td><span class="activity-name"><a href="/it/course/33426/attendance/lesson/7bdfbd6c-3829-404e-989d-097009ce63f0/1/2/5dd57457-5c89-40c0-b76f-5e174dffba5a/3fe63bb3-729f-44ac-a242-8812307dffa1?code=31807&amp;year=2024">BASIC DESIGN 3D</a></span> <strong class="text-nowrap">[ICAR/13] [ITA]</strong></td><td>1º</td><td>2º</td><td>6</td> </tr>
+ <tr data-activity-id="acf67bd3-b43a-4c32-aab8-a699e956c732" class="activity"><td><span class="activity-code">10600096</span> | <span class="activity-name"><a href="/it/course/33426/attendance/lesson/7bdfbd6c-3829-404e-989d-097009ce63f0/1/2/acf67bd3-b43a-4c32-aab8-a699e956c732?code=31807&amp;year=2024">TEORIA DELLA FORMA</a></span> <strong class="text-nowrap">[ICAR/17] [ITA]</strong></td><td>1º</td><td>2º</td><td>6</td> </tr>
+ <tr data-group-id="51182906-a16d-4a06-b311-0555055eaefd" class="group activity"><td><span title="Questo insegnamento contiene dei moduli" class="icon glyphicon glyphicon-th-list" aria-hidden="true">&nbsp;</span><i class="icon chevron"></i><span class="activity-code">10589359</span> | <span class="activity-name">PSICOLOGIA ED ERGONOMIA COGNITIVA</span> <strong class="text-nowrap">[M-PSI/05, ICAR/12] [ITA]</strong></td><td>1º</td><td>2º</td><td>6</td> </tr>
+ <tr data-activity-id="e7e2ae53-2d4e-462f-853e-c477b77f7a90" class="activity child" data-parent-id="51182906-a16d-4a06-b311-0555055eaefd"><td><span class="activity-name"><a href="/it/course/33426/attendance/lesson/7bdfbd6c-3829-404e-989d-097009ce63f0/1/2/51182906-a16d-4a06-b311-0555055eaefd/e7e2ae53-2d4e-462f-853e-c477b77f7a90?code=31807&amp;year=2024">PSICOLOGIA COGNITIVA</a></span> <strong class="text-nowrap">[M-PSI/05] [ITA]</strong></td><td>1º</td><td>2º</td><td>3</td> </tr>
+ <tr data-activity-id="934eea45-e30c-404c-a5c7-8cec37353e2c" class="activity child" data-parent-id="51182906-a16d-4a06-b311-0555055eaefd"><td><span class="activity-name"><a href="/it/course/33426/attendance/lesson/7bdfbd6c-3829-404e-989d-097009ce63f0/1/2/51182906-a16d-4a06-b311-0555055eaefd/934eea45-e30c-404c-a5c7-8cec37353e2c?code=31807&amp;year=2024">ERGONOMIA</a></span> <strong class="text-nowrap">[ICAR/12] [ITA]</strong></td><td>1º</td><td>2º</td><td>3</td> </tr>
+ <tr data-activity-id="5888049d-cbe6-4435-8d56-b6dc7abbeaf5" class="activity"><td><span class="activity-code">AAF1101</span> | <span class="activity-name"><a href="/it/course/33426/attendance/lesson/7bdfbd6c-3829-404e-989d-097009ce63f0/1/2/5888049d-cbe6-4435-8d56-b6dc7abbeaf5?code=31807&amp;year=2024">LINGUA INGLESE</a></span> <strong class="text-nowrap">[N/D] [ITA]</strong></td><td>1º</td><td>2º</td><td>3</td> </tr>
+ <tr data-group-id="b7d7d209-54a0-4fcf-b7fd-40cb2b998dc0" class="group activity"><td><span title="Questo insegnamento contiene dei moduli" class="icon glyphicon glyphicon-th-list" aria-hidden="true">&nbsp;</span><i class="icon chevron"></i><span class="activity-code">10600284</span> | <span class="activity-name">MATERIALI E TECNOLOGIE INNOVATIVE</span> <strong class="text-nowrap">[ICAR/13, ICAR/12] [ITA]</strong></td><td>2º</td><td>1º</td><td>9</td> </tr>
+ <tr data-activity-id="e22ba6df-6645-47f7-a48b-0067d5b3eb63" class="activity child" data-parent-id="b7d7d209-54a0-4fcf-b7fd-40cb2b998dc0"><td><span class="activity-name"><a href="/it/course/33426/attendance/lesson/7bdfbd6c-3829-404e-989d-097009ce63f0/2/1/b7d7d209-54a0-4fcf-b7fd-40cb2b998dc0/e22ba6df-6645-47f7-a48b-0067d5b3eb63?code=31807&amp;year=2024">MATERIALI E TECNOLOGIE INNOVATIVE</a></span> <strong class="text-nowrap">[ICAR/13] [ITA]</strong></td><td>2º</td><td>1º</td><td>6</td> </tr>
+ <tr data-activity-id="f280655d-e366-42b9-ae4c-2fddf2a24345" class="activity child" data-parent-id="b7d7d209-54a0-4fcf-b7fd-40cb2b998dc0"><td><span class="activity-name"><a href="/it/course/33426/attendance/lesson/7bdfbd6c-3829-404e-989d-097009ce63f0/2/1/b7d7d209-54a0-4fcf-b7fd-40cb2b998dc0/f280655d-e366-42b9-ae4c-2fddf2a24345?code=31807&amp;year=2024">REQUISITI AMBIENTALI DEGLI ARTEFATTI</a></span> <strong class="text-nowrap">[ICAR/12] [ITA]</strong></td><td>2º</td><td>1º</td><td>3</td> </tr>
+ <tr data-group-id="30ae3577-868c-4d03-b94d-4c55d7636f59" class="group activity"><td><span title="Questo insegnamento contiene dei moduli" class="icon glyphicon glyphicon-th-list" aria-hidden="true">&nbsp;</span><i class="icon chevron"></i><span class="activity-code">10589546</span> | <span class="activity-name">LABORATORIO DI DESIGN PER LA COMUNICAZIONE VISIVA</span> <strong class="text-nowrap">[ICAR/13] [ITA]</strong></td><td>2º</td><td>1º</td><td>9</td> </tr>
+ <tr data-activity-id="2fb00de2-f2c5-4bba-bf78-917e7c1ac7b1" class="activity child" data-parent-id="30ae3577-868c-4d03-b94d-4c55d7636f59"><td><span class="activity-name"><a href="/it/course/33426/attendance/lesson/7bdfbd6c-3829-404e-989d-097009ce63f0/2/1/30ae3577-868c-4d03-b94d-4c55d7636f59/2fb00de2-f2c5-4bba-bf78-917e7c1ac7b1?code=31807&amp;year=2024">DESIGN PER LA COMUNICAZIONE VISIVA 1</a></span> <strong class="text-nowrap">[ICAR/13] [ITA]</strong></td><td>2º</td><td>1º</td><td>6</td> </tr>
+ <tr data-activity-id="c1c32233-3eba-43e1-8e9a-b2085a6bff69" class="activity child" data-parent-id="30ae3577-868c-4d03-b94d-4c55d7636f59"><td><span class="activity-name"><a href="/it/course/33426/attendance/lesson/7bdfbd6c-3829-404e-989d-097009ce63f0/2/1/30ae3577-868c-4d03-b94d-4c55d7636f59/c1c32233-3eba-43e1-8e9a-b2085a6bff69?code=31807&amp;year=2024">LABORATORIO DI DESIGN PER LA COMUNICAZIONE VISIVA 1</a></span> <strong class="text-nowrap">[ICAR/13] [ITA]</strong></td><td>2º</td><td>1º</td><td>3</td> </tr>
+ <tr data-group-id="552a8fb1-1309-4840-b244-d9e8025fb994" class="group activity"><td><span title="Questo insegnamento contiene dei moduli" class="icon glyphicon glyphicon-th-list" aria-hidden="true">&nbsp;</span><i class="icon chevron"></i><span class="activity-code">10589128</span> | <span class="activity-name">DISEGNO E MODELLO</span> <strong class="text-nowrap">[ICAR/17] [ITA]</strong></td><td>2º</td><td>1º</td><td>9</td> </tr>
+ <tr data-activity-id="dfa1c51c-53cd-4215-9954-e6006d63ba1c" class="activity child" data-parent-id="552a8fb1-1309-4840-b244-d9e8025fb994"><td><span class="activity-name"><a href="/it/course/33426/attendance/lesson/7bdfbd6c-3829-404e-989d-097009ce63f0/2/1/552a8fb1-1309-4840-b244-d9e8025fb994/dfa1c51c-53cd-4215-9954-e6006d63ba1c?code=31807&amp;year=2024">MODELLAZIONE DIGITALE</a></span> <strong class="text-nowrap">[ICAR/17] [ITA]</strong></td><td>2º</td><td>1º</td><td>3</td> </tr>
+ <tr data-activity-id="daa8d41d-0038-4bac-8af1-ad3537e2e8db" class="activity child" data-parent-id="552a8fb1-1309-4840-b244-d9e8025fb994"><td><span class="activity-name"><a href="/it/course/33426/attendance/lesson/7bdfbd6c-3829-404e-989d-097009ce63f0/2/1/552a8fb1-1309-4840-b244-d9e8025fb994/daa8d41d-0038-4bac-8af1-ad3537e2e8db?code=31807&amp;year=2024">MODELLAZIONE TRIDIMENSIONALE</a></span> <strong class="text-nowrap">[ICAR/17] [ITA]</strong></td><td>2º</td><td>1º</td><td>6</td> </tr>
+ <tr data-activity-id="286308c8-1fcb-423e-bdfc-30de32830dc0" class="activity"><td><span class="activity-code">10589564</span> | <span class="activity-name"><a href="/it/course/33426/attendance/lesson/7bdfbd6c-3829-404e-989d-097009ce63f0/2/1/286308c8-1fcb-423e-bdfc-30de32830dc0?code=31807&amp;year=2024">TEORIA E STORIA DEL DESIGN</a></span> <strong class="text-nowrap">[ICAR/13] [ITA]</strong></td><td>2º</td><td>1º</td><td>6</td> </tr>
+ <tr data-group-id="5f89a58f-7a74-4cd4-9134-79e186b4f590" class="group activity"><td><span title="Questo insegnamento contiene dei moduli" class="icon glyphicon glyphicon-th-list" aria-hidden="true">&nbsp;</span><i class="icon chevron"></i><span class="activity-code">10589547</span> | <span class="activity-name">LABORATORIO DI DESIGN PER IL PRODOTTO</span> <strong class="text-nowrap">[ICAR/13] [ITA]</strong></td><td>2º</td><td>2º</td><td>9</td> </tr>
+ <tr data-activity-id="a5f1d122-0f61-47b5-8668-e68f372579bc" class="activity child" data-parent-id="5f89a58f-7a74-4cd4-9134-79e186b4f590"><td><span class="activity-name"><a href="/it/course/33426/attendance/lesson/7bdfbd6c-3829-404e-989d-097009ce63f0/2/2/5f89a58f-7a74-4cd4-9134-79e186b4f590/a5f1d122-0f61-47b5-8668-e68f372579bc?code=31807&amp;year=2024">LABORATORIO DI DESIGN PER IL PRODOTTO 1</a></span> <strong class="text-nowrap">[ICAR/13] [ITA]</strong></td><td>2º</td><td>2º</td><td>3</td> </tr>
+ <tr data-activity-id="f023fdc2-26ce-4cdd-a7a6-08255f2ac1e0" class="activity child" data-parent-id="5f89a58f-7a74-4cd4-9134-79e186b4f590"><td><span class="activity-name"><a href="/it/course/33426/attendance/lesson/7bdfbd6c-3829-404e-989d-097009ce63f0/2/2/5f89a58f-7a74-4cd4-9134-79e186b4f590/f023fdc2-26ce-4cdd-a7a6-08255f2ac1e0?code=31807&amp;year=2024">DESIGN PER IL PRODOTTO 1</a></span> <strong class="text-nowrap">[ICAR/13] [ITA]</strong></td><td>2º</td><td>2º</td><td>6</td> </tr>
+ <tr data-group-id="839f458a-d216-44a9-a406-047ca22265b6" class="group activity"><td><span title="Questo insegnamento contiene dei moduli" class="icon glyphicon glyphicon-th-list" aria-hidden="true">&nbsp;</span><i class="icon chevron"></i><span class="activity-code">10589548</span> | <span class="activity-name">LABORATORIO DI DESIGN PER LO SPAZIO PUBBLICO</span> <strong class="text-nowrap">[ICAR/13] [ITA]</strong></td><td>2º</td><td>2º</td><td>9</td> </tr>
+ <tr data-activity-id="0460af2d-83c7-4f32-859b-6892d1d4a164" class="activity child" data-parent-id="839f458a-d216-44a9-a406-047ca22265b6"><td><span class="activity-name"><a href="/it/course/33426/attendance/lesson/7bdfbd6c-3829-404e-989d-097009ce63f0/2/2/839f458a-d216-44a9-a406-047ca22265b6/0460af2d-83c7-4f32-859b-6892d1d4a164?code=31807&amp;year=2024">DESIGN PER LO SPAZIO PUBBLICO</a></span> <strong class="text-nowrap">[ICAR/13] [ITA]</strong></td><td>2º</td><td>2º</td><td>6</td> </tr>
+ <tr data-activity-id="b06d6663-1f9a-43b0-8956-34e2d08e8ccc" class="activity child" data-parent-id="839f458a-d216-44a9-a406-047ca22265b6"><td><span class="activity-name"><a href="/it/course/33426/attendance/lesson/7bdfbd6c-3829-404e-989d-097009ce63f0/2/2/839f458a-d216-44a9-a406-047ca22265b6/b06d6663-1f9a-43b0-8956-34e2d08e8ccc?code=31807&amp;year=2024">LABORATORIO DI DESIGN PER LO SPAZIO PUBBLICO</a></span> <strong class="text-nowrap">[ICAR/13] [ITA]</strong></td><td>2º</td><td>2º</td><td>3</td> </tr>
+ <tr data-group-id="4d91e55f-5936-449b-bb76-8fae80d0a3ef" class="group activity"><td><span title="Questo insegnamento contiene dei moduli" class="icon glyphicon glyphicon-th-list" aria-hidden="true">&nbsp;</span><i class="icon chevron"></i><span class="activity-code">10589549</span> | <span class="activity-name">PROGETTAZIONE STRUTTURALE PER IL DESIGN</span> <strong class="text-nowrap">[ICAR/08, ICAR/08] [ITA]</strong></td><td>2º</td><td>2º</td><td>9</td> </tr>
+ <tr data-activity-id="24a8a699-48de-4473-863b-edfb38dca55a" class="activity child" data-parent-id="4d91e55f-5936-449b-bb76-8fae80d0a3ef"><td><span class="activity-name"><a href="/it/course/33426/attendance/lesson/7bdfbd6c-3829-404e-989d-097009ce63f0/2/2/4d91e55f-5936-449b-bb76-8fae80d0a3ef/24a8a699-48de-4473-863b-edfb38dca55a?code=31807&amp;year=2024">PROGETTAZIONE STRUTTURALE PER GLI ARTEFATTI INDUSTRIALI</a></span> <strong class="text-nowrap">[ICAR/08] [ITA]</strong></td><td>2º</td><td>2º</td><td>6</td> </tr>
+ <tr data-activity-id="bc1cca14-08d4-4cf3-8263-b97a2c4da52f" class="activity child" data-parent-id="4d91e55f-5936-449b-bb76-8fae80d0a3ef"><td><span class="activity-name"><a href="/it/course/33426/attendance/lesson/7bdfbd6c-3829-404e-989d-097009ce63f0/2/2/4d91e55f-5936-449b-bb76-8fae80d0a3ef/bc1cca14-08d4-4cf3-8263-b97a2c4da52f?code=31807&amp;year=2024">PRINCIPI DI MECCANICA STRUTTURALE PER IL DESIGN</a></span> <strong class="text-nowrap">[ICAR/08] [ITA]</strong></td><td>2º</td><td>2º</td><td>3</td> </tr>
+ <tr data-group-id="93ac9200-d799-4677-bc05-563490d16f3b" class="group activity"><td><span title="Questo insegnamento contiene dei moduli" class="icon glyphicon glyphicon-th-list" aria-hidden="true">&nbsp;</span><i class="icon chevron"></i><span class="activity-code">10589132</span> | <span class="activity-name">MANAGEMENT DELL'INNOVAZIONE</span> <strong class="text-nowrap">[SECS-P/08] [ITA]</strong></td><td>3º</td><td>1º</td><td>6</td> </tr>
+ <tr data-activity-id="e2a2464b-5912-48bf-93d1-ac42823ec276" class="activity child" data-parent-id="93ac9200-d799-4677-bc05-563490d16f3b"><td><span class="activity-name"><a href="/it/course/33426/attendance/lesson/7bdfbd6c-3829-404e-989d-097009ce63f0/3/1/93ac9200-d799-4677-bc05-563490d16f3b/e2a2464b-5912-48bf-93d1-ac42823ec276?code=31807&amp;year=2024">IMPRENDITORIALITA&#039; E SVILUPPO DI NUOVI BUSINESS</a></span> <strong class="text-nowrap">[SECS-P/08] [ITA]</strong></td><td>3º</td><td>1º</td><td>3</td> </tr>
+ <tr data-activity-id="36e51f9e-ff42-4dbb-bfa4-7dfcc202e24e" class="activity child" data-parent-id="93ac9200-d799-4677-bc05-563490d16f3b"><td><span class="activity-name"><a href="/it/course/33426/attendance/lesson/7bdfbd6c-3829-404e-989d-097009ce63f0/3/1/93ac9200-d799-4677-bc05-563490d16f3b/36e51f9e-ff42-4dbb-bfa4-7dfcc202e24e?code=31807&amp;year=2024">FONDAMENTI DI MARKETING E COMUNICAZIONE D&#039;IMPRESA</a></span> <strong class="text-nowrap">[SECS-P/08] [ITA]</strong></td><td>3º</td><td>1º</td><td>3</td> </tr>
+ <tr data-group-id="74086788-938b-450d-8e31-25b8e5bbcd62" class="group activity child"><td><span title="Questo insegnamento contiene dei moduli" class="icon glyphicon glyphicon-th-list" aria-hidden="true">&nbsp;</span><i class="icon chevron"></i><span class="activity-code">10606454</span> | <span class="activity-name">LABORATORIO DI SINTESI FINALE IN DESIGN PER LEXHIBIT E IL PUBLIC DESIGN</span> <strong class="text-nowrap">[ICAR/17, ICAR/16] [ITA]</strong></td><td>3º</td><td>1º</td><td>12</td> </tr>
+ <tr data-activity-id="a13a37fc-4771-42eb-8411-b11f904f62a5" class="activity child" data-parent-id="74086788-938b-450d-8e31-25b8e5bbcd62"><td><span class="activity-name"><a href="/it/course/33426/attendance/lesson/7bdfbd6c-3829-404e-989d-097009ce63f0/3/1/a1e5330c-78bd-48fa-9248-8acc45ec766d/74086788-938b-450d-8e31-25b8e5bbcd62/a13a37fc-4771-42eb-8411-b11f904f62a5?code=31807&amp;year=2024">COMUNICAZIONE VISIVA E MULTIMEDIALE</a></span> <strong class="text-nowrap">[ICAR/17] [ITA]</strong></td><td>3º</td><td>1º</td><td>6</td> </tr>
+ <tr data-activity-id="fabd2c16-f7a1-4554-8363-0fc269bbe0ac" class="activity child" data-parent-id="74086788-938b-450d-8e31-25b8e5bbcd62"><td><span class="activity-name"><a href="/it/course/33426/attendance/lesson/7bdfbd6c-3829-404e-989d-097009ce63f0/3/1/a1e5330c-78bd-48fa-9248-8acc45ec766d/74086788-938b-450d-8e31-25b8e5bbcd62/fabd2c16-f7a1-4554-8363-0fc269bbe0ac?code=31807&amp;year=2024">DESIGN PER L&#039;EXHIBIT E LO SPAZIO PUBBLICO</a></span> <strong class="text-nowrap">[ICAR/16] [ITA]</strong></td><td>3º</td><td>1º</td><td>6</td> </tr>
+ <tr data-group-id="ed878c06-80a6-432d-86b1-c951b931be4c" class="group activity child"><td><span title="Questo insegnamento contiene dei moduli" class="icon glyphicon glyphicon-th-list" aria-hidden="true">&nbsp;</span><i class="icon chevron"></i><span class="activity-code">10606565</span> | <span class="activity-name">LABORATORIO DI SINTESI FINALE IN DESIGN PER IL PRODOTTO</span> <strong class="text-nowrap">[ING-IND/16, ICAR/13] [ITA]</strong></td><td>3º</td><td>1º</td><td>12</td> </tr>
+ <tr data-activity-id="22df33ea-c982-40a5-8976-d927c3caf295" class="activity child" data-parent-id="ed878c06-80a6-432d-86b1-c951b931be4c"><td><span class="activity-name"><a href="/it/course/33426/attendance/lesson/7bdfbd6c-3829-404e-989d-097009ce63f0/3/1/a1e5330c-78bd-48fa-9248-8acc45ec766d/ed878c06-80a6-432d-86b1-c951b931be4c/22df33ea-c982-40a5-8976-d927c3caf295?code=31807&amp;year=2024">PROCESSI PRODUTTIVI</a></span> <strong class="text-nowrap">[ING-IND/16] [ITA]</strong></td><td>3º</td><td>1º</td><td>6</td> </tr>
+ <tr data-activity-id="ad861782-080b-4dfa-a972-9da9dc2afc55" class="activity child" data-parent-id="ed878c06-80a6-432d-86b1-c951b931be4c"><td><span class="activity-name"><a href="/it/course/33426/attendance/lesson/7bdfbd6c-3829-404e-989d-097009ce63f0/3/1/a1e5330c-78bd-48fa-9248-8acc45ec766d/ed878c06-80a6-432d-86b1-c951b931be4c/ad861782-080b-4dfa-a972-9da9dc2afc55?code=31807&amp;year=2024">DESIGN PER IL PRODOTTO 2</a></span> <strong class="text-nowrap">[ICAR/13] [ITA]</strong></td><td>3º</td><td>1º</td><td>6</td> </tr>
+ <tr data-group-id="d0437f32-9908-405f-8287-f9a330fe9c44" class="group activity child"><td><span title="Questo insegnamento contiene dei moduli" class="icon glyphicon glyphicon-th-list" aria-hidden="true">&nbsp;</span><i class="icon chevron"></i><span class="activity-code">10606566</span> | <span class="activity-name">LABORATORIO DI SINTESI FINALE IN DESIGN PER LA COMUNICAZIONE</span> <strong class="text-nowrap">[SPS/08, ICAR/13] [ITA]</strong></td><td>3º</td><td>1º</td><td>12</td> </tr>
+ <tr data-activity-id="7525d6ce-da30-491c-bc35-6a0f5a08a2d0" class="activity child" data-parent-id="d0437f32-9908-405f-8287-f9a330fe9c44"><td><span class="activity-name"><a href="/it/course/33426/attendance/lesson/7bdfbd6c-3829-404e-989d-097009ce63f0/3/1/a1e5330c-78bd-48fa-9248-8acc45ec766d/d0437f32-9908-405f-8287-f9a330fe9c44/7525d6ce-da30-491c-bc35-6a0f5a08a2d0?code=31807&amp;year=2024">BRANDING</a></span> <strong class="text-nowrap">[SPS/08] [ITA]</strong></td><td>3º</td><td>1º</td><td>6</td> </tr>
+ <tr data-activity-id="d36bcc53-aee7-4017-8e13-4d90494ec69b" class="activity child" data-parent-id="d0437f32-9908-405f-8287-f9a330fe9c44"><td><span class="activity-name"><a href="/it/course/33426/attendance/lesson/7bdfbd6c-3829-404e-989d-097009ce63f0/3/1/a1e5330c-78bd-48fa-9248-8acc45ec766d/d0437f32-9908-405f-8287-f9a330fe9c44/d36bcc53-aee7-4017-8e13-4d90494ec69b?code=31807&amp;year=2024">DESIGN PER LA COMUNICAZIONE VISIVA 2</a></span> <strong class="text-nowrap">[ICAR/13] [ITA]</strong></td><td>3º</td><td>1º</td><td>6</td> </tr>
+ <tr data-group-id="8ab8c2e0-c0d3-4277-a95d-a502cfb0d93f" class="group activity child"><td><span title="Questo insegnamento contiene dei moduli" class="icon glyphicon glyphicon-th-list" aria-hidden="true">&nbsp;</span><i class="icon chevron"></i><span class="activity-code">10606455</span> | <span class="activity-name">DESIGN DELL'INTERAZIONE</span> <strong class="text-nowrap">[ING-INF/05, ICAR/13] [ITA]</strong></td><td>3º</td><td>1º</td><td>12</td> </tr>
+ <tr data-activity-id="dacbde27-06f6-4262-80eb-4b7fbe8d3521" class="activity child" data-parent-id="8ab8c2e0-c0d3-4277-a95d-a502cfb0d93f"><td><span class="activity-name"><a href="/it/course/33426/attendance/lesson/7bdfbd6c-3829-404e-989d-097009ce63f0/3/1/bc47b043-7a94-4a7b-b642-29586b4b39a9/8ab8c2e0-c0d3-4277-a95d-a502cfb0d93f/dacbde27-06f6-4262-80eb-4b7fbe8d3521?code=31807&amp;year=2024">TECNOLOGIE INFORMATICHE</a></span> <strong class="text-nowrap">[ING-INF/05] [ITA]</strong></td><td>3º</td><td>1º</td><td>6</td> </tr>
+ <tr data-activity-id="6669f9ec-82e6-4d2c-8629-3e98c8fb84b2" class="activity child" data-parent-id="8ab8c2e0-c0d3-4277-a95d-a502cfb0d93f"><td><span class="activity-name"><a href="/it/course/33426/attendance/lesson/7bdfbd6c-3829-404e-989d-097009ce63f0/3/1/bc47b043-7a94-4a7b-b642-29586b4b39a9/8ab8c2e0-c0d3-4277-a95d-a502cfb0d93f/6669f9ec-82e6-4d2c-8629-3e98c8fb84b2?code=31807&amp;year=2024">DESIGN PER LE TECNOLOGIE DIGITALI</a></span> <strong class="text-nowrap">[ICAR/13] [ITA]</strong></td><td>3º</td><td>1º</td><td>6</td> </tr>
+ <tr data-group-id="9dc28f4e-022a-4d8b-bd6a-33a840e5110d" class="group activity child"><td><span title="Questo insegnamento contiene dei moduli" class="icon glyphicon glyphicon-th-list" aria-hidden="true">&nbsp;</span><i class="icon chevron"></i><span class="activity-code">10606456</span> | <span class="activity-name">DESIGN DELL'ESPERIENZA</span> <strong class="text-nowrap">[M-PSI/06, ICAR/13] [ITA]</strong></td><td>3º</td><td>1º</td><td>12</td> </tr>
+ <tr data-activity-id="cb6d4462-c267-4414-901c-128352b6c314" class="activity child" data-parent-id="9dc28f4e-022a-4d8b-bd6a-33a840e5110d"><td><span class="activity-name"><a href="/it/course/33426/attendance/lesson/7bdfbd6c-3829-404e-989d-097009ce63f0/3/1/bc47b043-7a94-4a7b-b642-29586b4b39a9/9dc28f4e-022a-4d8b-bd6a-33a840e5110d/cb6d4462-c267-4414-901c-128352b6c314?code=31807&amp;year=2024">PSICOLOGIA DELL&#039;ESPERIENZA</a></span> <strong class="text-nowrap">[M-PSI/06] [ITA]</strong></td><td>3º</td><td>1º</td><td>6</td> </tr>
+ <tr data-activity-id="71c50b02-f279-44d0-b7c7-67986acb8421" class="activity child" data-parent-id="9dc28f4e-022a-4d8b-bd6a-33a840e5110d"><td><span class="activity-name"><a href="/it/course/33426/attendance/lesson/7bdfbd6c-3829-404e-989d-097009ce63f0/3/1/bc47b043-7a94-4a7b-b642-29586b4b39a9/9dc28f4e-022a-4d8b-bd6a-33a840e5110d/71c50b02-f279-44d0-b7c7-67986acb8421?code=31807&amp;year=2024">DESIGN PER L&#039;ESPERIENZA UTENTE</a></span> <strong class="text-nowrap">[ICAR/13] [ITA]</strong></td><td>3º</td><td>1º</td><td>6</td> </tr>
+ <tr data-group-id="a0b84972-8738-4d9b-8c2f-08905ee3c607" class="group activity child"><td><span title="Questo insegnamento contiene dei moduli" class="icon glyphicon glyphicon-th-list" aria-hidden="true">&nbsp;</span><i class="icon chevron"></i><span class="activity-code">10606457</span> | <span class="activity-name">DESIGN DEL MULTIMEDIALE</span> <strong class="text-nowrap">[ICAR/17, L-ART/05] [ITA]</strong></td><td>3º</td><td>1º</td><td>12</td> </tr>
+ <tr data-activity-id="b44a8b88-2a55-469f-8f5b-6ed93f85e77d" class="activity child" data-parent-id="a0b84972-8738-4d9b-8c2f-08905ee3c607"><td><span class="activity-name"><a href="/it/course/33426/attendance/lesson/7bdfbd6c-3829-404e-989d-097009ce63f0/3/1/bc47b043-7a94-4a7b-b642-29586b4b39a9/a0b84972-8738-4d9b-8c2f-08905ee3c607/b44a8b88-2a55-469f-8f5b-6ed93f85e77d?code=31807&amp;year=2024">RAPPRESENTAZIONE MULTIMEDIALE</a></span> <strong class="text-nowrap">[ICAR/17] [ITA]</strong></td><td>3º</td><td>1º</td><td>6</td> </tr>
+ <tr data-activity-id="f54f54dc-b138-446a-9499-8b3569db1be5" class="activity child" data-parent-id="a0b84972-8738-4d9b-8c2f-08905ee3c607"><td><span class="activity-name"><a href="/it/course/33426/attendance/lesson/7bdfbd6c-3829-404e-989d-097009ce63f0/3/1/bc47b043-7a94-4a7b-b642-29586b4b39a9/a0b84972-8738-4d9b-8c2f-08905ee3c607/f54f54dc-b138-446a-9499-8b3569db1be5?code=31807&amp;year=2024">TECNICHE PER LA SCENOGRAFIA E PER GLI EVENTI</a></span> <strong class="text-nowrap">[L-ART/05] [ITA]</strong></td><td>3º</td><td>1º</td><td>6</td> </tr>
+ <tr data-activity-id="fe7515bf-fa2d-4d26-adef-04e8e92c2d55" class="activity"><td><span class="activity-code">AAF1154</span> | <span class="activity-name"><a href="/it/course/33426/attendance/lesson/7bdfbd6c-3829-404e-989d-097009ce63f0/3/2/fe7515bf-fa2d-4d26-adef-04e8e92c2d55?code=31807&amp;year=2024">ALTRE CONOSCENZE UTILI PER L&#039;INSERIMENTO NEL MONDO DEL LAVORO</a></span> <strong class="text-nowrap">[N/D] [ITA]</strong></td><td>3º</td><td>2º</td><td>8</td> </tr>
+ <tr data-activity-id="b2b9b8f0-633a-463c-bf71-f02b2fb4d949" class="activity"><td><span class="activity-code">AAF1008</span> | <span class="activity-name"><a href="/it/course/33426/attendance/lesson/7bdfbd6c-3829-404e-989d-097009ce63f0/3/2/b2b9b8f0-633a-463c-bf71-f02b2fb4d949?code=31807&amp;year=2024">PROVA FINALE</a></span> <strong class="text-nowrap">[N/D] [ITA]</strong></td><td>3º</td><td>2º</td><td>10</td> </tr>
+ <tr data-activity-id="bcead74d-cd48-49c4-9c57-2d3c1e087b48" class="activity"><td><span class="activity-name"><a href="/it/course/33426/attendance/lesson/7bdfbd6c-3829-404e-989d-097009ce63f0/3/2/bcead74d-cd48-49c4-9c57-2d3c1e087b48?code=31807&amp;year=2024">A SCELTA DELLO STUDENTE</a></span> <strong class="text-nowrap">[N/D] [ITA]</strong></td><td>3º</td><td>2º</td><td>12</td> </tr>
+</tbody>
+</table>
+</div>
+
+        <div class="modal fade" id="modal-7bdfbd6c-3829-404e-989d-097009ce63f0-f341d8f5-db15-4d16-9901-6cdd10397e28" tabindex="-1" role="dialog" aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">1° gruppo opzionale: Lo studente deve acquisire 6 CFU fra i seguenti esami</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body"><div class="table-responsive">
+<table class="table table-hover table-striped sticky-enabled">
+ <thead><tr><th>Insegnamento [SSD]  [Lingua] </th><th>Anno</th><th>Semestre</th><th>CFU</th> </tr></thead>
+<tbody>
+ <tr data-group-id="74086788-938b-450d-8e31-25b8e5bbcd62" class="group activity child"><td><span title="Questo insegnamento contiene dei moduli" class="icon glyphicon glyphicon-th-list" aria-hidden="true">&nbsp;</span><i class="icon chevron"></i><span class="activity-code">10606454</span> | <span class="activity-name">LABORATORIO DI SINTESI FINALE IN DESIGN PER LEXHIBIT E IL PUBLIC DESIGN</span> <strong class="text-nowrap">[ICAR/17, ICAR/16] [ITA]</strong></td><td>3º</td><td>1º</td><td>12</td> </tr>
+ <tr data-activity-id="a13a37fc-4771-42eb-8411-b11f904f62a5" class="activity child" data-parent-id="74086788-938b-450d-8e31-25b8e5bbcd62"><td><span class="activity-name">COMUNICAZIONE VISIVA E MULTIMEDIALE</span> <strong class="text-nowrap">[ICAR/17] [ITA]</strong></td><td>3º</td><td>1º</td><td>6</td> </tr>
+ <tr data-activity-id="fabd2c16-f7a1-4554-8363-0fc269bbe0ac" class="activity child" data-parent-id="74086788-938b-450d-8e31-25b8e5bbcd62"><td><span class="activity-name">DESIGN PER L'EXHIBIT E LO SPAZIO PUBBLICO</span> <strong class="text-nowrap">[ICAR/16] [ITA]</strong></td><td>3º</td><td>1º</td><td>6</td> </tr>
+ <tr data-group-id="ed878c06-80a6-432d-86b1-c951b931be4c" class="group activity child"><td><span title="Questo insegnamento contiene dei moduli" class="icon glyphicon glyphicon-th-list" aria-hidden="true">&nbsp;</span><i class="icon chevron"></i><span class="activity-code">10606565</span> | <span class="activity-name">LABORATORIO DI SINTESI FINALE IN DESIGN PER IL PRODOTTO</span> <strong class="text-nowrap">[ING-IND/16, ICAR/13] [ITA]</strong></td><td>3º</td><td>1º</td><td>12</td> </tr>
+ <tr data-activity-id="22df33ea-c982-40a5-8976-d927c3caf295" class="activity child" data-parent-id="ed878c06-80a6-432d-86b1-c951b931be4c"><td><span class="activity-name">PROCESSI PRODUTTIVI</span> <strong class="text-nowrap">[ING-IND/16] [ITA]</strong></td><td>3º</td><td>1º</td><td>6</td> </tr>
+ <tr data-activity-id="ad861782-080b-4dfa-a972-9da9dc2afc55" class="activity child" data-parent-id="ed878c06-80a6-432d-86b1-c951b931be4c"><td><span class="activity-name">DESIGN PER IL PRODOTTO 2</span> <strong class="text-nowrap">[ICAR/13] [ITA]</strong></td><td>3º</td><td>1º</td><td>6</td> </tr>
+ <tr data-group-id="d0437f32-9908-405f-8287-f9a330fe9c44" class="group activity child"><td><span title="Questo insegnamento contiene dei moduli" class="icon glyphicon glyphicon-th-list" aria-hidden="true">&nbsp;</span><i class="icon chevron"></i><span class="activity-code">10606566</span> | <span class="activity-name">LABORATORIO DI SINTESI FINALE IN DESIGN PER LA COMUNICAZIONE</span> <strong class="text-nowrap">[SPS/08, ICAR/13] [ITA]</strong></td><td>3º</td><td>1º</td><td>12</td> </tr>
+ <tr data-activity-id="7525d6ce-da30-491c-bc35-6a0f5a08a2d0" class="activity child" data-parent-id="d0437f32-9908-405f-8287-f9a330fe9c44"><td><span class="activity-name">BRANDING</span> <strong class="text-nowrap">[SPS/08] [ITA]</strong></td><td>3º</td><td>1º</td><td>6</td> </tr>
+ <tr data-activity-id="d36bcc53-aee7-4017-8e13-4d90494ec69b" class="activity child" data-parent-id="d0437f32-9908-405f-8287-f9a330fe9c44"><td><span class="activity-name">DESIGN PER LA COMUNICAZIONE VISIVA 2</span> <strong class="text-nowrap">[ICAR/13] [ITA]</strong></td><td>3º</td><td>1º</td><td>6</td> </tr>
+</tbody>
+</table>
+</div>
+</div>
+            </div>
+          </div>
+        </div>
+        <div class="modal fade" id="modal-7bdfbd6c-3829-404e-989d-097009ce63f0-e6187a39-045d-44fd-ab74-e044e3d8b910" tabindex="-1" role="dialog" aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">2° gruppo opzionale: Lo studente deve acquisire 6 CFU fra i seguenti esami</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body"><div class="table-responsive">
+<table class="table table-hover table-striped sticky-enabled">
+ <thead><tr><th>Insegnamento [SSD]  [Lingua] </th><th>Anno</th><th>Semestre</th><th>CFU</th> </tr></thead>
+<tbody>
+ <tr data-group-id="8ab8c2e0-c0d3-4277-a95d-a502cfb0d93f" class="group activity child"><td><span title="Questo insegnamento contiene dei moduli" class="icon glyphicon glyphicon-th-list" aria-hidden="true">&nbsp;</span><i class="icon chevron"></i><span class="activity-code">10606455</span> | <span class="activity-name">DESIGN DELL'INTERAZIONE</span> <strong class="text-nowrap">[ING-INF/05, ICAR/13] [ITA]</strong></td><td>3º</td><td>1º</td><td>12</td> </tr>
+ <tr data-activity-id="dacbde27-06f6-4262-80eb-4b7fbe8d3521" class="activity child" data-parent-id="8ab8c2e0-c0d3-4277-a95d-a502cfb0d93f"><td><span class="activity-name">TECNOLOGIE INFORMATICHE</span> <strong class="text-nowrap">[ING-INF/05] [ITA]</strong></td><td>3º</td><td>1º</td><td>6</td> </tr>
+ <tr data-activity-id="6669f9ec-82e6-4d2c-8629-3e98c8fb84b2" class="activity child" data-parent-id="8ab8c2e0-c0d3-4277-a95d-a502cfb0d93f"><td><span class="activity-name">DESIGN PER LE TECNOLOGIE DIGITALI</span> <strong class="text-nowrap">[ICAR/13] [ITA]</strong></td><td>3º</td><td>1º</td><td>6</td> </tr>
+ <tr data-group-id="9dc28f4e-022a-4d8b-bd6a-33a840e5110d" class="group activity child"><td><span title="Questo insegnamento contiene dei moduli" class="icon glyphicon glyphicon-th-list" aria-hidden="true">&nbsp;</span><i class="icon chevron"></i><span class="activity-code">10606456</span> | <span class="activity-name">DESIGN DELL'ESPERIENZA</span> <strong class="text-nowrap">[M-PSI/06, ICAR/13] [ITA]</strong></td><td>3º</td><td>1º</td><td>12</td> </tr>
+ <tr data-activity-id="cb6d4462-c267-4414-901c-128352b6c314" class="activity child" data-parent-id="9dc28f4e-022a-4d8b-bd6a-33a840e5110d"><td><span class="activity-name">PSICOLOGIA DELL'ESPERIENZA</span> <strong class="text-nowrap">[M-PSI/06] [ITA]</strong></td><td>3º</td><td>1º</td><td>6</td> </tr>
+ <tr data-activity-id="71c50b02-f279-44d0-b7c7-67986acb8421" class="activity child" data-parent-id="9dc28f4e-022a-4d8b-bd6a-33a840e5110d"><td><span class="activity-name">DESIGN PER L'ESPERIENZA UTENTE</span> <strong class="text-nowrap">[ICAR/13] [ITA]</strong></td><td>3º</td><td>1º</td><td>6</td> </tr>
+ <tr data-group-id="a0b84972-8738-4d9b-8c2f-08905ee3c607" class="group activity child"><td><span title="Questo insegnamento contiene dei moduli" class="icon glyphicon glyphicon-th-list" aria-hidden="true">&nbsp;</span><i class="icon chevron"></i><span class="activity-code">10606457</span> | <span class="activity-name">DESIGN DEL MULTIMEDIALE</span> <strong class="text-nowrap">[ICAR/17, L-ART/05] [ITA]</strong></td><td>3º</td><td>1º</td><td>12</td> </tr>
+ <tr data-activity-id="b44a8b88-2a55-469f-8f5b-6ed93f85e77d" class="activity child" data-parent-id="a0b84972-8738-4d9b-8c2f-08905ee3c607"><td><span class="activity-name">RAPPRESENTAZIONE MULTIMEDIALE</span> <strong class="text-nowrap">[ICAR/17] [ITA]</strong></td><td>3º</td><td>1º</td><td>6</td> </tr>
+ <tr data-activity-id="f54f54dc-b138-446a-9499-8b3569db1be5" class="activity child" data-parent-id="a0b84972-8738-4d9b-8c2f-08905ee3c607"><td><span class="activity-name">TECNICHE PER LA SCENOGRAFIA E PER GLI EVENTI</span> <strong class="text-nowrap">[L-ART/05] [ITA]</strong></td><td>3º</td><td>1º</td><td>6</td> </tr>
+</tbody>
+</table>
+</div>
+</div>
+            </div>
+          </div>
+        </div>  </div>
+</fieldset>
+    </div>
+  </div>
+</div>
+
+</section>
+  </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+
+<footer class="section section-footer">
+  <div class="container">
+    <div class="region region-footer">
+    <section id="block-cdl-utils-cdl-footer" class="block- block block-cdl-utils clearfix">
+
+      
+  <div class="first-line">© Sapienza Università di Roma - Piazzale Aldo Moro 5, 00185 Roma - (+39) 06 49911 - CF 80209930587 PI 02133771002</div><div class="second-line"><div class="footer-menu"><a href="/area-riservata">Dashboard</a><a href="/archive">Archivio corsi</a></div></div>
+</section>
+  </div>
+  </div>
+</footer>
+
+  <script src="https://corsidilaurea.uniroma1.it/sites/all/themes/contrib/bootstrap/js/bootstrap.js?tlswzj"></script>
+</body>
+</html>

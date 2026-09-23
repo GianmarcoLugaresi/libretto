@@ -1,6 +1,6 @@
 // @vitest-environment node
 import { describe, it, expect } from 'vitest'
-import { FETTE, fettaDelGiorno, fettaDi, leggiArgomenti, predefinite, selezione, stima } from './esegui'
+import { FETTE, PAGINE_PER_CORSO, fettaDelGiorno, fettaDi, leggiArgomenti, predefinite, selezione, stima, urlCoorte } from './esegui'
 import type { Corso } from './tipi'
 
 const corso = (codice: string): Corso => ({ codice, nome: `Corso ${codice}`, coorti: [] })
@@ -105,6 +105,13 @@ describe('la fetta non tocca gli appelli', () => {
 
   it('la stima conta gli appelli su tutti e i piani sulla fetta', () => {
     const conFetta = stima(46, ['appelli', 'piani'], 318)
-    expect(conFetta.richieste).toBe(1 + 318 + Math.round(46 * 1.8))
+    expect(conFetta.richieste).toBe(1 + 318 + Math.round(46 * PAGINE_PER_CORSO))
+  })
+})
+
+describe('pagina di una coorte', () => {
+  it('è l\'indirizzo a cui rimanda il form del sito', () => {
+    expect(urlCoorte('33426', { anno: 2024, codiceCorso: '31807' }))
+      .toBe('https://corsidilaurea.uniroma1.it/it/course/33426/attendance/lessons-plan?year=2024&code=31807')
   })
 })

@@ -65,6 +65,16 @@ export function controllaPiano(p: Piano, precedente?: Piano): Esito {
   const senzaCfu = p.insegnamenti.filter(i => i.cfu <= 0)
   if (senzaCfu.length) e.avvisi.push(`${senzaCfu.length} insegnamenti con 0 CFU: ${senzaCfu.slice(0, 3).map(i => i.nome).join(', ')}`)
 
+  // Un gruppo che chiede meno CFU di quanti ne valga il suo esame più
+  // piccolo si contraddice (Design 2024: «6 CFU» fra esami da 12). Il
+  // dato si pubblica com'è, ma va detto.
+  for (const g of p.gruppi) {
+    const opzioni = p.insegnamenti.filter(i => i.gruppo === g.nome).map(i => i.cfu)
+    if (g.cfuRichiesti != null && opzioni.length && g.cfuRichiesti < Math.min(...opzioni)) {
+      e.avvisi.push(`${g.nome}: chiede ${g.cfuRichiesti} CFU ma ogni esame ne vale almeno ${Math.min(...opzioni)}.`)
+    }
+  }
+
   // I CFU del piano: si conta una sola alternativa per gruppo
   // opzionale, altrimenti si sommano scelte che si escludono.
   const fuoriGruppo = p.insegnamenti.filter(i => !i.gruppo).reduce((n, i) => n + i.cfu, 0)

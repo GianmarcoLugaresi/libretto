@@ -7,7 +7,7 @@
    viene aggiunto.
    ============================================================ */
 
-import type { Orario, Piano } from './dati'
+import { appelliDellaCoorte, type Appelli, type Orario, type Piano } from './dati'
 import type { OrarioUfficiale, SlotOrario, VarianteOrario } from './catalogo'
 import { abbina, chiaveDaCodice, chiaveManuale, eProvvisoria, normalizza } from './chiavi'
 import {
@@ -82,11 +82,22 @@ export function insegnamentiIniziali(piano: Piano, tintaDa = 0): Insegnamento[] 
     .map((i, n) => insegnamentoDaCatalogo(i, tintaDa + n))
 }
 
+/** CFU che un gruppo opzionale porta davvero. Di solito quelli che
+ *  dichiara; ma se dichiara meno di quanto vale il suo esame più
+ *  piccolo (Design 2024: «6 CFU» fra esami da 12), scegliendone uno
+ *  se ne prendono comunque 12. Il dato della fonte resta com'è: cambia
+ *  solo il conto. */
+export function cfuDelGruppo(piano: Piano, g: Piano['gruppi'][number]): number {
+  const opzioni = piano.insegnamenti.filter(i => i.gruppo === g.nome).map(i => i.cfu)
+  const minimo = opzioni.length ? Math.min(...opzioni) : 0
+  return Math.max(g.cfuRichiesti ?? 0, minimo)
+}
+
 /** CFU per laurearsi secondo il piano: gli insegnamenti fuori dai
- *  gruppi, più i CFU richiesti da ogni gruppo (una scelta, non tutte). */
+ *  gruppi, più ciò che porta ogni gruppo (una scelta, non tutte). */
 export function cfuDelPiano(piano: Piano): number {
   const fuori = piano.insegnamenti.filter(i => !i.gruppo).reduce((n, i) => n + i.cfu, 0)
-  return fuori + piano.gruppi.reduce((n, g) => n + (g.cfuRichiesti ?? 0), 0)
+  return fuori + piano.gruppi.reduce((n, g) => n + cfuDelGruppo(piano, g), 0)
 }
 
 export function anniDelPiano(piano: Piano): number {
@@ -231,7 +242,7 @@ export function orarioDaCatalogo(o: Orario, piano: Piano | undefined): OrarioDal
       const anno = conAnno ? l.anno ?? 0 : 0
       const chiave = `${anno}|${ins}|${l.canale ?? ''}`
       const v = gruppi.get(chiave) ?? {
-        ins, anno, slot: [] as SlotOrario[],
+        ins, codice: trovato?.ins.codice, anno, slot: [] as SlotOrario[],
         etichetta: l.canale ? l.canale.replace(/^(\d+)º canale$/i, 'Canale $1') : undefined,
       }
       const suoi = docenti.get(chiave) ?? new Set<string>()
@@ -274,4 +285,33 @@ export function orarioDaCatalogo(o: Orario, piano: Piano | undefined): OrarioDal
 function nomeLeggibileProprio(n: string): string {
   if (n !== n.toUpperCase()) return n
   return n.toLowerCase().replace(/(^|[\s'-])(\p{L})/gu, (_, sep: string, c: string) => sep + c.toUpperCase())
+}
+
+/* ---------------- Appelli ---------------- */
+
+export type AppelloCatalogo = Appelli['appelli'][number]
+
+/** Gli appelli futuri di un insegnamento del libretto, per la
+ *  propria coorte. Si aggancia per codice, passando dagli alias (lo
+ *  stesso esame ha codici diversi fra ordinamenti); per nome solo se
+ *  l'insegnamento un codice non ce l'ha, cioè è nato a mano. */
+export function appelliDellInsegnamento(
+  a: Appelli | undefined, codiceCoorte: string,
+  ins: { codice?: string; nome: string }, dal: string,
+): AppelloCatalogo[] {
+  if (!a) return []
+  const canonico = (c: string) => a.alias[c] ?? c
+  const voci = appelliDellaCoorte(a, codiceCoorte).filter(x => x.data >= dal)
+  const suoi = ins.codice
+    ? voci.filter(x => canonico(x.codice) === canonico(ins.codice!))
+    : voci.filter(x => normalizza(x.nome) === normalizza(ins.nome))
+  return suoi.sort((x, y) => x.data.localeCompare(y.data))
+}
+
+/** La finestra di prenotazione rispetto a oggi. */
+export function finestra(x: AppelloCatalogo, oggi: string): 'prima' | 'aperta' | 'chiusa' | 'ignota' {
+  if (!x.prenotazioniDal && !x.prenotazioniAl) return 'ignota'
+  if (x.prenotazioniDal && oggi < x.prenotazioniDal) return 'prima'
+  if (x.prenotazioniAl && oggi > x.prenotazioniAl) return 'chiusa'
+  return 'aperta'
 }

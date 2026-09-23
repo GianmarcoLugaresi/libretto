@@ -77,6 +77,16 @@ describe('piano di Design', () => {
     expect(per('10589128')).toBe('obbligatorio')
   })
 
+  it('un gruppo che dichiara meno CFU del suo esame più piccolo conta quanto l\'esame', () => {
+    const p2024: Piano = pianoPubblicabile(
+      estraiPiano(fixture('design-piano-2024.html'), '31807'),
+      'https://corsidilaurea.uniroma1.it/it/course/33426/attendance/lessons-plan?year=2024&code=31807',
+    )
+    // La fonte dice 6 CFU per gruppo, gli esami ne valgono 12
+    expect(p2024.gruppi.map(g => g.cfuRichiesti)).toEqual([6, 6])
+    expect(cfuDelPiano(p2024)).toBe(180)
+  })
+
   it('tipo e CFU del corso', () => {
     expect(tipoCorso('L-4', 3)).toBe('triennale')
     expect(tipoCorso('LM-41', 6)).toBe('ciclo_unico')
@@ -213,5 +223,47 @@ describe('ricollegare il libretto statico di Design', () => {
     s.esami['man:mio:1'] = { insegnamentoId: 'man:mio:1', stato: 'da_sostenere' }
     const r = ricollega(s, piano, () => 'x')
     expect(r.stato.insegnamenti.find(i => i.id === 'man:mio:1')).toBeDefined()
+  })
+})
+
+describe('appelli di un insegnamento', () => {
+  const comune = { schemaVersion: 1 as const, sources: ['https://corsidilaurea.uniroma1.it/it'], fetchedAt: '2026-09-23T04:30:00.000Z' }
+  const appelli = {
+    ...comune, codiceCorso: '33426',
+    alias: { '1055957': '10589128' },
+    appelli: [
+      { codice: '10589128', nome: 'DISEGNO E MODELLO', codiceCorso: '33426', data: '2027-02-10', docenti: [] },
+      { codice: '10589128', nome: 'DISEGNO E MODELLO', codiceCorso: '33426', data: '2027-01-18', docenti: [], prenotazioniDal: '2026-12-20', prenotazioniAl: '2027-01-12' },
+      { codice: '1055957', nome: 'DISEGNO E MODELLO', codiceCorso: '33426', data: '2027-06-10', docenti: [] },
+      { codice: '10589128', nome: 'DISEGNO E MODELLO', codiceCorso: '31807', data: '2027-01-19', docenti: [] },
+      { codice: '10589128', nome: 'DISEGNO E MODELLO', codiceCorso: '33426', data: '2026-06-01', docenti: [] },
+      { codice: '99', nome: 'TEORIA DELLA FORMA', codiceCorso: '33426', data: '2027-01-20', docenti: [] },
+    ],
+  }
+
+  it('per codice, alias compresi, della propria coorte, futuri e in ordine', async () => {
+    const { appelliDellInsegnamento } = await import('./daCatalogo')
+    const r = appelliDellInsegnamento(appelli, '33426', { codice: '10589128', nome: 'Disegno e modello' }, '2026-09-23')
+    expect(r.map(x => x.data)).toEqual(['2027-01-18', '2027-02-10', '2027-06-10'])
+  })
+
+  it('una voce a mano senza codice si aggancia per nome', async () => {
+    const { appelliDellInsegnamento } = await import('./daCatalogo')
+    const r = appelliDellInsegnamento(appelli, '33426', { nome: 'Teoria della forma' }, '2026-09-23')
+    expect(r.map(x => x.data)).toEqual(['2027-01-20'])
+  })
+
+  it('un codice diverso non prende gli appelli di un omonimo', async () => {
+    const { appelliDellInsegnamento } = await import('./daCatalogo')
+    expect(appelliDellInsegnamento(appelli, '33426', { codice: '12345', nome: 'Teoria della forma' }, '2026-09-23')).toEqual([])
+  })
+
+  it('finestra di prenotazione', async () => {
+    const { finestra } = await import('./daCatalogo')
+    const a = appelli.appelli[1]
+    expect(finestra(a, '2026-12-01')).toBe('prima')
+    expect(finestra(a, '2027-01-05')).toBe('aperta')
+    expect(finestra(a, '2027-01-13')).toBe('chiusa')
+    expect(finestra(appelli.appelli[0], '2027-01-05')).toBe('ignota')
   })
 })

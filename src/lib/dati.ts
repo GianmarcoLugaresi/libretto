@@ -25,7 +25,9 @@ export type Corso = Indice['corsi'][number]
 /** Dove stanno i dati. In produzione accanto all'app sulle Pages;
  *  in sviluppo si può puntare a una cartella locale. */
 export const URL_DATI: string =
-  (import.meta.env.VITE_DATI_URL as string | undefined) ??
+  // `env` c'è solo dentro Vite: fuori (script, test in node) si usa
+  // l'indirizzo di produzione.
+  (import.meta.env?.VITE_DATI_URL as string | undefined) ??
   'https://gianmarcolugaresi.github.io/libretto/data/v1/'
 
 /** Com'è andato il tentativo di aggiornare un file. */
@@ -54,12 +56,18 @@ export interface Disponibilita {
 }
 
 export class CatalogoRemoto {
+  private readonly base: string
+
   constructor(
     private readonly dep: DepositoCatalogo,
-    private readonly base: string = URL_DATI,
+    base: string = URL_DATI,
     private readonly fetch_: typeof fetch = (...a) => fetch(...a),
     private readonly adesso: () => Date = () => new Date(),
-  ) {}
+  ) {
+    // Un indirizzo relativo («/dati-locali/v1/» in sviluppo) vale
+    // rispetto alla pagina; uno assoluto resta com'è.
+    this.base = new URL(base, globalThis.location?.href ?? 'http://localhost/').toString()
+  }
 
   /* ---------------- Lettura locale ---------------- */
 
@@ -93,18 +101,22 @@ export class CatalogoRemoto {
     return this.scarica(percorsi.indice(), Indice, 'corsi', CHIAVE_INDICE)
   }
 
-  /** Piano, appelli e orario di un corso, solo dove l'impronta è
+  /** Piano, appelli e orario di una coorte, solo dove l'impronta è
    *  cambiata. Un file che l'indice non elenca non si chiede: la
-   *  pipeline non l'ha pubblicato, e chiederlo sarebbe un 404 sicuro. */
-  async aggiornaCorso(codice: string, coorte: number): Promise<Record<'piano' | 'appelli' | 'orario', Esito>> {
+   *  pipeline non l'ha pubblicato, e chiederlo sarebbe un 404 sicuro.
+   *  Gli appelli stanno sul codice del corso anche per le coorti con
+   *  un codice loro: la stessa pagina li elenca tutti. */
+  async aggiornaCorso(
+    codice: string, coorte: number, codiceAppelli: string = codice,
+  ): Promise<Record<'piano' | 'appelli' | 'orario', Esito>> {
     const ind = await this.indice()
     const hash = ind?.hash ?? {}
     const pp = percorsi.piano(codice, coorte)
-    const pa = percorsi.appelli(codice)
+    const pa = percorsi.appelli(codiceAppelli)
     const po = percorsi.orario(codice, coorte)
     const [piano, appelli, orario] = await Promise.all([
       pp in hash ? this.scarica(pp, Piano, 'piani', `${codice}/${coorte}`, hash[pp]) : Promise.resolve<Esito>('assente'),
-      pa in hash ? this.scarica(pa, Appelli, 'appelli', codice, hash[pa]) : Promise.resolve<Esito>('assente'),
+      pa in hash ? this.scarica(pa, Appelli, 'appelli', codiceAppelli, hash[pa]) : Promise.resolve<Esito>('assente'),
       po in hash ? this.scarica(po, Orario, 'orari', `${codice}/${coorte}`, hash[po]) : Promise.resolve<Esito>('assente'),
     ])
     return { piano, appelli, orario }

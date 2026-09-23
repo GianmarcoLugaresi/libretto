@@ -118,3 +118,15 @@ describe('appelli', () => {
     expect(controllaAppelli(a).avvisi.join(' ')).toContain('non essere ancora aggiornata')
   })
 })
+
+describe('gruppi che si contraddicono', () => {
+  it('chiedere 6 CFU fra esami da 12 è un avviso, non un blocco', () => {
+    const p = piano(0, {
+      insegnamenti: [ins('base', 156), ins('x', 12, { gruppo: 'g1' }), ins('y', 12, { gruppo: 'g1' })],
+      gruppi: [{ nome: 'g1', cfuRichiesti: 6, codici: ['x', 'y'] }],
+    })
+    const e = controllaPiano(p)
+    expect(e.ok).toBe(true)
+    expect(e.avvisi.join(' ')).toContain('chiede 6 CFU ma ogni esame ne vale almeno 12')
+  })
+})
