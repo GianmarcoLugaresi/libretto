@@ -1,7 +1,8 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import { apriCatalogo, ARCHIVI, type DepositoCatalogo } from './deposito'
+import { CatalogoRemoto } from './catalogoRemoto'
 import {
-  CatalogoRemoto, appelliDellaCoorte, cercaCorsi, codiceDellaCoorte, disponibilita, serveControllare,
+  appelliDellaCoorte, cercaCorsi, codiceDellaCoorte, disponibilita, serveControllare,
   type Appelli, type Indice, type Piano,
 } from './dati'
 import { normalizza } from './chiavi'
@@ -193,5 +194,46 @@ describe('letture sull\'indice', () => {
     expect(serveControllare('2026-09-23T08:00:00Z', t)).toBe(false)
     expect(serveControllare('2026-09-23T05:59:00Z', t)).toBe(true)
     expect(serveControllare('non una data', t)).toBe(true)
+  })
+})
+
+describe('coorte con un codice suo', () => {
+  it('piano sul codice della coorte, appelli su quello del corso', async () => {
+    const hash = { 'courses/31807/2024/plan.json': 'p', 'courses/33426/exams.json': 'e' }
+    const s = server({
+      'index.json': indice(hash),
+      'courses/31807/2024/plan.json': { ...piano, codiceCorso: '31807', coorte: 2024 },
+      'courses/33426/exams.json': appelli,
+    })
+    const c = cat(s.f)
+    await c.aggiornaIndice()
+    expect(await c.aggiornaCorso('31807', 2024, '33426')).toEqual({ piano: 'aggiornato', appelli: 'aggiornato', orario: 'assente' })
+    expect((await c.piano('31807', 2024))?.coorte).toBe(2024)
+    expect(appelliDellaCoorte(await c.appelli('33426'), '31807')).toHaveLength(2)
+  })
+})
+
+describe('alias negli appelli', () => {
+  it('lo stesso esame con due codici alias si mostra una volta, col codice canonico', () => {
+    const a: Appelli = {
+      ...comune, codiceCorso: '33452', alias: { '10622113': '10630886' },
+      appelli: [
+        { codice: '10622113', nome: 'ISTOLOGIA', codiceCorso: '33452', data: '2027-02-11', docenti: ['VICINI ELENA'] },
+        { codice: '10630886', nome: 'ISTOLOGIA', codiceCorso: '33452', data: '2027-02-11', docenti: ['VICINI ELENA', 'ALTRA'] },
+        { codice: '10630886', nome: 'ISTOLOGIA', codiceCorso: '33452', data: '2027-06-11', docenti: [] },
+      ],
+    }
+    const r = appelliDellaCoorte(a, '33452')
+    expect(r).toHaveLength(2)
+    expect(r[0]).toMatchObject({ codice: '10630886', data: '2027-02-11', docenti: ['VICINI ELENA', 'ALTRA'] })
+  })
+})
+
+describe('istanti', () => {
+  it('nell\'ora del telefono, non in UTC', async () => {
+    const { fmtIstante } = await import('./date')
+    const d = new Date(2026, 8, 23, 15, 58)
+    expect(fmtIstante(d.toISOString())).toBe('23 set 2026 alle 15:58')
+    expect(fmtIstante('non una data')).toBe('')
   })
 })

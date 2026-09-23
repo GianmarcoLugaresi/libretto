@@ -11,6 +11,7 @@ import type {
 } from './types'
 import { depositoCarriera, VERSIONE_SCHEMA } from './deposito'
 import { migra } from './migrazione'
+import { NOME_APP } from './app'
 
 export const VERSIONE = VERSIONE_SCHEMA
 const deposito = depositoCarriera()
@@ -200,7 +201,7 @@ export function esporta(s: Stato): string {
 export function importa(testo: string): Stato {
   const dati = JSON.parse(testo)
   if (!dati || !Array.isArray(dati.insegnamenti) || !dati.profilo) {
-    throw new Error('Il file non sembra un backup di MySapienza.')
+    throw new Error(`Il file non sembra un backup di ${NOME_APP}.`)
   }
   // Un backup può venire da una versione precedente: passa dalla
   // stessa migrazione dei dati su disco.

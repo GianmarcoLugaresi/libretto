@@ -91,9 +91,11 @@ describe('piano di Design', () => {
     expect(tipoCorso('L-4', 3)).toBe('triennale')
     expect(tipoCorso('LM-41', 6)).toBe('ciclo_unico')
     expect(tipoCorso('LM-12', 2)).toBe('magistrale')
-    expect(cfuTotali(piano, 'triennale', 3)).toBe(180)
-    // Un piano che somma poco è un piano letto male: si usa il tipico
-    expect(cfuTotali({ ...piano, insegnamenti: piano.insegnamenti.slice(0, 2), gruppi: [] }, 'triennale', 3)).toBe(180)
+    // I CFU di laurea li fissa la legge, non la somma del piano
+    expect(cfuTotali('triennale', 3)).toBe(180)
+    expect(cfuTotali('magistrale', 2)).toBe(120)
+    expect(cfuTotali('ciclo_unico', 5)).toBe(300)
+    expect(cfuTotali('ciclo_unico', 6)).toBe(360)
   })
 })
 

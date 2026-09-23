@@ -38,6 +38,9 @@ export interface SlotOrario {
 export interface VarianteOrario {
   /** Nome dell'insegnamento nel piano di studi */
   ins: string
+  /** Codice dell'insegnamento, quando si conosce: aggancia il libretto
+   *  meglio del nome */
+  codice?: string
   /** Come compare in orario, se diverso dal nome nel piano */
   titolo?: string
   /** "Canale 1", "Canale 2 · Lo-Z", oppure il laboratorio scelto */

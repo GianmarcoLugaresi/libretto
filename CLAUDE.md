@@ -63,6 +63,15 @@ sessione.
 - **Si redige per lista di ciò che si tiene**, non di ciò che si toglie
   (`pipeline/src/strumenti/har.ts`). Un campo mai visto deve essere redatto,
   non tenuto per sbaglio: davanti all'ignoto si sbaglia verso la prudenza.
+- **Un'ipotesi sulla fonte si prova sui dati veri prima di fidarsene.**
+  In Fase 2 si pensava che la pagina di un codice di coorte vecchio desse il
+  piano di quella coorte: dava un piano vuoto. Lo hanno visto i controlli.
+- **I CFU di laurea li fissa la legge, non la somma del piano** (180, 120,
+  300/360). La somma si porta dietro le stranezze della fonte e resta solo
+  un controllo.
+- **Dati pubblici: l'app legge dal telefono, la rete solo aggiorna.** La
+  sincronizzazione non blocca mai la UI e senza rete non mostra errori
+  invadenti, solo «aggiornato il…».
 - **Niente caratteri di controllo o combinanti grezzi nel sorgente**: si
   scrivono con gli escape (`new RegExp('[\\u0300-\\u036f]', 'g')`).
   Nel codice sono invisibili e si perdono nei passaggi.

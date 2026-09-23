@@ -75,7 +75,8 @@ export interface Appello {
   ora?: string
   aula?: string
   edificio?: string
-  tipo: TipoProva
+  /** Il catalogo non lo pubblica: resta vuoto finché non lo scrivi tu */
+  tipo?: TipoProva
   /** Finestra di iscrizione su Infostud */
   iscrizioneDal?: string
   iscrizioneAl?: string
@@ -114,6 +115,10 @@ export interface Profilo {
   /** Id del corso nel catalogo, se scelto da lì: aggancia
    *  l'orario ufficiale e il piano di riferimento. */
   catalogoId?: string
+  /** Codice del corso nel catalogo pubblico (es. 33426), se scelto da
+   *  lì. Con l'anno di immatricolazione individua la coorte, e quindi
+   *  piano, appelli e orario da scaricare. */
+  codiceCorso?: string
   facolta?: string
   tipo: TipoCorsoLaurea
   /** Totale CFU per laurearsi: 180 triennale, 120 magistrale */

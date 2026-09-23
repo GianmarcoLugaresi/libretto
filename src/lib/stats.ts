@@ -174,7 +174,7 @@ export function mediaNecessaria(s: Stato, obiettivo: number): number | null {
 export function cfuResiduiInMedia(s: Stato): number {
   let n = 0
   for (const ins of s.insegnamenti) {
-    if (ins.tipo === 'tirocinio' || ins.tipo === 'prova_finale' || ins.tipo === 'lingua') continue
+    if (ins.tipo === 'tirocinio' || ins.tipo === 'prova_finale' || ins.tipo === 'lingua' || ins.tipo === 'idoneita') continue
     const e = s.esami[ins.id]
     if (e && (e.stato === 'superato' || e.stato === 'idoneo')) continue
     n += ins.cfu

@@ -12,6 +12,8 @@ import { impatto, fmtMedia } from '../lib/stats'
 import { fmtData, oggi, sessione } from '../lib/date'
 import { LABEL_PROVA, type Esame, type Insegnamento, type StatoEsame, type TipoProva } from '../lib/types'
 import { tinta, VELO, TESTO } from '../lib/tinte'
+import { useMioCorso } from '../lib/catalogoContesto'
+import { appelliDellInsegnamento, finestra, nomePersona } from '../lib/daCatalogo'
 
 const STATI: { v: StatoEsame; l: string; wide?: boolean }[] = [
   { v: 'da_sostenere', l: 'Da sostenere' },
@@ -57,6 +59,17 @@ export function SchedaEsame({ ins, chiudi, apriModifica }: {
     setPTipo(ap?.tipo ?? 'scritto')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ins?.id])
+
+  // Gli appelli ufficiali di questo insegnamento, dal catalogo: si
+  // leggono e basta. La prenotazione resta dello studente, e si scrive
+  // nel libretto solo quando preme Salva.
+  const mioCorso = useMioCorso()
+  const ufficiali = useMemo(
+    () => (ins && mioCorso.codiceCoorte
+      ? appelliDellInsegnamento(mioCorso.appelli, mioCorso.codiceCoorte, ins, oggi())
+      : []),
+    [ins, mioCorso.appelli, mioCorso.codiceCoorte],
+  )
 
   const sim = useMemo(() => {
     if (!ins || stato !== 'superato' || voto == null) return null
@@ -155,6 +168,40 @@ export function SchedaEsame({ ins, chiudi, apriModifica }: {
           ))}
         </div>
       </div>
+
+      {/* Appelli ufficiali */}
+      {ufficiali.length > 0 && (stato === 'da_sostenere' || stato === 'prenotato' || stato === 'respinto') && (
+        <div className="stack" style={{ gap: 8, marginTop: 20 }}>
+          <span className="field-label">Prossimi appelli ufficiali</span>
+          {ufficiali.slice(0, 4).map((x, i) => {
+            const on = stato === 'prenotato' && pData === x.data
+            const f = finestra(x, oggi())
+            return (
+              <button key={`${x.data}-${i}`} className="variante" data-on={on}
+                onClick={() => { setStato('prenotato'); setPData(x.data) }}>
+                <span className="variante-check" data-on={on}>
+                  {on && <Icona nome="check" size={12} peso={3} />}
+                </span>
+                <span className="grow stack" style={{ gap: 2, minWidth: 0 }}>
+                  <span className="foot strong">{fmtData(x.data, 'giorno')} · {sessione(x.data).nome}</span>
+                  {x.docenti.length > 0 && <span className="foot dimmer truncate">{x.docenti.map(nomePersona).join(', ')}</span>}
+                  {f !== 'ignota' && (
+                    <span className="caption num" style={{ color: f === 'aperta' ? 'var(--accent)' : undefined }}>
+                      {f === 'aperta' && `Prenotazioni aperte${x.prenotazioniAl ? ` fino al ${fmtData(x.prenotazioniAl, 'breve')}` : ''}`}
+                      {f === 'prima' && `Prenotazioni dal ${fmtData(x.prenotazioniDal!, 'breve')}`}
+                      {f === 'chiusa' && 'Prenotazioni chiuse'}
+                    </span>
+                  )}
+                </span>
+              </button>
+            )
+          })}
+          <span className="caption dimmer" style={{ lineHeight: 1.5 }}>
+            Dal catalogo pubblico. Toccane uno per segnarti la prenotazione:
+            ci si prenota comunque su Infostud.
+          </span>
+        </div>
+      )}
 
       {/* Voto */}
       {stato === 'superato' && (

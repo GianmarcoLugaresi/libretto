@@ -114,12 +114,13 @@ export function tipoCorso(classe: string | undefined, anni: number): TipoCorsoLa
   return anni <= 2 ? 'magistrale' : 'triennale'
 }
 
-/** I CFU totali: quelli del piano se tornano, altrimenti il valore
- *  tipico del tipo di corso. Un piano che somma 40 CFU è un piano
- *  letto male o incompleto, non una laurea da 40. */
-export function cfuTotali(piano: Piano | undefined, tipo: TipoCorsoLaurea, anni: number): number {
-  const dalPiano = piano ? cfuDelPiano(piano) : 0
-  if (dalPiano >= 60 && dalPiano <= 400) return dalPiano
+/** I CFU per laurearsi li fissa la legge per tipo di corso (DM
+ *  270/2004): 180 la triennale, 120 la magistrale, 300 o 360 il ciclo
+ *  unico. Non si prendono dalla somma del piano, che si porta dietro
+ *  le stranezze della fonte (Medicina 2026 somma 391: due esami su due
+ *  anni con codici diversi; Design 2024 dichiara gruppi da «6 CFU»).
+ *  La somma resta un controllo, non la risposta. */
+export function cfuTotali(tipo: TipoCorsoLaurea, anni: number): number {
   if (tipo === 'triennale') return 180
   if (tipo === 'magistrale') return 120
   return anni >= 6 ? 360 : 300
@@ -246,7 +247,7 @@ export function orarioDaCatalogo(o: Orario, piano: Piano | undefined): OrarioDal
         etichetta: l.canale ? l.canale.replace(/^(\d+)º canale$/i, 'Canale $1') : undefined,
       }
       const suoi = docenti.get(chiave) ?? new Set<string>()
-      for (const d of l.docenti) suoi.add(nomeLeggibileProprio(d))
+      for (const d of l.docenti) suoi.add(nomePersona(d))
       docenti.set(chiave, suoi)
       v.docente = [...suoi].join(', ') || undefined
       v.slot.push({
@@ -282,7 +283,7 @@ export function orarioDaCatalogo(o: Orario, piano: Piano | undefined): OrarioDal
 
 /** «GRAZIANO MARIO VALENTI» → «Graziano Mario Valenti». Solo per i
  *  nomi di persona, dove ogni parola comincia con la maiuscola. */
-function nomeLeggibileProprio(n: string): string {
+export function nomePersona(n: string): string {
   if (n !== n.toUpperCase()) return n
   return n.toLowerCase().replace(/(^|[\s'-])(\p{L})/gu, (_, sep: string, c: string) => sep + c.toUpperCase())
 }

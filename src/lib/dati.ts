@@ -15,9 +15,9 @@
      di un telefono in metropolitana.
    ============================================================ */
 
-import type { z } from 'zod'
-import { Appelli, Indice, Orario, Piano, percorsi } from '../../pipeline/src/tipi'
-import type { Archivio, DepositoCatalogo } from './deposito'
+// Solo tipi da tipi.ts: gli schemi zod (e zod stesso) li carica
+// catalogoRemoto.ts, a parte, dopo il primo disegno dell'app.
+import type { Appelli, Indice, Orario, Piano } from '../../pipeline/src/tipi'
 
 export type { Appelli, Indice, Orario, Piano }
 export type Corso = Indice['corsi'][number]
@@ -38,125 +38,12 @@ export type Esito =
   | 'offline'      // la rete non c'è o il server ha risposto male
   | 'non-valido'   // è arrivato qualcosa che non passa lo schema
 
-interface MetaFile {
-  /** Impronta dell'indice per questo file, quando l'abbiamo preso */
-  hash?: string
-  /** Quando l'abbiamo preso (ISO) */
-  presoIl: string
-}
-
-const CHIAVE_INDICE = 'indice'
-
 export interface Disponibilita {
   /** Coorti di cui c'è il piano */
   piani: number[]
   /** Coorti di cui c'è l'orario */
   orari: number[]
   appelli: boolean
-}
-
-export class CatalogoRemoto {
-  private readonly base: string
-
-  constructor(
-    private readonly dep: DepositoCatalogo,
-    base: string = URL_DATI,
-    private readonly fetch_: typeof fetch = (...a) => fetch(...a),
-    private readonly adesso: () => Date = () => new Date(),
-  ) {
-    // Un indirizzo relativo («/dati-locali/v1/» in sviluppo) vale
-    // rispetto alla pagina; uno assoluto resta com'è.
-    this.base = new URL(base, globalThis.location?.href ?? 'http://localhost/').toString()
-  }
-
-  /* ---------------- Lettura locale ---------------- */
-
-  indice(): Promise<Indice | undefined> {
-    return this.dep.prendi<Indice>('corsi', CHIAVE_INDICE)
-  }
-
-  piano(codice: string, coorte: number): Promise<Piano | undefined> {
-    return this.dep.prendi<Piano>('piani', `${codice}/${coorte}`)
-  }
-
-  appelli(codice: string): Promise<Appelli | undefined> {
-    return this.dep.prendi<Appelli>('appelli', codice)
-  }
-
-  orario(codice: string, coorte: number): Promise<Orario | undefined> {
-    return this.dep.prendi<Orario>('orari', `${codice}/${coorte}`)
-  }
-
-  /** Quando è stato preso l'indice l'ultima volta: è il «aggiornato
-   *  il…» che vede lo studente. */
-  async aggiornatoIl(): Promise<string | undefined> {
-    return (await this.dep.prendi<MetaFile>('meta', percorsi.indice()))?.presoIl
-  }
-
-  /* ---------------- Aggiornamento ---------------- */
-
-  /** L'indice si chiede sempre: è piccolo, ed è lui a dire cosa è
-   *  cambiato. Il browser lo rivalida con l'ETag da sé. */
-  aggiornaIndice(): Promise<Esito> {
-    return this.scarica(percorsi.indice(), Indice, 'corsi', CHIAVE_INDICE)
-  }
-
-  /** Piano, appelli e orario di una coorte, solo dove l'impronta è
-   *  cambiata. Un file che l'indice non elenca non si chiede: la
-   *  pipeline non l'ha pubblicato, e chiederlo sarebbe un 404 sicuro.
-   *  Gli appelli stanno sul codice del corso anche per le coorti con
-   *  un codice loro: la stessa pagina li elenca tutti. */
-  async aggiornaCorso(
-    codice: string, coorte: number, codiceAppelli: string = codice,
-  ): Promise<Record<'piano' | 'appelli' | 'orario', Esito>> {
-    const ind = await this.indice()
-    const hash = ind?.hash ?? {}
-    const pp = percorsi.piano(codice, coorte)
-    const pa = percorsi.appelli(codiceAppelli)
-    const po = percorsi.orario(codice, coorte)
-    const [piano, appelli, orario] = await Promise.all([
-      pp in hash ? this.scarica(pp, Piano, 'piani', `${codice}/${coorte}`, hash[pp]) : Promise.resolve<Esito>('assente'),
-      pa in hash ? this.scarica(pa, Appelli, 'appelli', codiceAppelli, hash[pa]) : Promise.resolve<Esito>('assente'),
-      po in hash ? this.scarica(po, Orario, 'orari', `${codice}/${coorte}`, hash[po]) : Promise.resolve<Esito>('assente'),
-    ])
-    return { piano, appelli, orario }
-  }
-
-  private async scarica<T>(
-    percorso: string, schema: z.ZodType<T>, archivio: Archivio, chiave: string, hashAtteso?: string,
-  ): Promise<Esito> {
-    const meta = await this.dep.prendi<MetaFile>('meta', percorso)
-    if (hashAtteso && meta?.hash === hashAtteso && (await this.dep.prendi(archivio, chiave)) !== undefined) {
-      return 'invariato'
-    }
-
-    let r: Response
-    try {
-      // no-cache: il browser rivalida con l'ETag che ha già, e un 304
-      // torna qui come la risposta che aveva in cache. Niente header
-      // fatti a mano, che su un altro dominio farebbero partire una
-      // richiesta preliminare in più.
-      r = await this.fetch_(new URL(percorso, this.base).toString(), { cache: 'no-cache' })
-    } catch {
-      return 'offline'
-    }
-    if (r.status === 404) return 'assente'
-    if (!r.ok) return 'offline'
-
-    let grezzo: unknown
-    try { grezzo = await r.json() } catch { return 'non-valido' }
-    const v = schema.safeParse(grezzo)
-    if (!v.success) {
-      // Una versione di schema più nuova dell'app, o un file rotto:
-      // in entrambi i casi si tiene quello che si ha.
-      console.warn('[dati] scartato', percorso, v.error.issues.slice(0, 2))
-      return 'non-valido'
-    }
-
-    await this.dep.metti(archivio, chiave, v.data)
-    await this.dep.metti('meta', percorso, { hash: hashAtteso, presoIl: this.adesso().toISOString() } satisfies MetaFile)
-    return 'aggiornato'
-  }
 }
 
 /* ---------------- Letture sull'indice ---------------- */
@@ -187,9 +74,21 @@ export function codiceDellaCoorte(corso: Corso, coorte: number): string {
 
 /** Appelli della propria coorte: la pagina di un corso li mescola
  *  tutti, ognuno col suo codice corso. Una riga senza codice vale
- *  per chiunque. */
+ *  per chiunque. Lo stesso esame può comparire con due codici che la
+ *  fonte dichiara alias (ordinamenti diversi, stessa data, stesso
+ *  docente): si mostra una volta, col codice canonico. */
 export function appelliDellaCoorte(a: Appelli | undefined, codiceCoorte: string): Appelli['appelli'] {
-  return (a?.appelli ?? []).filter(x => !x.codiceCorso || x.codiceCorso === codiceCoorte)
+  if (!a) return []
+  const canonico = (c: string) => a.alias[c] ?? c
+  const visti = new Map<string, Appelli['appelli'][number]>()
+  for (const x of a.appelli) {
+    if (x.codiceCorso && x.codiceCorso !== codiceCoorte) continue
+    const k = `${canonico(x.codice)}|${x.data}`
+    const prima = visti.get(k)
+    if (!prima) { visti.set(k, { ...x, codice: canonico(x.codice) }); continue }
+    prima.docenti = [...new Set([...prima.docenti, ...x.docenti])]
+  }
+  return [...visti.values()]
 }
 
 /** Ricerca per nome o codice, senza accenti e senza badare alle

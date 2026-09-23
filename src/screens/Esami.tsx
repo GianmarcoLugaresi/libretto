@@ -131,7 +131,7 @@ export function Esami() {
                       <div className="grow stack" style={{ gap: 2 }}>
                         <span className="callout strong clamp-2">{ins.nome}</span>
                         <span className="foot dimmer truncate">
-                          {[a.ora, LABEL_PROVA[a.tipo], a.aula].filter(Boolean).join(' · ')}
+                          {[a.ora, a.tipo && LABEL_PROVA[a.tipo], a.aula].filter(Boolean).join(' · ')}
                         </span>
                         {a.iscrizioneAl && a.iscrizioneAl >= oggi() && (
                           <span className="foot" style={{ color: 'var(--plan)' }}>

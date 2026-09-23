@@ -183,15 +183,6 @@ export const Programma = z.object({
 })
 export type Programma = z.infer<typeof Programma>
 
-/* ---------------- Percorsi ---------------- */
-
-/** Dove sta ogni file dentro `data/v1/`. È il contratto fra pipeline e
- *  app: la pipeline ci scrive, l'app ci legge. */
-export const percorsi = {
-  indice: () => 'index.json',
-  piano: (codice: string, coorte: number) => `courses/${codice}/${coorte}/plan.json`,
-  appelli: (codice: string) => `courses/${codice}/exams.json`,
-  orario: (codice: string, coorte: number) => `courses/${codice}/${coorte}/timetable.json`,
-  programma: (codice: string, insegnamento: string, canale?: string) =>
-    `courses/${codice}/syllabi/${insegnamento}${canale ? `-${canale}` : ''}.json`,
-}
+/* I percorsi stanno in un modulo loro, senza zod: l'app li usa anche
+   dove non vuole caricare la validazione. */
+export { percorsi } from './percorsi'

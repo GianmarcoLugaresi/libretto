@@ -60,6 +60,15 @@ export function fmtData(iso: ISO, stile: 'lungo' | 'medio' | 'breve' | 'giorno' 
   }
 }
 
+/** Un istante («aggiornato il…») nell'ora del telefono, non in UTC:
+ *  «23 set 2026 alle 15:58». */
+export function fmtIstante(istante: string): string {
+  const d = new Date(istante)
+  if (Number.isNaN(d.getTime())) return ''
+  const hh = String(d.getHours()).padStart(2, '0'), mm = String(d.getMinutes()).padStart(2, '0')
+  return `${fmtData(aISO(d), 'medio')} alle ${hh}:${mm}`
+}
+
 export function mese(iso: ISO): string {
   return MESI[daISO(iso).getMonth()]
 }

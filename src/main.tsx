@@ -1,6 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { Provider } from './lib/store'
+import { CatalogoProvider } from './lib/catalogoContesto'
 import { App } from './App'
 import './styles/tokens.css'
 import './styles/base.css'
@@ -10,7 +11,9 @@ import './styles/schermi.css'
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Provider>
-      <App />
+      <CatalogoProvider>
+        <App />
+      </CatalogoProvider>
     </Provider>
   </StrictMode>,
 )

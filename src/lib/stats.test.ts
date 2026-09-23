@@ -295,3 +295,16 @@ describe('predicati', () => {
     expect(portaCfu({ insegnamentoId: 'x', stato: 'da_sostenere' })).toBe(false)
   })
 })
+
+describe('idoneità dal catalogo', () => {
+  it('non entrano nei CFU che faranno media', async () => {
+    const { cfuResiduiInMedia } = await import('./stats')
+    const { statoIniziale } = await import('./seed')
+    const s = statoIniziale()
+    s.insegnamenti = [
+      { id: 'cat:aaf1154', nome: 'Altre conoscenze', cfu: 8, anno: 3, semestre: 2, tipo: 'idoneita', tinta: 0 },
+      { id: 'cat:10589128', nome: 'Disegno e modello', cfu: 9, anno: 2, semestre: 1, tipo: 'obbligatorio', tinta: 1 },
+    ]
+    expect(cfuResiduiInMedia(s)).toBe(9)
+  })
+})

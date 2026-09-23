@@ -16,6 +16,7 @@ import {
 import { GIORNI } from '../lib/types'
 import type { ISO } from '../lib/date'
 import type { Vista, Pila } from '../App'
+import { NOME_APP } from '../lib/app'
 
 const VUOTE = new Set(['di', 'del', 'della', 'delle', 'dei', 'degli', 'per', 'la', 'le', 'il',
   'lo', 'i', 'gli', 'e', 'ed', 'a', 'al', 'alla', 'in', 'con', 'su', 'un', 'una', 'o', 'dell’', "dell'"])
@@ -106,7 +107,7 @@ export function Oggi({ vai, apri }: {
       {/* ---------- Barra: il nome al centro, come un titolo ---------- */}
       <div className="oggi-bar" data-collapsed={collassata}>
         <button className="oggi-nome" onClick={() => apri('impostazioni')} aria-label="Apri il profilo">
-          <span className="headline oggi-saluto">{nome || 'MySapienza'}</span>
+          <span className="headline oggi-saluto">{nome || NOME_APP}</span>
           <Icona nome="chevron-giu" size={15} peso={2.4} className="oggi-nome-freccia" />
         </button>
       </div>

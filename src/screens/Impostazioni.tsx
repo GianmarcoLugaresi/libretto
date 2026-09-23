@@ -1,5 +1,12 @@
-import { useRef, useState } from 'react'
-import { useApp, esporta, importa, cancellaTutto } from '../lib/store'
+import { useMemo, useRef, useState } from 'react'
+import { useApp, esporta, importa, cancellaTutto, nuovoId } from '../lib/store'
+import { useCatalogo } from '../lib/catalogoContesto'
+import { codiceDellaCoorte, type Corso } from '../lib/dati'
+import { ricollega, type Ricollegamento } from '../lib/daCatalogo'
+import { normalizza } from '../lib/chiavi'
+import { DISCLAIMER, NOME_APP, PRIVACY_BREVE } from '../lib/app'
+import { fmtIstante } from '../lib/date'
+import { plurale } from '../lib/testo'
 import { Icona } from '../components/Icona'
 import { Campo, Riga, Schermo, Segmentato, Selezione, Sezione } from '../components/ui'
 import { riepilogo } from '../lib/stats'
@@ -41,12 +48,14 @@ export function Impostazioni({ chiudi, apriEsplora }: { chiudi: () => void; apri
         <div className="list">
           <Riga
             titolo="Esplora i corsi"
-            sotto="Piani di studio ufficiali, anno per anno"
+            sotto="Piani, appelli e orari di tutti i corsi"
             icona={<Icona nome="bussola" size={20} className="dim" />}
             onClick={apriEsplora} chevron
           />
         </div>
       </Sezione>
+
+      <DatiPubblici />
 
       {/* ---------------- Profilo ---------------- */}
       <Sezione titolo="Chi sei">
@@ -277,17 +286,139 @@ export function Impostazioni({ chiudi, apriEsplora }: { chiudi: () => void; apri
       </Sezione>
 
       {/* ---------------- Info ---------------- */}
-      <Sezione titolo="MySapienza">
+      <Sezione titolo={NOME_APP}>
         <div className="card card-pad stack" style={{ gap: 6 }}>
+          <span className="foot strong">{DISCLAIMER}</span>
+          <span className="foot dim">{PRIVACY_BREVE}</span>
           <span className="foot dim">Anno accademico in corso: {annoAccademico()}</span>
           <span className="foot dim">
-            I piani di studio proposti all'avvio sono trascritti dal catalogo
-            ufficiale Sapienza e verificati CFU per CFU, ma restano una
-            fotografia di un anno accademico: il tuo percorso individuale può
-            differire. Fa fede sempre Infostud.
+            Piani, appelli e orari vengono dalle pagine pubbliche del catalogo
+            Sapienza, lette ogni notte senza interpretarle: il tuo percorso
+            individuale può comunque differire. Fa fede sempre Infostud.
           </span>
         </div>
       </Sezione>
     </Schermo>
+  )
+}
+
+/* ---------------- Dati pubblici ---------------- */
+
+function DatiPubblici() {
+  const { s, d, avviso } = useApp()
+  const { cat, indice, aggiornatoIl, aggiornando, offline, aggiorna, prepara } = useCatalogo()
+  const [proposta, setProposta] = useState<{ corso: Corso; r?: Ricollegamento; senzaPiano?: boolean } | null>(null)
+  const [preparo, setPreparo] = useState(false)
+
+  // Un libretto nato prima del catalogo (piano statico, o scritto a
+  // mano) si può agganciare al corso che ha esattamente lo stesso nome.
+  const candidati = useMemo(() => {
+    if (s.profilo.codiceCorso || !indice) return []
+    const n = normalizza(s.profilo.corsoDiLaurea)
+    return indice.corsi.filter(c => normalizza(c.nome) === n)
+  }, [indice, s.profilo.codiceCorso, s.profilo.corsoDiLaurea])
+
+  const mio = indice?.corsi.find(c => c.codice === s.profilo.codiceCorso)
+
+  async function proponi(corso: Corso) {
+    if (!cat) return
+    setPreparo(true)
+    try {
+      await prepara(corso, s.profilo.immatricolazione)
+      const piano = await cat.piano(codiceDellaCoorte(corso, s.profilo.immatricolazione), s.profilo.immatricolazione)
+      setProposta(piano ? { corso, r: ricollega(s, piano, nuovoId) } : { corso, senzaPiano: true })
+    } finally {
+      setPreparo(false)
+    }
+  }
+
+  function conferma() {
+    if (!proposta) return
+    const base = proposta.r?.stato ?? s
+    d({ t: 'carica', stato: { ...base, profilo: { ...base.profilo, codiceCorso: proposta.corso.codice } } })
+    avviso(proposta.r ? `${plurale(proposta.r.collegati, 'esame collegato', 'esami collegati')} al catalogo` : 'Corso collegato')
+    setProposta(null)
+  }
+
+  return (
+    <Sezione titolo="Dati pubblici">
+      <div className="card card-pad stack" style={{ gap: 8 }}>
+        <div className="between">
+          <span className="callout strong">Catalogo Sapienza</span>
+          {mio && <span className="chip chip-accent">{mio.nome}</span>}
+        </div>
+        <span className="foot dim num">
+          {aggiornando
+            ? 'Controllo se ci sono novità…'
+            : aggiornatoIl
+              ? `Aggiornato il ${fmtIstante(aggiornatoIl)}`
+              : 'Non ancora scaricato'}
+          {offline && !aggiornando && ' · ultimo tentativo senza rete'}
+        </span>
+        <span className="foot dimmer" style={{ lineHeight: 1.5 }}>
+          Piani, appelli e orari arrivano dalle pagine pubbliche del catalogo,
+          aggiornate ogni notte, e restano sul telefono. I tuoi esami e voti
+          non passano di qui.
+        </span>
+        <button className="btn btn-secondary btn-sm" style={{ alignSelf: 'flex-start', marginTop: 4 }}
+          disabled={aggiornando} onClick={() => aggiorna(true)}>
+          Aggiorna ora
+        </button>
+      </div>
+
+      {candidati.length > 0 && !proposta && (
+        <div className="card card-accent card-pad stack" style={{ gap: 10, marginTop: 12 }}>
+          <span className="callout strong">Collega il libretto al catalogo</span>
+          <span className="foot" style={{ lineHeight: 1.5, opacity: 0.85 }}>
+            Il tuo libretto è nato prima del catalogo. Collegandolo, gli esami
+            prendono il codice ufficiale e compaiono gli appelli e l'orario della
+            tua coorte ({s.profilo.immatricolazione}/{String((s.profilo.immatricolazione + 1) % 100).padStart(2, '0')}).
+            Voti e note restano tutti.
+          </span>
+          {candidati.map(c => (
+            <button key={c.codice} className="btn btn-primary btn-sm" style={{ alignSelf: 'flex-start' }}
+              disabled={preparo} onClick={() => proponi(c)}>
+              {preparo ? 'Preparo…' : `Collega a ${c.nome} · ${c.codice}`}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {proposta && (
+        <div className="card card-pad stack" style={{ gap: 10, marginTop: 12 }}>
+          <span className="callout strong">Prima di confermare</span>
+          {proposta.senzaPiano ? (
+            <span className="foot dim" style={{ lineHeight: 1.5 }}>
+              Il piano della tua coorte non è ancora nel catalogo. Collego solo il
+              corso, per appelli e orario: gli esami del libretto restano come sono.
+            </span>
+          ) : (
+            <div className="stack" style={{ gap: 6 }}>
+              <span className="foot dim" style={{ lineHeight: 1.5 }}>
+                {plurale(proposta.r!.collegati, 'esame prende', 'esami prendono')} il codice ufficiale.
+              </span>
+              {proposta.r!.personali.length > 0 && (
+                <span className="foot dim" style={{ lineHeight: 1.5 }}>
+                  {plurale(proposta.r!.personali.length, 'resta', 'restano')} come voce personale, perché
+                  nel piano ufficiale non c'è con lo stesso nome e gli stessi CFU:{' '}
+                  <span className="strong">{proposta.r!.personali.join(', ')}</span>.
+                </span>
+              )}
+              {proposta.r!.ambigui.length > 0 && (
+                <span className="foot dim" style={{ lineHeight: 1.5 }}>
+                  Non collego, perché hanno più corrispondenze possibili:{' '}
+                  <span className="strong">{proposta.r!.ambigui.join(', ')}</span>.
+                </span>
+              )}
+              <span className="caption dimmer">Voti, note, appelli e lezioni restano tutti al loro posto.</span>
+            </div>
+          )}
+          <div className="row" style={{ gap: 8 }}>
+            <button className="btn btn-ghost btn-sm" onClick={() => setProposta(null)}>Annulla</button>
+            <button className="btn btn-primary btn-sm" onClick={conferma}>Collega</button>
+          </div>
+        </div>
+      )}
+    </Sezione>
   )
 }

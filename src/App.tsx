@@ -12,6 +12,7 @@ import { Esplora } from './screens/Esplora'
 import { Onboarding } from './screens/Onboarding'
 import { giorniTra, oggi as dataOggi } from './lib/date'
 import { NATIVO, NOTIFICHE_DEFAULT, pianificaNotifiche } from './lib/notifiche'
+import { NOME_APP } from './lib/app'
 
 export type Vista = 'oggi' | 'libretto' | 'esami' | 'orario'
 export type Pila = 'impostazioni' | 'esplora' | 'statistiche' | null
@@ -191,7 +192,7 @@ export function App() {
       <div className="gira" role="status" aria-live="polite">
         <span className="gira-icona"><Icona nome="tocco" size={26} peso={2} /></span>
         <span className="headline">Gira il telefono</span>
-        <span className="sub dim">MySapienza è pensata in verticale.</span>
+        <span className="sub dim">{NOME_APP} è pensata in verticale.</span>
       </div>
 
       {avvisoCorrente && (

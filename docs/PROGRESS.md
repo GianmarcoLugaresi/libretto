@@ -1,6 +1,6 @@
 # Stato del lavoro
 
-Aggiornato: 22 settembre 2026 · fase corrente: **2 conclusa, in attesa di ok per la 3**
+Aggiornato: 23 settembre 2026 · fase corrente: **3 conclusa, in attesa di ok per la 4**
 
 ---
 
@@ -207,12 +207,96 @@ in modo visibile.
 
 ---
 
-## Prossima: Fase 3 — App multi-corso
+## Fase 3 — App multi-corso ✅
 
-Prevista: lettura del catalogo dai file della pipeline nel deposito
-IndexedDB, scelta del corso e della coorte all'onboarding, navigazione
-fra corsi, anni e canali, retrocessione delle chiavi `piano:` orfane.
+L'app legge il catalogo pubblico: tutti i 318 corsi, con piano, appelli e
+orario della propria coorte, anche offline dopo il primo download.
+301 test in totale.
 
-**Serve da te**: per la Fase 5 (Infostud), i dati di rete raccolti dal
-browser. Come prenderli è spiegato in
-[`docs/INFOSTUD.md`](INFOSTUD.md).
+**Cosa c'è**
+
+| File | Cosa fa |
+|---|---|
+| `src/lib/dati.ts` | Funzioni leggere sul catalogo: disponibilità, coorte, appelli della coorte (con alias), ricerca |
+| `src/lib/catalogoRemoto.ts` | Scarica, valida con gli schemi zod della pipeline, conserva in IndexedDB. Caricato dopo il primo disegno: zod pesa 27 KB |
+| `src/lib/catalogoContesto.tsx` | Contesto React: sync in background ogni 6 ore e al ritorno in primo piano, mai bloccante |
+| `src/lib/daCatalogo.ts` | Dal catalogo al libretto: nomi leggibili, tipi, CFU, orario, appelli, ricollegamento |
+| `src/lib/app.ts` | Nome dell'app e disclaimer in una costante sola (regola 9) |
+
+**Schermate**
+
+- *Onboarding*: ricerca fra i 318 corsi per nome, codice o classe; scelta
+  della coorte (con l'indicazione di quali hanno il piano); libretto
+  riempito dal piano ufficiale di quella coorte, senza le alternative dei
+  gruppi opzionali. Senza rete al primo avvio resta Design statico o
+  «da zero». Disclaimer al primo passo.
+- *Esplora*: tutti i corsi divisi per triennali e magistrali; per ognuno
+  piano per anno e coorte, appelli in arrivo, orario (con le lezioni
+  senza anno in una sezione a parte). «Aggiornato il…» sempre in fondo.
+- *Dettaglio esame*: i prossimi appelli ufficiali di quell'insegnamento,
+  con finestra di prenotazione. Toccarne uno compila la prenotazione;
+  si scrive nel libretto solo con Salva.
+- *Orario*: il foglio d'importazione accetta anche l'orario del catalogo.
+  Quello trascritto a mano (Design) resta prioritario.
+- *Profilo*: sezione «Dati pubblici» (aggiornato il…, aggiorna ora) e
+  «Collega il libretto al catalogo» per chi ha un libretto nato prima.
+
+**Verificato nel browser** con dati veri scaricati dalla pipeline per tre
+corsi (Design, Ingegneria informatica, Medicina «A»): onboarding, Esplora,
+dettaglio esame, e modalità aereo simulata. Offline il piano di Medicina
+si apre dal telefono, e «Aggiorna ora» dice solo «ultimo tentativo senza
+rete».
+
+**Le scoperte fatte sui dati veri**
+
+1. *Le coorti precedenti non erano raggiungibili.* La pagina del piano
+   mostra solo la coorte più recente, e la pagina «nuda» di un codice
+   vecchio (31807) dà un piano vuoto. Il form del sito rimanda a
+   `lessons-plan?year=<anno>&code=<codice>`, in GET e senza sessione: ora
+   la pipeline apre quello per ogni coorte. Le coorti hanno davvero piani
+   diversi (Design: 27, 26 e 25 insegnamenti), quindi usare quello di
+   un'altra sarebbe stato sbagliato.
+2. *Le coorti sparivano dall'indice* nelle notti in cui un corso non veniva
+   visitato (fette, 304, altri compiti). Ora si ereditano.
+3. *La fetta toccava anche gli appelli*, che si sarebbero aggiornati una
+   volta a settimana invece che ogni notte.
+4. *Gli appelli delle coorti vecchie venivano scartati* (Design: 252 righe
+   di 31807 accanto alle 212 di 33426). Ora si pubblicano tutti, e l'app
+   filtra per la coorte dello studente. Due codici che la fonte dichiara
+   alias, stessa data, sono lo stesso appello e si mostrano una volta.
+5. *Il periodo degli orari veniva dall'anno solare*: da marzo avrebbe
+   chiesto l'autunno dopo. Ora dipende dal semestre.
+6. *I CFU di laurea non si prendono dalla somma del piano*: Medicina 2026
+   somma 391 (due esami su due anni con codici diversi), Design 2024
+   dichiara gruppi da «6 CFU» fra esami da 12. Li fissa la legge per tipo
+   di corso; la somma resta un controllo.
+7. *Per Ingegneria informatica e Medicina il feed degli orari non dichiara
+   l'anno di nessuna lezione* (75 e 65). Tutto finisce fra le «senza anno»,
+   dove lo studente sceglie; il piano dice l'anno solo come indicazione.
+
+### TODO aperti
+
+- [ ] **Primo giro completo.** Il ramo `data` non esiste ancora: il giro
+  notturno non è mai partito. Il primo va lanciato a mano con tutte le fette
+  (`fetta -1`, compiti `indice,appelli,piani`), circa 2 ore e mezza.
+  Aspetta il tuo ok, perché sono ~900 richieste al sito Sapienza a nome del
+  progetto.
+- [ ] Medicina: esami con lo stesso nome in due anni consecutivi e codici
+  diversi (Anatomia umana, Biochimica). Non li unisco senza vedere la
+  pagina: se sono un esame solo, il libretto li conta due volte.
+- [ ] Canali per insegnamento all'onboarding: il catalogo non li pubblica
+  nel piano. Oggi il canale si sceglie importando l'orario.
+- [ ] `libretto:v1` resta su disco come rete di sicurezza. Da rimuovere
+  dopo qualche versione.
+
+---
+
+## Prossima: Fase 4 — Carriera manuale e statistiche
+
+Da `PROMPT_MYSAPIENZA.md`: piano con stato e avanzamento dei gruppi
+opzionali (es. 6/12 CFU), inserimento manuale completo, statistiche coi
+casi limite testati (idoneità, lode configurabile, base di laurea),
+simulatore e obiettivo.
+
+**Serve da te**: l'ok per il primo giro completo della pipeline, e se il
+documento su Infostud può restare pubblico (vedi Fase 5).

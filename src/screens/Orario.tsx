@@ -3,7 +3,11 @@ import { useApp } from '../lib/store'
 import { Icona } from '../components/Icona'
 import { AzioneNav, Schermo, Segmentato, Vuoto } from '../components/ui'
 import { SchedaLezione } from '../components/SchedaLezione'
-import { SchedaOrarioUfficiale, corsoDelProfilo } from '../components/SchedaOrarioUfficiale'
+import {
+  SchedaOrarioUfficiale, corsoDelProfilo, fonteCatalogo, fonteStatica,
+} from '../components/SchedaOrarioUfficiale'
+import { useCatalogo, useFileCorso } from '../lib/catalogoContesto'
+import { anniDelPiano } from '../lib/daCatalogo'
 import { lezioniDel } from '../lib/query'
 import {
   addGiorni, durata, fmtData, giornoSettimana, minuti,
@@ -25,9 +29,21 @@ export function Orario() {
   const [nuova, setNuova] = useState<{ g?: Giorno } | null>(null)
   const [importa, setImporta] = useState(false)
 
-  // L'orario pubblicato dalla facoltà, se il corso ce l'ha.
-  const corso = corsoDelProfilo(s.profilo.catalogoId, s.profilo.corsoDiLaurea)
-  const haOrarioUfficiale = !!corso?.orario
+  // L'orario pubblicato dalla facoltà, se il corso ce l'ha. Quello
+  // trascritto a mano vince su quello del catalogo: è stato
+  // controllato riga per riga, il feed etichetta a metà.
+  const { indice } = useCatalogo()
+  const statico = corsoDelProfilo(s.profilo.catalogoId, s.profilo.corsoDiLaurea)
+  const corsoCat = indice?.corsi.find(c => c.codice === s.profilo.codiceCorso)
+  const fc = useFileCorso(statico?.orario ? undefined : corsoCat, s.profilo.immatricolazione)
+  const fonte = useMemo(
+    () => (statico && fonteStatica(statico))
+      ?? (fc.orario
+        ? fonteCatalogo(fc.orario, fc.piano, s.profilo.corsoDiLaurea, fc.piano ? anniDelPiano(fc.piano) : s.profilo.durataAnni)
+        : undefined),
+    [statico, fc.orario, fc.piano, s.profilo.corsoDiLaurea, s.profilo.durataAnni],
+  )
+  const haOrarioUfficiale = !!fonte
 
   const giorni = settimana(ancora)
   const oggiISO = dataOggi()
@@ -181,7 +197,7 @@ export function Orario() {
             icona="orologio"
             titolo="Orario da compilare"
             testo={haOrarioUfficiale
-              ? `C'è l'orario ufficiale di ${corso!.nome}: lo importo io, tu scegli solo il canale.`
+              ? `C'è l'orario ufficiale di ${fonte!.nomeCorso}: lo importo io, tu scegli solo il canale.`
               : 'Inserisci le lezioni una volta sola: si ripetono ogni settimana e finiscono in home ogni mattina.'}
             azione={
               <div className="stack" style={{ gap: 8, alignItems: 'center' }}>
@@ -321,8 +337,8 @@ export function Orario() {
 
       <SchedaLezione lezione={lezione} aperto={!!lezione} chiudi={() => setLezione(null)} />
       <SchedaLezione lezione={null} aperto={!!nuova} chiudi={() => setNuova(null)} preGiorno={nuova?.g} />
-      {corso?.orario && (
-        <SchedaOrarioUfficiale corso={corso} aperto={importa} chiudi={() => setImporta(false)} />
+      {fonte && (
+        <SchedaOrarioUfficiale fonte={fonte} aperto={importa} chiudi={() => setImporta(false)} />
       )}
     </>
   )

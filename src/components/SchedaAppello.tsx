@@ -44,7 +44,7 @@ export function SchedaAppello({ appello, aperto, chiudi, preselezione }: {
       setInsId(appello.insegnamentoId)
       setData(appello.data); setOra(appello.ora ?? '')
       setAula(appello.aula ?? ''); setEdificio(appello.edificio ?? '')
-      setTipo(appello.tipo)
+      setTipo(appello.tipo ?? 'scritto')
       setIscrDal(appello.iscrizioneDal ?? ''); setIscrAl(appello.iscrizioneAl ?? '')
       const e = Object.values(s.esami).find(x => x.appelloId === appello.id)
       setPrenotato(e?.stato === 'prenotato')

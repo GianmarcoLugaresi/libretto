@@ -60,8 +60,13 @@ Con Crawl-delay 10, 318 corsi:
 | Cosa | Pagine | Tempo |
 |---|---|---|
 | Appelli, tutto il catalogo | 318 | ~53 min |
-| Piani, una fetta su sette | ~80 | ~14 min |
+| Piani, una fetta su sette, una pagina per coorte | ~115 | ~19 min |
 | Orari, una fetta su sette | ~230 | ~38 min |
+
+Il **primo giro** va lanciato a mano con `fetta -1` e compiti
+`indice,appelli,piani` (~1.100 pagine, circa 3 ore: più del limite di un
+job, quindi conviene dividerlo in due, per esempio prima `indice,piani`
+e poi `appelli`). Da lì in poi le notti bastano.
 
 Per questo i piani ruotano: in una settimana passano tutti esattamente
 una volta, e ogni notte il giro sta dentro un job. Gli appelli invece si
@@ -118,13 +123,27 @@ così l'app scarica solo quello che è davvero cambiato.
 
 ## Coorti
 
-Una coorte non è un parametro: è un altro codice corso. Design 2024/25
-è `31807`, dal 2025/26 è `33426`. La pipeline legge le coorti dal
-`<select id="edit-year-course">` della pagina del piano e poi visita il
-codice di ciascuna. Il file viene scritto sotto il codice che **la
-pagina dichiara**, non sotto quello che abbiamo chiesto: dopo un
-redirect i due divergono, e un file il cui nome contraddice il contenuto
-è peggio di un file mancante.
+Ogni coorte ha il suo piano, e i piani cambiano davvero (Design: 27
+insegnamenti per il 2026, 26 per il 2025, 25 per il 2024). La pagina del
+corso mostra solo la più recente, più l'elenco di tutte nel
+`<select id="edit-year-course">`. Le altre si aprono con
+
+```
+/it/course/<codice corso>/attendance/lessons-plan?year=<anno>&code=<codice della coorte>
+```
+
+che è l'indirizzo a cui il form del sito stesso rimanda: GET, senza
+sessione. Attenzione: la pagina «nuda» di un codice vecchio
+(`/it/course/31807/...`) **non** dà il piano di quella coorte ma un piano
+vuoto intestato all'anno in corso, e non si visita.
+
+Il file viene scritto sotto il codice e l'anno che **la pagina dichiara**;
+se la pagina risponde con una coorte diversa da quella chiesta, non si
+pubblica niente.
+
+Le coorti di un corso finiscono nell'indice. Nelle notti in cui il corso
+non si visita (fette, 304, giri senza piani) restano quelle già
+pubblicate.
 
 ## Orari
 
@@ -171,6 +190,16 @@ npm test                              # tutto
 npx vitest run pipeline               # solo la pipeline
 npm run typecheck                     # app + pipeline
 ```
+
+## Provare l'app sui dati veri
+
+```bash
+npm run pipeline -- --solo 33426,33501 --radice /tmp/dati/v1
+DATI_LOCALI=/tmp/dati VITE_DATI_URL=/dati-locali/v1/ npx vite
+```
+
+Il server di sviluppo serve la cartella sotto `/dati-locali/`, e l'app la
+usa al posto delle Pages. Non entra mai nella build.
 
 ## Strumenti
 

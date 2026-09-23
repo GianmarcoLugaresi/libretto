@@ -5,7 +5,7 @@
    Dopo la prima visita online l'app parte anche senza rete.
    ============================================================ */
 
-const CACHE = 'libretto-v24'
+const CACHE = 'libretto-v25'
 
 // Al primo avvio il service worker non controlla ancora le richieste
 // già partite, quindi i bundle non finirebbero in cache: l'app
@@ -43,6 +43,10 @@ self.addEventListener('fetch', e => {
   if (req.method !== 'GET') return
   const url = new URL(req.url)
   if (url.origin !== self.location.origin) return
+  // I dati pubblici cambiano ogni notte e li conserva già l'app, in
+  // IndexedDB, confrontando le impronte: qui passerebbero in una cache
+  // che non si aggiorna mai. Vanno sempre in rete.
+  if (url.pathname.includes('/data/')) return
 
   // Navigazioni: prima la rete (per prendere gli aggiornamenti),
   // con la pagina in cache come rete di sicurezza offline.
