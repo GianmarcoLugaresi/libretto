@@ -185,6 +185,11 @@ export async function esegui(o: Opzioni): Promise<Diario> {
   }
   registra(d, `indice: ${corsi.length} corsi`)
 
+  // Le coorti già pubblicate: la pagina dell'indice non le elenca,
+  // si scoprono dalle pagine dei piani.
+  const coortiNote = new Map((precedente?.corsi ?? []).map(c => [c.codice, c.coorti] as const))
+  const coortiPerCorso = new Map<string, Corso['coorti']>()
+
   const tutti = richiesti(corsi, o)
   const scelti = selezione(corsi, o)
   registra(d, `selezione: ${tutti.length} corsi per gli appelli, ${scelti.length} per piani e orari (fetta ${o.fetta < 0 ? 'tutte' : o.fetta})`)
@@ -220,23 +225,31 @@ export async function esegui(o: Opzioni): Promise<Diario> {
     // sito stesso rimanda dopo il form di scelta. La pagina «nuda» di
     // un codice vecchio (Design 2024 è 31807) invece mostra un piano
     // vuoto intestato all'anno in corso: non si visita.
-    const coortiPerCorso = new Map<string, Corso['coorti']>()
     let pagine = 0
     for (const c of scelti) {
       const base = `${BASE}/it/course/${c.codice}/attendance/lessons-plan`
       try {
         const h = await prendi(base)
-        if (!h) continue
-        pagine++
-        const e = estraiPiano(h, c.codice)
-        // Il percorso segue il codice che la pagina dichiara, non
-        // quello che abbiamo chiesto: un file il cui nome contraddice
-        // il contenuto è peggio di un file mancante.
-        await pub.scrivi(percorsi.piano(e.codiceCorso, e.coorte), pianoPubblicabile(e, base), Piano, controllaPiano)
-        coortiPerCorso.set(c.codice, e.coorti)
+        // Con la pagina del corso in mano si pubblica il suo piano e si
+        // leggono le coorti. Se non è cambiata (304) le coorti sono
+        // quelle già note, e le loro pagine si ricontrollano lo stesso:
+        // possono cambiare anche se quella del corso no.
+        let coorti = coortiNote.get(c.codice) ?? []
+        let giaPreso: { anno: number; codiceCorso: string } | undefined
+        if (h) {
+          pagine++
+          const e = estraiPiano(h, c.codice)
+          // Il percorso segue il codice che la pagina dichiara, non
+          // quello che abbiamo chiesto: un file il cui nome contraddice
+          // il contenuto è peggio di un file mancante.
+          await pub.scrivi(percorsi.piano(e.codiceCorso, e.coorte), pianoPubblicabile(e, base), Piano, controllaPiano)
+          coortiPerCorso.set(c.codice, e.coorti)
+          coorti = e.coorti
+          giaPreso = { anno: e.coorte, codiceCorso: e.codiceCorso }
+        }
 
-        for (const k of e.coorti) {
-          if (k.anno === e.coorte && k.codiceCorso === e.codiceCorso) continue
+        for (const k of coorti) {
+          if (giaPreso && k.anno === giaPreso.anno && k.codiceCorso === giaPreso.codiceCorso) continue
           const url = urlCoorte(c.codice, k)
           try {
             const hk = await prendi(url)
@@ -254,13 +267,15 @@ export async function esegui(o: Opzioni): Promise<Diario> {
         }
       } catch (err) { annota(d, `piano ${c.codice}`, err) }
     }
-    // Le coorti scoperte finiscono nell'indice: è lì che l'app
-    // guarda per sapere quali anni può aprire.
-    for (const c of corsi) {
-      const k = coortiPerCorso.get(c.codice)
-      if (k?.length) c.coorti = k
-    }
     registra(d, `piani: ${pagine} pagine visitate`)
+  }
+
+  // Le coorti finiscono nell'indice: è lì che l'app guarda per sapere
+  // quali anni può aprire. Quelle lette stanotte sostituiscono le
+  // vecchie; per i corsi non visitati (fette, 304, altri compiti) si
+  // tengono quelle già pubblicate, altrimenti sparirebbero.
+  for (const c of corsi) {
+    c.coorti = coortiPerCorso.get(c.codice) ?? coortiNote.get(c.codice) ?? c.coorti
   }
 
   /* --- Orari --- */

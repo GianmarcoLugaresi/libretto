@@ -139,8 +139,11 @@ describe('un giro completo su Design', () => {
         return nonCambiato()
       }) as unknown as typeof fetch,
     }))
-    // Stesse pagine chieste, ma nessuna riparsata: i file restano
-    expect(chiamate.length).toBeLessThanOrEqual(primo)
+    // Ogni pagina chiesta una volta sola, e i file restano. Su un 304
+    // si ricontrollano anche le pagine delle coorti (compresa la più
+    // recente, che non si sa quale sia): costano un 304 ciascuna.
+    expect(new Set(chiamate).size).toBe(chiamate.length)
+    expect(chiamate.length).toBeLessThanOrEqual(primo + 1)
     expect((await leggi('courses/33426/2026/plan.json')).insegnamenti.length).toBeGreaterThan(15)
   })
 
@@ -181,5 +184,28 @@ describe('un giro completo su Design', () => {
     await esegui(opzioni({ compiti: ['indice', 'appelli'] }))
     const codici = new Set((await leggi('courses/33426/exams.json')).appelli.map((a: { codiceCorso?: string }) => a.codiceCorso))
     expect([...codici].sort()).toEqual(['31807', '33426'])
+  })
+
+  it('un giro di soli 304 non perde le coorti, e ricontrolla le loro pagine', async () => {
+    await esegui(opzioni({ compiti: ['indice', 'piani'] }))
+    chiamate = []
+    azzeraRitmo()
+    await esegui(opzioni({
+      compiti: ['indice', 'piani'],
+      fetchImpl: (async (u: string | URL | Request) => { chiamate.push(String(u)); return nonCambiato() }) as unknown as typeof fetch,
+    }))
+    const design = (await leggi('index.json')).corsi.find((c: { codice: string }) => c.codice === '33426')
+    expect(design.coorti.map((k: { anno: number }) => k.anno)).toEqual([2026, 2025, 2024])
+    expect(chiamate.some(u => u.includes('?year=2025&code=33426'))).toBe(true)
+    expect((await leggi('courses/33426/2025/plan.json')).insegnamenti).toHaveLength(26)
+  })
+
+  it('un giro senza piani non cancella le coorti dall\'indice', async () => {
+    await esegui(opzioni({ compiti: ['indice', 'piani'] }))
+    azzeraRitmo()
+    // L'indice cambia (nuovo ETag), ma stanotte niente piani
+    await esegui(opzioni({ compiti: ['indice', 'appelli'], cache: join(radice, 'altra-cache.json') }))
+    const design = (await leggi('index.json')).corsi.find((c: { codice: string }) => c.codice === '33426')
+    expect(design.coorti).toHaveLength(3)
   })
 })
