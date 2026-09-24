@@ -26,7 +26,9 @@ export function Orario() {
   const [modo, setModo] = useState<Modo>('giorno')
   const [ancora, setAncora] = useState(dataOggi())   // data di riferimento
   const [lezione, setLezione] = useState<Lezione | null>(null)
-  const [nuova, setNuova] = useState<{ g?: Giorno } | null>(null)
+  // g: il giorno della settimana proposto; d: la data, per una lezione
+  // di un giorno solo.
+  const [nuova, setNuova] = useState<{ g?: Giorno; d?: string } | null>(null)
   const [importa, setImporta] = useState(false)
 
   // L'orario pubblicato dalla facoltà, se il corso ce l'ha. Quello
@@ -117,8 +119,7 @@ export function Orario() {
               <AzioneNav icona="scarica" etichetta="Importa orario ufficiale"
                 onClick={() => setImporta(true)} />
             )}
-            <AzioneNav icona="sole" etichetta="Vai a oggi" onClick={() => setAncora(oggiISO)} />
-            <AzioneNav icona="piu" etichetta="Nuova lezione" onClick={() => setNuova({})} />
+            <AzioneNav icona="piu" etichetta="Nuova lezione" onClick={() => setNuova({ d: ancora })} />
           </>
         }
         sotto={
@@ -158,8 +159,15 @@ export function Orario() {
           <button className="nav-act" onClick={() => setAncora(addGiorni(ancora, -7))} aria-label="Settimana precedente">
             <Icona nome="indietro" size={19} peso={2.2} />
           </button>
-          <span className="foot strong">
-            {fmtData(giorni[0], 'breve')} – {fmtData(giorniVisibili[giorniVisibili.length - 1], 'medio')}
+          <span className="stack" style={{ gap: 2, alignItems: 'center' }}>
+            <span className="foot strong">
+              {fmtData(giorni[0], 'breve')} – {fmtData(giorniVisibili[giorniVisibili.length - 1], 'medio')}
+            </span>
+            {!giorni.includes(oggiISO) && (
+              <button className="caption strong torna-oggi" onClick={() => setAncora(oggiISO)}>
+                Torna a oggi
+              </button>
+            )}
           </span>
           <button className="nav-act" onClick={() => setAncora(addGiorni(ancora, 7))} aria-label="Settimana successiva">
             <Icona nome="chevron" size={19} peso={2.2} />
@@ -208,7 +216,7 @@ export function Orario() {
                 )}
                 <button
                   className={haOrarioUfficiale ? 'btn btn-ghost btn-sm' : 'btn btn-primary btn-sm'}
-                  onClick={() => setNuova({})}
+                  onClick={() => setNuova({ d: ancora })}
                 >
                   <Icona nome="piu" size={15} peso={2.2} /> Aggiungi a mano
                 </button>
@@ -268,7 +276,7 @@ export function Orario() {
             )}
 
             <button className="btn btn-secondary btn-block" style={{ marginTop: 16 }}
-              onClick={() => setNuova({ g: giornoSettimana(ancora) as Giorno })}>
+              onClick={() => setNuova({ g: giornoSettimana(ancora) as Giorno, d: ancora })}>
               <Icona nome="piu" size={16} peso={2.2} />
               Aggiungi lezione di {GIORNI[giornoSettimana(ancora)].toLowerCase()}
             </button>
@@ -336,7 +344,7 @@ export function Orario() {
       </Schermo>
 
       <SchedaLezione lezione={lezione} aperto={!!lezione} chiudi={() => setLezione(null)} />
-      <SchedaLezione lezione={null} aperto={!!nuova} chiudi={() => setNuova(null)} preGiorno={nuova?.g} />
+      <SchedaLezione lezione={null} aperto={!!nuova} chiudi={() => setNuova(null)} preGiorno={nuova?.g} preData={nuova?.d} />
       {fonte && (
         <SchedaOrarioUfficiale fonte={fonte} aperto={importa} chiudi={() => setImporta(false)} />
       )}

@@ -1,19 +1,26 @@
 /* ============================================================
-   Lezione ricorrente settimanale.
+   Lezione: ricorrente ogni settimana, oppure un giorno solo (un
+   recupero, un seminario). Quella di un giorno solo è una lezione
+   settimanale con inizio e fine del periodo nella stessa data: il
+   modello non cambia, e l'orario la mostra solo lì.
    ============================================================ */
 
 import { useEffect, useState } from 'react'
 import { useApp, nuovoId } from '../lib/store'
-import { Foglio, Campo, Selezione } from './ui'
+import { Foglio, Campo, Selezione, Segmentato } from './ui'
 import { Icona } from './Icona'
-import { minuti } from '../lib/date'
-import { GIORNI_BREVI, type Giorno, type Lezione } from '../lib/types'
+import { fmtData, giornoSettimana, minuti, oggi } from '../lib/date'
+import { eUnaVolta } from '../lib/query'
+import { GIORNI, GIORNI_BREVI, type Giorno, type Lezione } from '../lib/types'
 
-export function SchedaLezione({ lezione, aperto, chiudi, preGiorno }: {
+export function SchedaLezione({ lezione, aperto, chiudi, preGiorno, preData }: {
   lezione: Lezione | null
   aperto: boolean
   chiudi: () => void
   preGiorno?: Giorno
+  /** Il giorno che si stava guardando: è la data proposta per una
+   *  lezione di un giorno solo. */
+  preData?: string
 }) {
   const { s, d, avviso } = useApp()
   const [insId, setInsId] = useState('')
@@ -25,6 +32,8 @@ export function SchedaLezione({ lezione, aperto, chiudi, preGiorno }: {
   const [modulo, setModulo] = useState('')
   const [dal, setDal] = useState('')
   const [al, setAl] = useState('')
+  const [unaVolta, setUnaVolta] = useState(false)
+  const [data, setData] = useState('')
   const [conferma, setConferma] = useState(false)
 
   const corsi = [...s.insegnamenti].sort(
@@ -38,24 +47,35 @@ export function SchedaLezione({ lezione, aperto, chiudi, preGiorno }: {
       setInizio(lezione.inizio); setFine(lezione.fine)
       setAula(lezione.aula ?? ''); setEdificio(lezione.edificio ?? '')
       setModulo(lezione.modulo ?? '')
-      setDal(lezione.dal ?? ''); setAl(lezione.al ?? '')
+      const singola = eUnaVolta(lezione)
+      setUnaVolta(singola)
+      setData(singola ? lezione.dal! : preData ?? oggi())
+      setDal(singola ? '' : lezione.dal ?? ''); setAl(singola ? '' : lezione.al ?? '')
     } else {
       setInsId(corsi[0]?.id ?? '')
       setGiorno(preGiorno ?? 1)
       setInizio('09:00'); setFine('11:00')
       setAula(''); setEdificio(''); setModulo(''); setDal(''); setAl('')
+      setUnaVolta(false); setData(preData ?? oggi())
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [aperto, lezione?.id, preGiorno])
+  }, [aperto, lezione?.id, preGiorno, preData])
 
   function salva() {
     if (!insId) { avviso('Scegli un insegnamento'); return }
     if (minuti(fine) <= minuti(inizio)) { avviso("L'ora di fine deve venire dopo l'inizio"); return }
+    if (unaVolta && !data) { avviso('Scegli la data'); return }
+    // L'orario mostra da lunedì a sabato: una lezione di domenica non
+    // comparirebbe da nessuna parte.
+    if (unaVolta && giornoSettimana(data) === 7) { avviso("Di domenica l'orario non mostra lezioni"); return }
     const v = {
-      insegnamentoId: insId, giorno, inizio, fine,
+      insegnamentoId: insId,
+      giorno: unaVolta ? giornoSettimana(data) as Giorno : giorno,
+      inizio, fine,
       aula: aula || undefined, edificio: edificio || undefined,
       modulo: modulo.trim() || undefined,
-      dal: dal || undefined, al: al || undefined,
+      dal: (unaVolta ? data : dal) || undefined,
+      al: (unaVolta ? data : al) || undefined,
     }
     if (lezione) { d({ t: 'lezione.set', id: lezione.id, v }); avviso('Lezione aggiornata') }
     else { d({ t: 'lezione.add', v: { id: nuovoId(), ...v } }); avviso('Lezione aggiunta') }
@@ -84,15 +104,30 @@ export function SchedaLezione({ lezione, aperto, chiudi, preGiorno }: {
         </Campo>
 
         <div className="field">
-          <span className="field-label">Giorno</span>
-          <div className="giorni-grid">
-            {([1, 2, 3, 4, 5, 6] as Giorno[]).map(g => (
-              <button key={g} className="cfu-key" aria-pressed={giorno === g} onClick={() => setGiorno(g)}>
-                {GIORNI_BREVI[g]}
-              </button>
-            ))}
-          </div>
+          <span className="field-label">Quando</span>
+          <Segmentato
+            valore={unaVolta ? 'una' : 'sempre'}
+            cambia={v => setUnaVolta(v === 'una')}
+            opzioni={[{ v: 'sempre', l: 'Ogni settimana' }, { v: 'una', l: 'Un giorno solo' }]}
+          />
         </div>
+
+        {unaVolta ? (
+          <Campo label="Data" hint={data ? `${GIORNI[giornoSettimana(data)]} ${fmtData(data, 'lungo')}` : undefined}>
+            <input type="date" className="input" value={data} onChange={e => setData(e.target.value)} />
+          </Campo>
+        ) : (
+          <div className="field">
+            <span className="field-label">Giorno</span>
+            <div className="giorni-grid">
+              {([1, 2, 3, 4, 5, 6] as Giorno[]).map(g => (
+                <button key={g} className="cfu-key" aria-pressed={giorno === g} onClick={() => setGiorno(g)}>
+                  {GIORNI_BREVI[g]}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
 
         <div className="row" style={{ gap: 12 }}>
           <div className="grow"><Campo label="Inizio">
@@ -116,24 +151,26 @@ export function SchedaLezione({ lezione, aperto, chiudi, preGiorno }: {
           <input className="input" value={modulo} onChange={e => setModulo(e.target.value)} placeholder="Opzionale" />
         </Campo>
 
-        <details className="dettagli">
-          <summary className="callout strong">
-            Periodo delle lezioni
-            <Icona nome="chevron-giu" size={17} peso={2.2} className="chev" />
-          </summary>
-          <div className="row" style={{ gap: 12, marginTop: 12 }}>
-            <div className="grow"><Campo label="Dal">
-              <input type="date" className="input" value={dal} onChange={e => setDal(e.target.value)} />
-            </Campo></div>
-            <div className="grow"><Campo label="Al">
-              <input type="date" className="input" value={al} onChange={e => setAl(e.target.value)} />
-            </Campo></div>
-          </div>
-          <p className="caption dimmer" style={{ marginTop: 8 }}>
-            Fuori da queste date la lezione sparisce dall'orario.
-            Utile per non vedere i corsi del primo semestre ad aprile.
-          </p>
-        </details>
+        {!unaVolta && (
+          <details className="dettagli">
+            <summary className="callout strong">
+              Periodo delle lezioni
+              <Icona nome="chevron-giu" size={17} peso={2.2} className="chev" />
+            </summary>
+            <div className="row" style={{ gap: 12, marginTop: 12 }}>
+              <div className="grow"><Campo label="Dal">
+                <input type="date" className="input" value={dal} onChange={e => setDal(e.target.value)} />
+              </Campo></div>
+              <div className="grow"><Campo label="Al">
+                <input type="date" className="input" value={al} onChange={e => setAl(e.target.value)} />
+              </Campo></div>
+            </div>
+            <p className="caption dimmer" style={{ marginTop: 8 }}>
+              Fuori da queste date la lezione sparisce dall'orario.
+              Utile per non vedere i corsi del primo semestre ad aprile.
+            </p>
+          </details>
+        )}
 
         {lezione && (
           conferma ? (

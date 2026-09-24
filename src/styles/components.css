@@ -362,8 +362,12 @@
   padding: var(--s-2) var(--gutter) var(--s-3);
   flex: none;
 }
+/* Il foglio scorre solo in verticale: se un campo sborda di lato non
+   deve diventare una pagina da trascinare in tutte le direzioni. */
 .sheet-body {
+  overflow-x: hidden;
   overflow-y: auto;
+  overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
   padding: 0 var(--gutter) calc(var(--s-5) + var(--safe-b));
 }
@@ -400,6 +404,17 @@
 .input::placeholder { color: var(--ink-4); }
 textarea.input { height: auto; min-height: 84px; padding-block: var(--s-3); resize: vertical; line-height: 1.45; }
 select.input { appearance: none; padding-right: var(--s-7); }
+/* Su iOS data e ora hanno una larghezza minima propria e il testo
+   centrato: in due colonne la seconda usciva dal foglio. Senza
+   l'aspetto nativo si restringono come gli altri campi. */
+input.input[type="date"], input.input[type="time"] {
+  -webkit-appearance: none; appearance: none;
+  min-width: 0;
+  display: flex; align-items: center;
+  text-align: left;
+}
+input.input[type="date"]::-webkit-date-and-time-value,
+input.input[type="time"]::-webkit-date-and-time-value { text-align: left; margin: 0; }
 
 .select-wrap { position: relative; }
 .select-wrap .chev-abs {

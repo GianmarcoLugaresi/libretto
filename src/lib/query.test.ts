@@ -5,7 +5,7 @@
 
 import { describe, it, expect, vi, afterEach } from 'vitest'
 import {
-  insegnamento, esameDi, lezioniDel, lezioneInCorso, prossimaLezione,
+  insegnamento, esameDi, eUnaVolta, lezioniDel, lezioneInCorso, prossimaLezione,
   appelliFuturi, prenotazioni, daRegistrare, perAnno,
 } from './query'
 import type { Stato, Insegnamento, Lezione, Appello, Esame } from './types'
@@ -61,6 +61,21 @@ describe('lezioni del giorno', () => {
     expect(lezioniDel(s, '2026-09-15')).toHaveLength(0)   // prima dell'inizio
     expect(lezioniDel(s, '2026-09-29')).toHaveLength(1)   // dentro
     expect(lezioniDel(s, '2027-01-19')).toHaveLength(0)   // dopo la fine
+  })
+
+  it('una lezione di un giorno solo compare quel giorno e basta', () => {
+    const l = base({ dal: '2026-09-29', al: '2026-09-29' })
+    const s = stato({ insegnamenti: [ins('a')], lezioni: [l] })
+    expect(eUnaVolta(l)).toBe(true)
+    expect(lezioniDel(s, '2026-09-29')).toHaveLength(1)
+    expect(lezioniDel(s, '2026-09-22')).toHaveLength(0)   // martedì prima
+    expect(lezioniDel(s, '2026-10-06')).toHaveLength(0)   // martedì dopo
+  })
+
+  it('una lezione con un periodo vero non è di un giorno solo', () => {
+    expect(eUnaVolta(base({ dal: '2026-09-28', al: '2027-01-13' }))).toBe(false)
+    expect(eUnaVolta(base())).toBe(false)
+    expect(eUnaVolta(base({ dal: '2026-09-28' }))).toBe(false)
   })
 
   it('salta le date sospese', () => {

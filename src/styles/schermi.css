@@ -76,6 +76,9 @@
   justify-content: flex-start; align-items: flex-start;
   gap: var(--s-3); min-height: 0; padding-block: var(--s-5);
   overflow-y: auto; -webkit-overflow-scrolling: touch;
+  /* Chi scorre taglia anche di lato: si allarga fino ai bordi dello
+     schermo, così il bagliore del marchio non finisce in un rettangolo. */
+  margin-inline: calc(-1 * var(--gutter)); padding-inline: var(--gutter);
   /* Sfuma solo dentro il margine: se tutto ci sta non si vede, se
      c'è altro da scorrere il bordo non taglia di netto. */
   -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 var(--s-5), #000 calc(100% - var(--s-5)), transparent 100%);
@@ -330,6 +333,9 @@
 .strip-pallini i { width: 4px; height: 4px; border-radius: 99px; background: currentColor; opacity: 0.5; }
 
 .settimana-nav { display: flex; align-items: center; justify-content: space-between; margin-top: var(--s-3); }
+/* Compare solo guardando un'altra settimana: "oggi" non ha bisogno di
+   un pulsante fisso in alto. */
+.torna-oggi { color: var(--accent); padding: 2px 8px; }
 
 .griglia-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding-inline: var(--gutter); }
 .griglia-wrap::-webkit-scrollbar { display: none; }
@@ -624,6 +630,9 @@
 /* Con la foto sotto, le luci diventano un velo che si fonde */
 .poster-foto[data-ok="true"] ~ .poster-luci { mix-blend-mode: screen; opacity: 0.55; }
 :root[data-theme="light"] .poster-scuro { background: rgba(243,243,244,0.25); }
+/* Su fondo chiaro la tinta del corso pesa il doppio: a piena forza la
+   foto diventava un verde acido. */
+:root[data-theme="light"] .poster-grado[data-ok="true"] { opacity: 0.42; }
 :root[data-theme="light"] .poster-foto[data-ok="true"] ~ .poster-luci { mix-blend-mode: normal; opacity: 0.35; }
 
 /* ---------------- Home: barra col nome, eroe centrato ---------------- */

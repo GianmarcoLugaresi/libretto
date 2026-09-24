@@ -39,6 +39,12 @@ export interface LezioneRisolta {
 /** Le lezioni di una data, in ordine di orario.
  *  Rispetta il periodo di validità e le date annullate: un corso
  *  del primo semestre non deve comparire a maggio. */
+/** Una lezione di un giorno solo: il periodo comincia e finisce nella
+ *  stessa data. */
+export function eUnaVolta(l: Lezione): boolean {
+  return !!l.dal && l.dal === l.al
+}
+
 export function lezioniDel(s: Stato, data: ISO): LezioneRisolta[] {
   const g = giornoSettimana(data)
   const out: LezioneRisolta[] = []
