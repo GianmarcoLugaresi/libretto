@@ -4,7 +4,7 @@
    nessun account, niente che esca dal telefono.
    ============================================================ */
 
-import { createContext, useContext, useEffect, useMemo, useReducer, useRef, useState } from 'react'
+import { createContext, useContext, useEffect, useLayoutEffect, useMemo, useReducer, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 import type {
   Stato, Profilo, Impostazioni, Insegnamento, Esame, Appello, Lezione, StatoSync, StatoInfostud,
@@ -13,6 +13,7 @@ import { collega, togliUfficiale } from './infostud/unisci'
 import { depositoCarriera, VERSIONE_SCHEMA } from './deposito'
 import { migra } from './migrazione'
 import { NOME_APP } from './app'
+import { applicaTema } from './aspetto'
 
 export const VERSIONE = VERSIONE_SCHEMA
 const deposito = depositoCarriera()
@@ -197,14 +198,9 @@ export function Provider({ children }: { children: ReactNode }) {
     scrivi(s)
   }, [s])
 
-  // Il tema segue le impostazioni, non solo il sistema.
-  useEffect(() => {
-    // Il design è nato scuro: 'chiaro' è l'unica variante esplicita,
-    // tutto il resto (compreso il vecchio 'auto') cade sullo scuro.
-    const root = document.documentElement
-    if (s.impostazioni.tema === 'chiaro') root.setAttribute('data-theme', 'light')
-    else root.removeAttribute('data-theme')
-  }, [s.impostazioni.tema])
+  // Il tema segue le impostazioni; in automatico, il telefono. Prima
+  // del disegno, perché la pagina non parta scura per un istante.
+  useLayoutEffect(() => applicaTema(s.impostazioni.tema), [s.impostazioni.tema])
 
   const valore = useMemo<Ctx>(() => ({
     s, d,

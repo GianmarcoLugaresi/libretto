@@ -222,13 +222,19 @@ export function Impostazioni({ chiudi, apriEsplora }: { chiudi: () => void; apri
       <Sezione titolo="Aspetto">
         <div className="field">
           <Segmentato
-            valore={s.impostazioni.tema === 'chiaro' ? 'chiaro' : 'scuro'}
-            cambia={v => d({ t: 'impostazioni', v: { tema: v as 'chiaro' | 'scuro' } })}
+            valore={s.impostazioni.tema}
+            cambia={v => d({ t: 'impostazioni', v: { tema: v } })}
             opzioni={[
-              { v: 'scuro', l: 'Scuro' },
+              { v: 'auto', l: 'Automatico' },
               { v: 'chiaro', l: 'Chiaro' },
+              { v: 'scuro', l: 'Scuro' },
             ]}
           />
+          <p className="caption dimmer" style={{ marginTop: 8, lineHeight: 1.5 }}>
+            {s.impostazioni.tema === 'auto'
+              ? 'Segue il telefono: chiaro di giorno, scuro di sera se l’hai impostato così.'
+              : 'Resta così anche quando il telefono cambia tema.'}
+          </p>
         </div>
       </Sezione>
 

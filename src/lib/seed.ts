@@ -11,7 +11,7 @@ import { annoAccademico } from './date'
 export const IMPOSTAZIONI_DEFAULT: Impostazioni = {
   valoreLode: 30,        // a Sapienza la lode di norma pesa 30
   puntiTesi: 6,          // stima prudente: tesi + in corso
-  tema: 'scuro',
+  tema: 'auto',          // segue il telefono; si cambia dalle impostazioni
   preavvisoGiorni: 7,
 }
 
