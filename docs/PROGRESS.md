@@ -363,6 +363,42 @@ ufficiale vince nelle statistiche, l'inserimento a mano resta com'era.
 
 ---
 
+## Ritocchi dopo le prove sul telefono (23–24 set 2026)
+
+Fuori dalle fasi, su segnalazione dopo l'uso vero:
+
+- **Poster della home**: a tutto schermo, col taglio scelto opera per opera
+  (`FUOCHI` in `poster.ts`); le stampe senza margini di carta né
+  didascalie. La Gismonda di Mucha è uscita: senza il foglio restava
+  larga 237 px. Un test blocca le immagini sotto un pixel per punto.
+- **Onboarding**: il passo «A che punto sei?» scorre invece di uscire
+  dallo schermo (titolo sui trattini, riepilogo sotto il bottone).
+- **Fogli**: i campi data e ora di iOS hanno una larghezza minima propria
+  e il secondo di due affiancati usciva a destra, rendendo il foglio
+  trascinabile di lato. Ora si restringono; il foglio scorre solo in
+  verticale. Provato sul simulatore.
+- **Lezione di un giorno solo**: «Quando: Ogni settimana / Un giorno
+  solo» in Nuova lezione. È una lezione con `dal` e `al` uguali: il
+  modello non cambia (`eUnaVolta` in `query.ts`).
+- **Orario**: via il pulsante col sole in alto (era «Vai a oggi», ma
+  sembrava il tema); «Torna a oggi» compare sotto le date quando si
+  guarda un'altra settimana.
+- **Tema**: Automatico / Chiaro / Scuro nelle impostazioni, Automatico
+  per chi installa da zero. Nell'app il plugin `Aspetto`
+  (`ios/App/App/Aspetto.swift`, registrato da `MySapienzaViewController`)
+  porta il tema a iOS: barra di stato, tastiera e selettori seguono
+  l'app. L'app è dichiarata in italiano, così i pulsanti di sistema lo
+  sono.
+- **Orari degli altri corsi**: due cause. (1) L'app cercava l'orario
+  sotto la coorte dello studente, ma la pipeline lo pubblica sotto la
+  coorte più recente: chi è al 2° o 3° anno non lo trovava mai.
+  Ora `annoOrario` lo cerca per corso. (2) Solo 23 corsi su 318 avevano
+  l'orario: il giro notturno li fa a rotazione (7 fette) e il giro
+  completo del 23 settembre era senza `orari`. Lanciato un giro dei soli
+  orari su tutti i corsi.
+
+---
+
 ## Prossima: Fase 4 — Carriera manuale e statistiche
 
 
