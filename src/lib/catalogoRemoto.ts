@@ -10,7 +10,7 @@ import type { z } from 'zod'
 import { Appelli, Indice, Orario, Piano } from '../../pipeline/src/tipi'
 import { percorsi } from '../../pipeline/src/percorsi'
 import type { Archivio, DepositoCatalogo } from './deposito'
-import { URL_DATI, type Esito } from './dati'
+import { URL_DATI, annoOrario, type Esito } from './dati'
 
 interface MetaFile {
   /** Impronta dell'indice per questo file, quando l'abbiamo preso */
@@ -53,6 +53,13 @@ export class CatalogoRemoto {
     return this.dep.prendi<Orario>('orari', `${codice}/${coorte}`)
   }
 
+  /** L'orario di un corso, qualunque sia la coorte dello studente:
+   *  vedi annoOrario. */
+  async orarioDelCorso(codice: string): Promise<Orario | undefined> {
+    const anno = annoOrario(await this.indice(), codice)
+    return anno == null ? undefined : this.orario(codice, anno)
+  }
+
   /** Quando è stato preso l'indice l'ultima volta: è il «aggiornato
    *  il…» che vede lo studente. */
   async aggiornatoIl(): Promise<string | undefined> {
@@ -70,20 +77,22 @@ export class CatalogoRemoto {
   /** Piano, appelli e orario di una coorte, solo dove l'impronta è
    *  cambiata. Un file che l'indice non elenca non si chiede: la
    *  pipeline non l'ha pubblicato, e chiederlo sarebbe un 404 sicuro.
-   *  Gli appelli stanno sul codice del corso anche per le coorti con
-   *  un codice loro: la stessa pagina li elenca tutti. */
+   *  Appelli e orario stanno sul codice del corso anche per le coorti
+   *  con un codice loro: la stessa pagina li elenca tutti, e l'orario
+   *  sta sotto la coorte più recente (annoOrario). */
   async aggiornaCorso(
-    codice: string, coorte: number, codiceAppelli: string = codice,
+    codice: string, coorte: number, codiceCorso: string = codice,
   ): Promise<Record<'piano' | 'appelli' | 'orario', Esito>> {
     const ind = await this.indice()
     const hash = ind?.hash ?? {}
     const pp = percorsi.piano(codice, coorte)
-    const pa = percorsi.appelli(codiceAppelli)
-    const po = percorsi.orario(codice, coorte)
+    const pa = percorsi.appelli(codiceCorso)
+    const ao = annoOrario(ind, codiceCorso)
+    const po = ao == null ? undefined : percorsi.orario(codiceCorso, ao)
     const [piano, appelli, orario] = await Promise.all([
       pp in hash ? this.scarica(pp, Piano, 'piani', `${codice}/${coorte}`, hash[pp]) : Promise.resolve<Esito>('assente'),
-      pa in hash ? this.scarica(pa, Appelli, 'appelli', codiceAppelli, hash[pa]) : Promise.resolve<Esito>('assente'),
-      po in hash ? this.scarica(po, Orario, 'orari', `${codice}/${coorte}`, hash[po]) : Promise.resolve<Esito>('assente'),
+      pa in hash ? this.scarica(pa, Appelli, 'appelli', codiceCorso, hash[pa]) : Promise.resolve<Esito>('assente'),
+      po ? this.scarica(po, Orario, 'orari', `${codiceCorso}/${ao}`, hash[po]) : Promise.resolve<Esito>('assente'),
     ])
     return { piano, appelli, orario }
   }

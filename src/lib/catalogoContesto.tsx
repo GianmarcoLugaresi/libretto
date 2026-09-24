@@ -174,7 +174,7 @@ export function useFileCorso(corso: Corso | undefined, coorte: number | undefine
     if (!cat || !corso || !codice || coorte == null) { setF({ caricamento: false }); return }
     let vivo = true
     ;(async () => {
-      const leggi = () => Promise.all([cat.piano(codice, coorte), cat.appelli(corso.codice), cat.orario(codice, coorte)])
+      const leggi = () => Promise.all([cat.piano(codice, coorte), cat.appelli(corso.codice), cat.orarioDelCorso(corso.codice)])
       let [piano, appelli, orario] = await leggi()
       if (!vivo) return
       setF({ piano, appelli, orario, caricamento: false })

@@ -66,6 +66,20 @@ export function disponibilita(ind: Indice | undefined, codice: string): Disponib
   return out
 }
 
+/** Di quale coorte è l'orario pubblicato di un corso. L'orario è del
+ *  corso, non della coorte: il calendario della facoltà copre tutti
+ *  gli anni, e la pipeline lo pubblica sotto il codice del corso e la
+ *  coorte più recente. Chi è al secondo o terzo anno lo trova lì, non
+ *  sotto l'anno in cui si è iscritto. */
+export function annoOrario(ind: Indice | undefined, codice: string): number | undefined {
+  let anno: number | undefined
+  for (const p of Object.keys(ind?.hash ?? {})) {
+    const m = /^courses\/([^/]+)\/(\d{4})\/timetable\.json$/.exec(p)
+    if (m && m[1] === codice && (anno === undefined || Number(m[2]) > anno)) anno = Number(m[2])
+  }
+  return anno
+}
+
 /** Il codice corso di una coorte. Le coorti vecchie hanno un codice
  *  loro (Design 2024/25 è 31807): è quello il file da aprire. */
 export function codiceDellaCoorte(corso: Corso, coorte: number): string {

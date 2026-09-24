@@ -2,8 +2,8 @@ import { describe, it, expect, beforeEach } from 'vitest'
 import { apriCatalogo, ARCHIVI, type DepositoCatalogo } from './deposito'
 import { CatalogoRemoto } from './catalogoRemoto'
 import {
-  appelliDellaCoorte, cercaCorsi, codiceDellaCoorte, disponibilita, serveControllare,
-  type Appelli, type Indice, type Piano,
+  annoOrario, appelliDellaCoorte, cercaCorsi, codiceDellaCoorte, disponibilita, serveControllare,
+  type Appelli, type Indice, type Orario, type Piano,
 } from './dati'
 import { normalizza } from './chiavi'
 
@@ -34,6 +34,11 @@ const appelli: Appelli = {
     { codice: '10589128', nome: 'DISEGNO E MODELLO', codiceCorso: '31807', data: '2027-01-19', docenti: [] },
     { codice: '1', nome: 'SENZA CODICE CORSO', data: '2027-02-01', docenti: [] },
   ],
+}
+
+const orario: Orario = {
+  ...comune, codiceCorso: '33426', coorte: 2026, adattatore: 'gomp-catalogo', nonAttribuite: [],
+  lezioni: [{ nome: 'DISEGNO E MODELLO', giorno: 2, inizio: '09:00', fine: '11:00', docenti: [], saltate: [], anno: 2 }],
 }
 
 /** Un server finto: tiene i file e conta le richieste. */
@@ -98,6 +103,18 @@ describe('indice', () => {
   })
 })
 
+describe('annoOrario', () => {
+  it('prende la coorte più recente con l\'orario, solo del codice chiesto', () => {
+    const ind = indice({
+      'courses/33426/2025/timetable.json': 'a', 'courses/33426/2026/timetable.json': 'b',
+      'courses/31807/2027/timetable.json': 'c', 'courses/33426/2027/plan.json': 'd',
+    })
+    expect(annoOrario(ind, '33426')).toBe(2026)
+    expect(annoOrario(ind, '30000')).toBeUndefined()
+    expect(annoOrario(undefined, '33426')).toBeUndefined()
+  })
+})
+
 describe('file di un corso', () => {
   const hash = {
     'courses/33426/2026/plan.json': 'aaaa',
@@ -110,6 +127,20 @@ describe('file di un corso', () => {
     await c.aggiornaIndice()
     expect(await c.aggiornaCorso('33426', 2026)).toEqual({ piano: 'aggiornato', appelli: 'aggiornato', orario: 'assente' })
     expect((await c.piano('33426', 2026))?.insegnamenti[0].codice).toBe('10589128')
+  })
+
+  it('l\'orario è del corso: chi si è iscritto prima lo trova sotto la coorte più recente', async () => {
+    const h = { ...hash, 'courses/33426/2025/plan.json': 'cccc', 'courses/33426/2026/timetable.json': 'dddd' }
+    const s = server({
+      'index.json': indice(h), 'courses/33426/2025/plan.json': { ...piano, coorte: 2025 },
+      'courses/33426/exams.json': appelli, 'courses/33426/2026/timetable.json': orario,
+    })
+    const c = cat(s.f)
+    await c.aggiornaIndice()
+    // Studente del secondo anno: coorte 2025
+    expect((await c.aggiornaCorso('33426', 2025)).orario).toBe('aggiornato')
+    expect(s.chieste).not.toContain('courses/33426/2025/timetable.json')
+    expect((await c.orarioDelCorso('33426'))?.lezioni[0].anno).toBe(2)
   })
 
   it('non chiede un file che l\'indice non elenca', async () => {
